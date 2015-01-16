@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package astartiralabra;
+package io;
 
 /**
  *
- * @author kride
+ * @author kristianw
  */
-public class AStar {
-    
-    
+public class Tulostaja {
     
 }

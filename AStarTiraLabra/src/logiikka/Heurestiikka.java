@@ -3,19 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package astartiralabra;
+package logiikka;
 
 /**
  *
- * @author kride
+ * @author kristianw
  */
-public class Pari {
-    public int y,x;
-
-    public Pari(int y, int x) {
-        this.y = y;
-        this.x = x;
-    }
+public class Heurestiikka {
     
+    public int laskeHeurestinenArvo(int solmu,int maali){
+        return 0;
+    }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package astartiralabra;
+package util;
 
 /**
  *
@@ -11,8 +11,8 @@ package astartiralabra;
  */
 public class Solmu implements Comparable<Solmu> {
 
-    int paino;
-    int tunnus;
+    public int paino;
+    public int tunnus;
 
     public Solmu(int paino, int tunnus) {
         this.paino = paino;
