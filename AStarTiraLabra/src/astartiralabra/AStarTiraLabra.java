@@ -21,16 +21,17 @@ public class AStarTiraLabra {
     static int[][] karttaArvoina;
     static char[][] kartta;
     static int[] p;
+    static boolean[] lopulliset;
 
     public static void main(String[] args) {
 
         // x y
 //        kartta = new char[][]{
-//            {'O', 'A', 'O', 'X', 'B'},
-//            {'O', 'O', 'O', 'X', 'O'},
-//            {'O', 'O', 'O', 'X', 'O'},
-//            {'O', 'O', 'X', 'O', 'O'},
-//            {'O', 'O', 'O', 'O', 'O'},};
+//            {'.', 'A', '.', 'X', 'B'},
+//            {'.', '.', '.', 'X', '.'},
+//            {'.', '.', '.', 'X', '.'},
+//            {'.', '.', 'X', '.', '.'},
+//            {'.', '.', '.', '.', '.'},};
 //         kartta = new char[][]{
 //            {'.', 'A', '.', 'X', '.', '.', '.'},
 //            {'.', '.', '.', 'X', '.', 'X', '.'},
@@ -41,18 +42,29 @@ public class AStarTiraLabra {
 //            {'.', '.', '.', '.', 'X', 'X', '.'},
 //         };
         kartta = new char[][]{
-            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
-            {'.', '.', 'X', 'X', 'X', 'X', 'X', 'X','.','B'},
-            {'.', '.', '.', '.', '.', '.', '.', 'X','.','.'},
-            {'.', '.', '.', '.', '.', '.', '.', 'X','.','.'},
-            {'.', '.', '.', '.', '.', '.', '.', 'X','.','.'},
-            {'.', '.', '.', '.', '.', '.', '.', 'X','.','.'},
-            {'.', '.', '.', '.', '.', '.', '.', 'X','.','.'},
-            {'.', 'A', 'X', 'X', 'X', 'X', 'X', 'X','.','.'},
-            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
-            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
-        
-        };
+            {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', 'X', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', 'X', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', 'X', 'X', '.', '.', '.'},
+            {'.', '.', '.', '.', 'A', 'X', 'X', 'X', 'B', '.'},
+            {'.', '.', '.', '.', '.', 'X', 'X', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', 'X', 'X', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', 'X', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', 'X', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},};
+//                kartta = new char[][]{
+//            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
+//            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
+//            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
+//            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
+//            {'.', 'A', '.', '.', '.', '.', '.', '.','.','.'},
+//            {'.', '.', '.', '.', '.', '.', 'B', '.','.','.'},
+//            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
+//            {'.', 'X', 'X', 'X', '.', '.', '.', '.','.','.'},
+//            {'.', 'X', 'X', 'X', '.', '.', '.', '.','.','.'},
+//            {'.', '.', '.', '.', '.', '.', '.', '.','.','.'},
+//        
+//        };
 
         N = kartta.length;
         etaisyys = new int[N * N];
@@ -62,6 +74,7 @@ public class AStarTiraLabra {
         //tulostaKartta(karttaArvoina);
         luoVerkko(karttaArvoina);
         p = new int[N * N];
+        lopulliset = new boolean[N*N];
 
         for (int i = 0; i < etaisyys.length; i++) {
             etaisyys[i] = INF;
@@ -73,22 +86,26 @@ public class AStarTiraLabra {
 
     private static void suoritaDijkstra() {
         int aloitus = muutaPitkaksi(Ay, Ax);
+        int alkuManhattan = heuristiikka(aloitus);
+        etaisyys[aloitus] = alkuManhattan;
 
-        etaisyys[aloitus] = 0;
-
-        minKeko.add(new Solmu(0, aloitus));
-
+        minKeko.add(new Solmu(alkuManhattan, aloitus));
+     
         while (!minKeko.isEmpty()) {
-
+     
             tulostaKartta(kartta);
+            tulostaEtaisydet();
             System.out.println("");
             Solmu pienin = minKeko.poll();
             int tunnus = pienin.tunnus;
             int tY = getRivi(tunnus);
             int tX = getSarake(tunnus);
-
+            
             kartta[tY][tX] = '*';
 
+            if(lopulliset[tunnus]) continue;
+            lopulliset[tunnus] = true;
+            
             if (tY == By && tX == Bx) {
                 System.out.println("Maali!");
                 break;
@@ -102,11 +119,12 @@ public class AStarTiraLabra {
                 int uusiEtaisyys = pienin.paino + karttaArvoina[toinenY][toinenX];
 
                 if (uusiEtaisyys < vanhaEtaisyys) {
+                    
                     etaisyys[toinenSolmu] = uusiEtaisyys;
-             
                     p[toinenSolmu] = tunnus;
                     int prioriteetti = uusiEtaisyys + heuristiikka(toinenSolmu);
-                    minKeko.add(new Solmu(uusiEtaisyys, toinenSolmu));
+                    
+                    minKeko.add(new Solmu(prioriteetti, toinenSolmu));
 
                 }
 
@@ -114,30 +132,36 @@ public class AStarTiraLabra {
 
         }
 
-
         polku((By * N) + Bx);
         tulostaKartta(kartta);
-//        int rivi = 0;
-//        for (int i = 0; i < N * N; i++) {
-//            rivi++;
-//            if(rivi == N){
-//                System.out.println("");
-//                rivi=0;
-//            }
-//            System.out.print(etaisyys[i] + " ");
-//            
-//        }
-        
+
     }
 
     // Manhattan
     private static int heuristiikka(int solmu) {
 
         int D = 0;
-        int dx = Math.abs(getSarake(solmu) - Bx);
-        int dy = Math.abs(getRivi(solmu) - By);
+        int Sx = getSarake(solmu);
+        int Sy = getRivi(solmu);
 
+        int dx = Math.abs(Sx - Bx);
+        int dy = Math.abs(Sy - By);
+
+//        System.out.println("");
+//        System.out.println(dx + dy);
+//        System.out.println("");
+        
         return D * (dx + dy);
+    }
+
+    private static void tulostaEtaisydet() {
+
+        for (int i = 0; i < etaisyys.length; i++) {
+            if (i % N == 0) {
+                System.out.println("");
+            }
+            System.out.format("%-10d", etaisyys[i]);
+        }
     }
 
     private static void polku(int s) {

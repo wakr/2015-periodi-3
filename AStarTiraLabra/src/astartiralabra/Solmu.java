@@ -14,9 +14,9 @@ public class Solmu implements Comparable<Solmu> {
     int paino;
     int tunnus;
 
-    public Solmu(int p, int t) {
-        paino = p;
-        tunnus = t;
+    public Solmu(int paino, int tunnus) {
+        this.paino = paino;
+        this.tunnus = tunnus;
     }
 
     @Override
