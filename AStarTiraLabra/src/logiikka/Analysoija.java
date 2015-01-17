@@ -12,8 +12,11 @@ import extra.Ymparistomuuttuja;
  * @author kristianw
  */
 public class Analysoija {
-    
-    public int[][] analysoiKarttaArvoiksi(char[][] kartta){
+
+    private AStar aStar;
+
+    public int[][] analysoiKarttaArvoiksi(char[][] kartta, AStar aStar) {
+        this.aStar = aStar;
         int[][] arvoTaulu = new int[kartta.length][kartta[0].length];
         for (int i = 0; i < kartta.length; i++) {
             char[] kartta1 = kartta[i];
@@ -24,26 +27,36 @@ public class Analysoija {
         }
         return arvoTaulu;
     }
-    
-    private static int analysoiMerkki(char l, int i, int j) {
-        if (l == '.') {
+
+    private int analysoiMerkki(char tarkasteltavana, int i, int j) {
+        if (tarkasteltavana == '.') {
             return 1;
         }
-        if (l == ',') {
+        if (tarkasteltavana == ',') {
             return 5;
         }
-        if (l == 'A') {
-           // Ax = j;
-           // Ay = i;
+        if (tarkasteltavana == 'A') {
+            aStar.asetaLahto(j, i);
             return 1;
         }
-        if (l == 'B') {
-           // Bx = j;
-           // By = i;
+        if (tarkasteltavana == 'B') {
+            aStar.asetaMaali(j, i);
             return 1;
         } else {
-            return Ymparistomuuttuja.INF.getArvo(); // should be infinity
+            return Ymparistomuuttuja.INF.getArvo(); 
         }
     }
-    
+
+    public static int getRivi(int pidennettyKoordinaatti, int leveys) {
+        return pidennettyKoordinaatti / leveys;
+    }
+
+    public static int getSarake(int pidennettyKoordinaatti, int leveys) {
+        return pidennettyKoordinaatti % leveys;
+    }
+
+    public static int muutaPitkaksi(int y, int x, int leveys) {
+        return (y * leveys) + x;
+    }
+
 }

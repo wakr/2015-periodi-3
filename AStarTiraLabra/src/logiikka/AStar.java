@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logiikka;
 
+import extra.Ymparistomuuttuja;
+import io.Tulostaja;
 import util.Solmu;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 /**
@@ -17,7 +15,7 @@ public class AStar {
 
     private char[][] kartta;
     private int[][] karttaArvoina;
-    private int[] etaisyysArviot, polku;
+    private int[] etaisyysArviotAlkuun, polku;
     private boolean[] lopullisetPituudet;
     private PriorityQueue<Solmu> minKeko;
     private ArrayList<Integer>[] verkko;
@@ -26,16 +24,17 @@ public class AStar {
 
     public AStar(char[][] kartta) {
         this.kartta = kartta;
+        alustaAloitusKoordinaatit();
         this.analysoija = new Analysoija();
-        this.karttaArvoina = analysoija.analysoiKarttaArvoiksi(kartta);
+        this.karttaArvoina = analysoija.analysoiKarttaArvoiksi(kartta, this);
         this.kartanKorkeus = kartta.length;
         this.kartanLeveys = kartta[0].length;
-        alustaAloitusKoordinaatit();
-        this.etaisyysArviot = new int[kartanKorkeus * kartanLeveys];
+        this.etaisyysArviotAlkuun = new int[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
         this.minKeko = new PriorityQueue<>();
         luoVerkko();
+        alustaEtaisyydetAarettomiksi();
     }
 
     private void alustaAloitusKoordinaatit() {
@@ -45,9 +44,73 @@ public class AStar {
         this.maaliY = -1;
     }
 
+    public void suoritaReitinHaku() {
+
+        int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
+        etaisyysArviotAlkuun[aloitus] = 0;
+
+        minKeko.add(new Solmu(0, aloitus));
+
+        while (!minKeko.isEmpty()) {
+
+            System.out.println("");
+            Tulostaja.tulostaKartta(kartta);
+            System.out.println("");
+          // Tulostaja.tulostaEtaisydet(etaisyysArviotAlkuun, kartanLeveys);
+            System.out.println("");
+            Solmu pienin = minKeko.poll();
+            int tunnus = pienin.tunnus;
+            int tY = Analysoija.getRivi(tunnus, kartanLeveys);
+            int tX = Analysoija.getSarake(tunnus, kartanLeveys);
+
+            kartta[tY][tX] = '*';
+
+            if (lopullisetPituudet[tunnus]) {
+                continue;
+            }
+            lopullisetPituudet[tunnus] = true;
+
+            if (tY == maaliY && tX == maaliX) {
+                System.out.println("Maali!");
+                break;
+            }
+
+            for (int i = 0; i < verkko[tunnus].size(); i++) {
+                int toinenSolmu = verkko[tunnus].get(i);
+                int toinenY = Analysoija.getRivi(toinenSolmu, kartanLeveys);
+                int toinenX = Analysoija.getSarake(toinenSolmu, kartanLeveys);
+
+                int vanhaEtaisyys = etaisyysArviotAlkuun[toinenSolmu];
+                int uusiEtaisyys = pienin.paino + karttaArvoina[toinenY][toinenX]
+                         + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY);
+                
+                if (uusiEtaisyys < vanhaEtaisyys) {
+                    etaisyysArviotAlkuun[toinenSolmu] = uusiEtaisyys;
+                    polku[toinenSolmu] = tunnus;
+                    minKeko.add(new Solmu(uusiEtaisyys, toinenSolmu));
+                }
+            }
+
+        }
+        
+        polku(Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys));
+        Tulostaja.tulostaKartta(kartta);
+
+    }
+
+    public void asetaLahto(int Ax, int Ay) {
+        this.lahtoX = Ax;
+        this.lahtoY = Ay;
+    }
+
+    public void asetaMaali(int Bx, int By) {
+        this.maaliX = Bx;
+        this.maaliY = By;
+    }
+
     private void luoVerkko() {
         verkko = new ArrayList[kartanKorkeus * kartanLeveys];
-        
+
         for (int i = 0; i < verkko.length; i++) {
             verkko[i] = new ArrayList<>();
         }
@@ -57,8 +120,8 @@ public class AStar {
         for (int i = 0; i < kartta.length; i++) {
             int[] rivi = karttaArvoina[i];
             for (int j = 0; j < rivi.length; j++) {
-                int l = rivi[j];
-     
+                //int l = rivi[j];
+
                 for (int[] pari : suunnat) {
                     int y = pari[0];
                     int x = pari[1];
@@ -67,13 +130,47 @@ public class AStar {
                     if (uusiY < 0 || uusiX < 0 || uusiY >= kartanKorkeus || uusiX >= kartanLeveys) {
                         continue;
                     }
-
-                    verkko[(i * kartanKorkeus) + j].add((uusiY * kartanKorkeus) + uusiX);
-
+                    int tarkasteltava = (i * kartanLeveys) + j;
+                    int naapuri = (uusiY * kartanLeveys) + uusiX;
+                    verkko[tarkasteltava].add(naapuri);
+                    
                 }
-             
+
             }
         }
+    }
+
+    public ArrayList<Integer> getSolmunNaapurit(int solmu) {
+        return verkko[solmu];
+    }
+
+    public static void main(String[] args) {
+
+        char[][] kartta = new char[][]{
+            {'.', '.', '.', '.', '.','.','.','.','.','.','.','B'},
+            {'.', '.', '.', 'X', 'X','X','X','.','.','.','.','.'},
+            {'.', '.', '.', '.', '.','.','X','.','.','.','.','.'},
+            {'.', '.', '.', '.', '.','.','X','.','.','.','.','.'},
+            {'.', '.', '.', '.', '.','.','X','X','.','.','.','.'},
+            {'.', '.', '.', '.', '.','.','X','.','.','.','.','.'},
+            {'A', '.', '.', 'X', 'X','X','X','.','.','.','.','.'},};
+
+        AStar aStar = new AStar(kartta);
+        aStar.suoritaReitinHaku();
+    }
+
+    private void alustaEtaisyydetAarettomiksi() {
+        for (int i = 0; i < etaisyysArviotAlkuun.length; i++) {
+            etaisyysArviotAlkuun[i] = Ymparistomuuttuja.INF.getArvo();
+        }
+    }
+
+    private void polku(int s) {
+        if (polku[s] != 0) {
+            polku(polku[s]);
+        }
+
+        kartta[Analysoija.getRivi(s, kartanLeveys)][Analysoija.getSarake(s, kartanLeveys)] = '©';
     }
 
 }

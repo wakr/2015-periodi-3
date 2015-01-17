@@ -5,14 +5,20 @@
  */
 package logiikka;
 
+import extra.Ymparistomuuttuja;
+
 /**
  *
  * @author kristianw
  */
 public class Heurestiikka {
-    
-    public int laskeHeurestinenArvo(int solmu,int maali){
-        return 0;
+
+    public static int laskeHeurestinenArvo(int Sx, int Sy, int Bx, int By) {
+
+        int dx = Math.abs(Sx - Bx);
+        int dy = Math.abs(Sy - By);
+
+        return Ymparistomuuttuja.D.getArvo() * (dx + dy);
     }
-    
+
 }
