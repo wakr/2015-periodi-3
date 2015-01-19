@@ -12,7 +12,7 @@ package extra;
 public enum Ymparistomuuttuja {
 
     INF(9999),
-    D(1);
+    D(0);
     
 
     private final int arvo;

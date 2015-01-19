@@ -144,20 +144,7 @@ public class AStar {
         return verkko[solmu];
     }
 
-    public static void main(String[] args) {
-
-        char[][] kartta = new char[][]{
-            {'.', '.', '.', '.', '.','.','.','.','.','.','.','B'},
-            {'.', '.', '.', 'X', 'X','X','X','.','.','.','.','.'},
-            {'.', '.', '.', '.', '.','.','X','.','.','.','.','.'},
-            {'.', '.', '.', '.', '.','.','X','.','.','.','.','.'},
-            {'.', '.', '.', '.', '.','.','X','X','.','.','.','.'},
-            {'.', '.', '.', '.', '.','.','X','.','.','.','.','.'},
-            {'A', '.', '.', 'X', 'X','X','X','.','.','.','.','.'},};
-
-        AStar aStar = new AStar(kartta);
-        aStar.suoritaReitinHaku();
-    }
+  
 
     private void alustaEtaisyydetAarettomiksi() {
         for (int i = 0; i < etaisyysArviotAlkuun.length; i++) {
