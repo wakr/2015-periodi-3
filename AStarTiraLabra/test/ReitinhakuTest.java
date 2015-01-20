@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 
+import io.Tulostaja;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import logiikka.AStar;
 import logiikka.Analysoija;
 import org.junit.Test;
@@ -16,111 +19,59 @@ import static org.junit.Assert.*;
  */
 public class ReitinhakuTest {
 
-    AStar aStar;
+    static char[][] pieninKartta = new char[][]{
+        {'A', '.'},
+        {'.', 'B'}};
+    static char[][] pieninKarttaEsteella = new char[][]{
+        {'A', 'X'},
+        {'.', 'B'}};
+    static char[][] pieniKartta = new char[][]{
+        {'A', 'X', 'X', 'X', 'B'},
+        {'.', 'X', 'X', 'X', '.'},
+        {'.', 'X', 'X', 'X', '.'},
+        {'.', '.', '.', '.', '.'}};
+    static char[][] leveaKartta = new char[][]{
+        {'.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', 'B'},
+        {'A', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'}};
+    static char[][] miniKartta = new char[][]{
+        {'A', 'X', 'B'},
+        {'.', '.', '.'}};
+    static char[][] serpettiiniKentta = new char[][]{
+        {'.', 'X', '.', '.', '.', 'X', '.', '.', '.', 'X', 'B'},
+        {'A', '.', '.', 'X', '.', '.', '.', 'X', '.', '.', '.'}};
+
+    private AStar aStar;
 
     @Test(timeout = 1000)
-    public void testaaPienenKartanNaapuritLahdosta() {
-        char[][] pieniKartta1 = new char[][]{
-            {'A', 'X', 'X', 'X', 'B'},
-            {'.', 'X', 'X', 'X', '.'},
-            {'.', 'X', 'X', 'X', '.'},
-            {'.', '.', '.', '.', '.'}
-        };
-        aStar = new AStar(pieniKartta1);
-        ArrayList<Integer> luvut = new ArrayList<>();
-        luvut.add(1);
-        luvut.add(pieniKartta1[0].length);
-
-        assertTrue(aStar.getSolmunNaapurit(0).containsAll(luvut));
-
+    public void miniKarttaPolkuOikein() {
+        aStar = new AStar(miniKartta);
+        aStar.suoritaReitinHaku();
+        List<Integer> haluttu = Arrays.asList(0, 3, 4, 5, 2);
+        assertEquals(haluttu.toString(), aStar.polku(2, new ArrayList<Integer>()).toString());
     }
 
     @Test(timeout = 1000)
-    public void testaaMiniKartanNaapuritLahdosta() {
-        char[][] pieniKartta1 = new char[][]{
-            {'A', 'X', 'B'},
-            {'.', '.', '.'},};
-        aStar = new AStar(pieniKartta1);
-        ArrayList<Integer> luvut = new ArrayList<>();
-        luvut.add(1);
-        luvut.add(pieniKartta1[0].length);
-
-        assertTrue(aStar.getSolmunNaapurit(0).containsAll(luvut));
-
+    public void miniKarttaEsteellaPolkuOikein() {
+        aStar = new AStar(pieninKarttaEsteella);
+        aStar.suoritaReitinHaku();
+        List<Integer> haluttu = Arrays.asList(0, 2, 3);
+        assertEquals(haluttu.toString(), aStar.polku(3, new ArrayList<Integer>()).toString());
     }
 
     @Test(timeout = 1000)
-    public void testaaKeskiKartanNaapuritLahdosta() {
-        char[][] pieniKartta1 = new char[][]{
-            {'.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', 'B'},
-            {'A', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},};
-        aStar = new AStar(pieniKartta1);
-        ArrayList<Integer> luvut = new ArrayList<>();
-        luvut.add(0);
-        luvut.add(pieniKartta1[0].length + 1);
-
-        assertTrue(aStar.getSolmunNaapurit(11).containsAll(luvut));
-
+    public void serpenttiiniPolkuOikein() {
+        aStar = new AStar(serpettiiniKentta);
+        aStar.suoritaReitinHaku();
+        aStar.polku(10);
+        List<Integer> haluttu = Arrays.asList(11, 12, 13, 2, 3, 4, 15, 16, 17, 6, 7, 8, 19, 20, 21, 10);
+        assertEquals(haluttu.toString(), aStar.polku(10, new ArrayList<Integer>()).toString());
     }
 
     @Test(timeout = 1000)
-    public void konvertteriToimiiLyhyeksi() {
-        char[][] pieniKartta1 = new char[][]{
-            {'A', 'X', 'B'},
-            {'.', '.', '.'},};
-        int koordinaattiPitkana = 2;
-
-        int saatuY = Analysoija.getRivi(koordinaattiPitkana, pieniKartta1[0].length);
-        int saatuX = Analysoija.getSarake(koordinaattiPitkana, pieniKartta1[0].length);
-
-        assertArrayEquals(new int[]{0, 2}, new int[]{saatuY, saatuX});
-    }
-
-    @Test(timeout = 1000)
-    public void konvertteriToimiiLyhyeksi2() {
-        char[][] pieniKartta1 = new char[][]{
-            {'A', 'X', 'B'},
-            {'.', '.', '.'},};
-        int koordinaattiPitkana = 0;
-
-        int saatuY = Analysoija.getRivi(koordinaattiPitkana, pieniKartta1[0].length);
-        int saatuX = Analysoija.getSarake(koordinaattiPitkana, pieniKartta1[0].length);
-
-        assertArrayEquals(new int[]{0, 0}, new int[]{saatuY, saatuX});
-    }
-
-    @Test(timeout = 1000)
-    public void konvertteriToimiiLyhyeksi3() {
-        char[][] pieniKartta1 = new char[][]{
-            {'A', 'X', 'B'},
-            {'.', '.', '.'},};
-        int koordinaattiPitkana = 4;
-
-        int saatuY = Analysoija.getRivi(koordinaattiPitkana, pieniKartta1[0].length);
-        int saatuX = Analysoija.getSarake(koordinaattiPitkana, pieniKartta1[0].length);
-
-        assertArrayEquals(new int[]{1, 1}, new int[]{saatuY, saatuX});
-    }
-
-    @Test(timeout = 1000)
-    public void pitkaksiMuutosToimii() {
-        char[][] pieniKartta1 = new char[][]{
-            {'A', 'X', 'B'},
-            {'.', '.', '.'},};
-        
-        int haluttu = 1;
-        assertEquals(haluttu, Analysoija.muutaPitkaksi(0, 1, pieniKartta1[0].length));
-    }
-    
-     @Test(timeout = 1000)
-    public void pitkaksiMuutosToimii2() {
-        char[][] pieniKartta1 = new char[][]{
-            {'A', 'X', 'B'},
-            {'.', '.', '.'},
-            {'.', '.', '.'},};
-        
-        int haluttu = 4;
-        assertEquals(haluttu, Analysoija.muutaPitkaksi(1, 1, pieniKartta1[0].length));
+    public void etaisyysAlustaHaluttuMiniKartassa() {
+        aStar = new AStar(pieninKartta);
+        aStar.suoritaReitinHaku();
+        System.out.println(aStar.getEtaisyysAlusta(2));
     }
 
 }

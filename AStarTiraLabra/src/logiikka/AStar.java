@@ -53,11 +53,11 @@ public class AStar {
 
         while (!minKeko.isEmpty()) {
 
-            System.out.println("");
-            Tulostaja.tulostaKartta(kartta);
-            System.out.println("");
-          // Tulostaja.tulostaEtaisydet(etaisyysArviotAlkuun, kartanLeveys);
-            System.out.println("");
+//            System.out.println("");
+//            Tulostaja.tulostaKartta(kartta);
+//            System.out.println("");
+//          // Tulostaja.tulostaEtaisydet(etaisyysArviotAlkuun, kartanLeveys);
+//            System.out.println("");
             Solmu pienin = minKeko.poll();
             int tunnus = pienin.tunnus;
             int tY = Analysoija.getRivi(tunnus, kartanLeveys);
@@ -71,7 +71,9 @@ public class AStar {
             lopullisetPituudet[tunnus] = true;
 
             if (tY == maaliY && tX == maaliX) {
-                System.out.println("Maali!");
+
+                // System.out.println("Maali!");
+                //Tulostaja.tulostaKartta(kartta);
                 break;
             }
 
@@ -82,8 +84,8 @@ public class AStar {
 
                 int vanhaEtaisyys = etaisyysArviotAlkuun[toinenSolmu];
                 int uusiEtaisyys = pienin.paino + karttaArvoina[toinenY][toinenX]
-                         + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY);
-                
+                        + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY);
+
                 if (uusiEtaisyys < vanhaEtaisyys) {
                     etaisyysArviotAlkuun[toinenSolmu] = uusiEtaisyys;
                     polku[toinenSolmu] = tunnus;
@@ -92,9 +94,6 @@ public class AStar {
             }
 
         }
-        
-        polku(Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys));
-        Tulostaja.tulostaKartta(kartta);
 
     }
 
@@ -133,7 +132,7 @@ public class AStar {
                     int tarkasteltava = (i * kartanLeveys) + j;
                     int naapuri = (uusiY * kartanLeveys) + uusiX;
                     verkko[tarkasteltava].add(naapuri);
-                    
+
                 }
 
             }
@@ -144,20 +143,40 @@ public class AStar {
         return verkko[solmu];
     }
 
-  
+    public char[][] getKartta() {
+        return kartta;
+    }
 
     private void alustaEtaisyydetAarettomiksi() {
         for (int i = 0; i < etaisyysArviotAlkuun.length; i++) {
             etaisyysArviotAlkuun[i] = Ymparistomuuttuja.INF.getArvo();
         }
+
+        for (int i = 0; i < polku.length; i++) {
+            polku[i] = Ymparistomuuttuja.INF.getArvo();
+
+        }
     }
 
-    private void polku(int s) {
-        if (polku[s] != 0) {
+    public int getEtaisyysAlusta(int solmuun) {
+        return etaisyysArviotAlkuun[solmuun];
+    }
+
+    public void polku(int s) {
+        if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s]);
         }
 
         kartta[Analysoija.getRivi(s, kartanLeveys)][Analysoija.getSarake(s, kartanLeveys)] = '©';
+    }
+
+    public ArrayList<Integer> polku(int s, ArrayList<Integer> p) {
+        if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
+            polku(polku[s], p);
+            
+        }
+        p.add(s);
+        return p;
     }
 
 }

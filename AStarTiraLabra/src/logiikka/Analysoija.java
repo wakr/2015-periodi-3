@@ -28,7 +28,7 @@ public class Analysoija {
         return arvoTaulu;
     }
 
-    public int analysoiMerkki(char tarkasteltavana, int i, int j) {
+    private int analysoiMerkki(char tarkasteltavana, int i, int j) {
         if (tarkasteltavana == '.') {
             return 1;
         }
