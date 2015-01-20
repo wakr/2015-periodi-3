@@ -8,13 +8,18 @@ package logiikka;
 import extra.Ymparistomuuttuja;
 
 /**
+ * A*-algoritmin tarvitsemat erilaiset analysointi-funktiot.
  *
- * @author kristianw
+ * @author Kristian Wahlroos
+ * @see logiikka.AStar;
  */
 public class Analysoija {
 
     private AStar aStar;
 
+    /**
+     *
+     */
     public int[][] analysoiKarttaArvoiksi(char[][] kartta, AStar aStar) {
         this.aStar = aStar;
         int[][] arvoTaulu = new int[kartta.length][kartta[0].length];
@@ -28,6 +33,9 @@ public class Analysoija {
         return arvoTaulu;
     }
 
+    /**
+     *
+     */
     private int analysoiMerkki(char tarkasteltavana, int i, int j) {
         if (tarkasteltavana == '.') {
             return 1;
@@ -43,18 +51,27 @@ public class Analysoija {
             aStar.asetaMaali(j, i);
             return 1;
         } else {
-            return Ymparistomuuttuja.INF.getArvo(); 
+            return Ymparistomuuttuja.INF.getArvo();
         }
     }
 
+    /**
+     *
+     */
     public static int getRivi(int pidennettyKoordinaatti, int leveys) {
         return pidennettyKoordinaatti / leveys;
     }
 
+    /**
+     *
+     */
     public static int getSarake(int pidennettyKoordinaatti, int leveys) {
         return pidennettyKoordinaatti % leveys;
     }
 
+    /**
+     *
+     */
     public static int muutaPitkaksi(int y, int x, int leveys) {
         return (y * leveys) + x;
     }

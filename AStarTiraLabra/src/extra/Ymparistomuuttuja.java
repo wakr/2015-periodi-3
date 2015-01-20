@@ -1,27 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package extra;
 
 /**
+ * Sisältää hyödylliset arvot, jotka muun muassa määrittelevät äärettömyyden
+ * verkkorakenteessa, sekä heurestiikkan käyttämän parametrin <i>D</i>.
+ * Kumpiakin arvoja voidaan säädellä riippuen halutusta säätötoiminnallisuudesta
+ * esimerkiksi A*-algoritmissa tai verkon dimensiosta.
  *
- * @author kristianw
+ * @author Kristian Wahlroos
+ * @see logiikka.AStar
+ * @see logiikka.Heurestiikka
+ *
  */
 public enum Ymparistomuuttuja {
 
+    /**
+     * Äärettömyys
+     */
     INF(9999),
+    /**
+     * A*-algoritmin säätöparametri
+     */
     D(0);
-    
 
     private final int arvo;
 
     private Ymparistomuuttuja(int arvo) {
         this.arvo = arvo;
     }
-    
-     private Ymparistomuuttuja(char arvo) {
+
+    private Ymparistomuuttuja(char arvo) {
         this.arvo = arvo;
     }
 
