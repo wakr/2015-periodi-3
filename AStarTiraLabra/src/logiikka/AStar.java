@@ -1,7 +1,6 @@
 package logiikka;
 
 import extra.Ymparistomuuttuja;
-import io.Tulostaja;
 import util.Solmu;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +48,7 @@ public class AStar {
         int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
         etaisyysArviotAlkuun[aloitus] = 0;
 
-        minKeko.add(new Solmu(0, aloitus));
+        minKeko.add(new Solmu(0, aloitus, 0));
 
         while (!minKeko.isEmpty()) {
 
@@ -65,9 +64,6 @@ public class AStar {
 
             kartta[tY][tX] = '*';
 
-            if (lopullisetPituudet[tunnus]) {
-                continue;
-            }
             lopullisetPituudet[tunnus] = true;
 
             if (tY == maaliY && tX == maaliX) {
@@ -78,18 +74,26 @@ public class AStar {
             }
 
             for (int i = 0; i < verkko[tunnus].size(); i++) {
+
                 int toinenSolmu = verkko[tunnus].get(i);
                 int toinenY = Analysoija.getRivi(toinenSolmu, kartanLeveys);
                 int toinenX = Analysoija.getSarake(toinenSolmu, kartanLeveys);
 
+                if (lopullisetPituudet[toinenSolmu]) {
+                    continue;
+                }
+
                 int vanhaEtaisyys = etaisyysArviotAlkuun[toinenSolmu];
-                int uusiEtaisyys = pienin.paino + karttaArvoina[toinenY][toinenX]
-                        + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY);
+                int uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[toinenY][toinenX];
 
                 if (uusiEtaisyys < vanhaEtaisyys) {
+                    kartta[toinenY][toinenX] = '*';
                     etaisyysArviotAlkuun[toinenSolmu] = uusiEtaisyys;
+                    double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY)
+                            + Heurestiikka.addCross(toinenX, toinenY, maaliX, maaliY, lahtoX, lahtoY);
+
                     polku[toinenSolmu] = tunnus;
-                    minKeko.add(new Solmu(uusiEtaisyys, toinenSolmu));
+                    minKeko.add(new Solmu(prioriteetti, toinenSolmu, uusiEtaisyys));
                 }
             }
 
@@ -107,6 +111,14 @@ public class AStar {
         this.maaliY = By;
     }
 
+    public int getMaali() {
+        return Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys);
+    }
+
+    public int getLahto() {
+        return Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
+    }
+
     private void luoVerkko() {
         verkko = new ArrayList[kartanKorkeus * kartanLeveys];
 
@@ -119,7 +131,6 @@ public class AStar {
         for (int i = 0; i < kartta.length; i++) {
             int[] rivi = karttaArvoina[i];
             for (int j = 0; j < rivi.length; j++) {
-                //int l = rivi[j];
 
                 for (int[] pari : suunnat) {
                     int y = pari[0];
@@ -173,7 +184,7 @@ public class AStar {
     public ArrayList<Integer> polku(int s, ArrayList<Integer> p) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s], p);
-            
+
         }
         p.add(s);
         return p;

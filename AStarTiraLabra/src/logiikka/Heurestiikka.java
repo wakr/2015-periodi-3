@@ -1,24 +1,56 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logiikka;
 
 import extra.Ymparistomuuttuja;
 
 /**
+ * Laskee Manhattan etäisyyden kahden solmun välille. Manhattan etäisyyteen
+ * lisätään suhdeluku tulona, jolloin etäisyyden suhdetta voidaan säätää.
+ * Käytännössä 0 tarkoittaa, että A*-algoritmin pitäisi toimia kuten Dijkstra ja
+ * jos D on suurempi kuin 0, niin A*-algoritmin käyttäytyminen reitinhaussa
+ * muuttuu.
  *
  * @author kristianw
+ * @see logiikka.AStar
+ * @see extra.Ymparistomuuttuja
  */
 public class Heurestiikka {
 
-    public static int laskeHeurestinenArvo(int Sx, int Sy, int Bx, int By) {
+    /**
+     * Laskee Manhattan-etäisyyden koordinaattiin
+     *
+     * @param aloitusX Aloittavan solmun x-koordinaatti
+     * @param aloitusY Aloittavan solmun y-koordinaatti
+     * @param maaliX Maalin x-koordinaatti
+     * @param maaliY Maalin y-koordinaatti
+     * @return Palauttaa Manhattan etäisyyden
+     */
+    public static int laskeHeurestinenArvo(int aloitusX, int aloitusY, int maaliX, int maaliY) {
 
-        int dx = Math.abs(Sx - Bx);
-        int dy = Math.abs(Sy - By);
+        int dx = Math.abs(aloitusX - maaliX);
+        int dy = Math.abs(aloitusY - maaliY);
 
         return Ymparistomuuttuja.D.getArvo() * (dx + dy);
+    }
+
+    /**
+     * Tiebraker A* varten
+     *
+     * @param aloitusX Nykyisen solmun x-koordinaatti
+     * @param aloitusY Nykyisen solmun y-koordinaatti
+     * @param maaliX Maalin x-koordinaatti
+     * @param maaliY Maalin y-koordinaatti
+     * @param lahtoX Lähdön x-koordinaatti
+     * @param lahtoY Lähdön y-koordinaatti
+     * @return Etäisyyden suhteen avulla
+     */
+    public static double addCross(int aloitusX, int aloitusY, int maaliX, int maaliY, int lahtoX, int lahtoY) {
+
+        double dx1 = aloitusX - maaliX;
+        double dy1 = aloitusY - maaliY;
+        double dx2 = lahtoX - maaliX;
+        double dy2 = lahtoY - maaliY;
+        double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
+        return cross * 0.001;
     }
 
 }

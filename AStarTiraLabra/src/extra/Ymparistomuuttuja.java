@@ -20,7 +20,7 @@ public enum Ymparistomuuttuja {
     /**
      * A*-algoritmin säätöparametri
      */
-    D(0);
+    D(2); //2
 
     private final int arvo;
 
