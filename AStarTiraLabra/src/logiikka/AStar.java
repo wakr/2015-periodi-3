@@ -3,12 +3,19 @@ package logiikka;
 import extra.Ymparistomuuttuja;
 import util.Solmu;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.PriorityQueue;
 
 /**
+ * A*-algoritmi. Analysoi ja luo verkon jonkan jälkeen ajattaessa etsii
+ * pienimmän polun A ja B pisteiden välille käyttäen Dijkstran ideaa johon on
+ * lisättä heurestiikka eli Manhattan etäisyys * TieBraker.
  *
  * @author kride
+ * @see io.Tulostaja
+ * @see extra.Ymparistomuuttuja
+ * @see logiikka.Analysoija
+ * @see logiikka.Heurestiikka
+ * @see util.Solmu
  */
 public class AStar {
 
@@ -43,6 +50,12 @@ public class AStar {
         this.maaliY = -1;
     }
 
+    /**
+     * Aloittaa laittamalla lähtö solmun kekoon jonka jälkeen edetään
+     * naapureihin ja analysoidaan ne heurestiikan nojalla, kunnes keko on tyhjä
+     * tai ollaan löydetty maalissa sijaitseva solmu B. Metodi myös pitää yllä
+     * lyhintä polkua sekä kirjoittaa karttaan sijaintia.
+     */
     public void suoritaReitinHaku() {
 
         int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
@@ -52,11 +65,6 @@ public class AStar {
 
         while (!minKeko.isEmpty()) {
 
-//            System.out.println("");
-//            Tulostaja.tulostaKartta(kartta);
-//            System.out.println("");
-//          // Tulostaja.tulostaEtaisydet(etaisyysArviotAlkuun, kartanLeveys);
-//            System.out.println("");
             Solmu pienin = minKeko.poll();
             int tunnus = pienin.tunnus;
             int tY = Analysoija.getRivi(tunnus, kartanLeveys);
@@ -67,9 +75,6 @@ public class AStar {
             lopullisetPituudet[tunnus] = true;
 
             if (tY == maaliY && tX == maaliX) {
-
-                // System.out.println("Maali!");
-                //Tulostaja.tulostaKartta(kartta);
                 break;
             }
 
@@ -119,6 +124,11 @@ public class AStar {
         return Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
     }
 
+    /**
+     * Luodaan verkko niin, että jokaiseen viereiseen solmuun kartassa on
+     * yhteys. Käytännössä tämä tarkoittaa, että myös esteisiin on yhteys, mutta
+     * INF-muuttuja estää suuruudellaan sen läpikäynnin.
+     */
     private void luoVerkko() {
         verkko = new ArrayList[kartanKorkeus * kartanLeveys];
 
@@ -169,10 +179,11 @@ public class AStar {
         }
     }
 
-    public int getEtaisyysAlusta(int solmuun) {
-        return etaisyysArviotAlkuun[solmuun];
-    }
-
+    /**
+     * Luo lyhyimmän polun karttaan.
+     *
+     * @param s Solmu johon halutaan polku
+     */
     public void polku(int s) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s]);
@@ -181,6 +192,12 @@ public class AStar {
         kartta[Analysoija.getRivi(s, kartanLeveys)][Analysoija.getSarake(s, kartanLeveys)] = '©';
     }
 
+    /**
+     *
+     * @param s Solmun tunnus yksiulotteisena johon polku halutaan
+     * @param p ArrayList johon polku halutaan asettaa
+     * @return Lyhyin polku solmuun s
+     */
     public ArrayList<Integer> polku(int s, ArrayList<Integer> p) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s], p);

@@ -1,15 +1,13 @@
 package astartiralabra;
 
 import io.Tulostaja;
-import util.Solmu;
 import java.util.ArrayList;
-import java.util.Arrays;
 import logiikka.AStar;
 
-;
+
 
 /**
- *
+ * 
  * @author kristianw
  */
 public class AStarTiraLabra {

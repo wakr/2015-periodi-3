@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 import logiikka.AStar;
 import logiikka.Analysoija;
-import logiikka.Heurestiikka;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Reitinhakuihin liittyvät testit
  * @author kride
  */
 public class ReitinhakuTest {
@@ -30,6 +30,27 @@ public class ReitinhakuTest {
         {'A', 'X', 'X', 'X', 'B'},
         {'.', 'X', 'X', 'X', '.'},
         {'.', 'X', 'X', 'X', '.'},
+        {'.', '.', '.', '.', '.'}};
+    static char[][] vapaaPieniKartta = new char[][]{
+        {'A', 'X', 'X', 'X', 'B'},
+        {'.', '.', '.', '.', '.'},
+        {'.', 'X', 'X', 'X', '.'},
+        {'.', '.', '.', '.', '.'}};
+    static char[][] esteKartta = new char[][]{
+        {'A', 'X', 'X', 'X', 'B'},
+        {'.', '.', 'X', '.', '.'},
+        {'.', 'X', '.', 'X', '.'},
+        {'.', '.', 'X', 'X', '.'},
+        {'.', '.', 'X', '.', '.'},
+        {'.', '.', 'X', '.', '.'},
+        {'.', '.', '.', '.', '.'}};
+    static char[][] esteKartta2 = new char[][]{
+        {'A', '.', '.', '.', '.'},
+        {'.', '.', '.', 'X', '.'},
+        {'.', '.', '.', 'X', '.'},
+        {'.', '.', 'X', 'X', '.'},
+        {'.', '.', 'X', 'B', '.'},
+        {'.', '.', 'X', '.', '.'},
         {'.', '.', '.', '.', '.'}};
     static char[][] leveaKartta = new char[][]{
         {'.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', 'B'},
@@ -68,14 +89,6 @@ public class ReitinhakuTest {
         assertEquals(haluttu.toString(), aStar.polku(10, new ArrayList<Integer>()).toString());
     }
 
-    
-//    @Test(timeout = 1000)
-//    public void etaisyysAlustaHaluttuMiniKartassa() {
-//        aStar = new AStar(pieninKartta);
-//        aStar.suoritaReitinHaku();
-//        assertEquals(2, aStar.getEtaisyysAlusta(aStar.getMaali()));
-//    }
-
     @Test(timeout = 1000)
     public void maaliLoydetaanHaunJalkeenPieniKartasta() {
         aStar = new AStar(pieniKartta);
@@ -84,19 +97,32 @@ public class ReitinhakuTest {
         List<Integer> haluttu = Arrays.asList(aStar.getLahto(), 5, 10, 15, 16, 17, 18, 19, 14, 9, 4);
         assertEquals(haluttu.toString(), aStar.polku(aStar.getMaali(), new ArrayList<Integer>()).toString());
     }
-    
+
     @Test(timeout = 1000)
-    public void heurestiikkaToimii(){
-        int haluttu = 4;
-        int laskettu = Heurestiikka.laskeHeurestinenArvo(0, 2, 2, 0);
-        assertEquals(haluttu, laskettu);
+    public void lyhinPolkuLoydetaan() {
+        aStar = new AStar(vapaaPieniKartta);
+        aStar.suoritaReitinHaku();
+        int lyhyimmanPituus = 7;
+        ArrayList<Integer> lyhinPolku = aStar.polku(aStar.getMaali(), new ArrayList<Integer>());
+        assertEquals(lyhyimmanPituus, lyhinPolku.size());
     }
-    
+
     @Test(timeout = 1000)
-    public void heurestiikkaToimii2(){
-        int haluttu = 4;
-        int laskettu = Heurestiikka.laskeHeurestinenArvo(0, 3, 1, 0);
-        assertEquals(haluttu, laskettu);
+    public void lyhinPolkuLoydetaan2() {
+        aStar = new AStar(esteKartta);
+        aStar.suoritaReitinHaku();
+        int lyhyimmanPituus = 17;
+        ArrayList<Integer> lyhinPolku = aStar.polku(aStar.getMaali(), new ArrayList<Integer>());
+        assertEquals(lyhyimmanPituus, lyhinPolku.size());
+    }
+
+    @Test(timeout = 1000)
+    public void lyhinPolkuLoydetaan3() {
+        aStar = new AStar(esteKartta2);
+        aStar.suoritaReitinHaku();
+        int lyhyimmanPituus = 10;
+        ArrayList<Integer> lyhinPolku = aStar.polku(aStar.getMaali(), new ArrayList<Integer>());
+        assertEquals(lyhyimmanPituus, lyhinPolku.size());
     }
 
 }

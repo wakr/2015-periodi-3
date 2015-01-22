@@ -9,7 +9,6 @@ package extra;
  * @author Kristian Wahlroos
  * @see logiikka.AStar
  * @see logiikka.Heurestiikka
- *
  */
 public enum Ymparistomuuttuja {
 

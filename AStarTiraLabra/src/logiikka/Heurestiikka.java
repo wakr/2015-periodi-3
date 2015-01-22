@@ -5,7 +5,7 @@ import extra.Ymparistomuuttuja;
 /**
  * Laskee Manhattan etäisyyden kahden solmun välille. Manhattan etäisyyteen
  * lisätään suhdeluku tulona, jolloin etäisyyden suhdetta voidaan säätää.
- * Käytännössä 0 tarkoittaa, että A*-algoritmin pitäisi toimia kuten Dijkstra ja
+ * Käytännössä D = 0 tarkoittaa, että A*-algoritmin pitäisi toimia kuten Dijkstra ja
  * jos D on suurempi kuin 0, niin A*-algoritmin käyttäytyminen reitinhaussa
  * muuttuu.
  *
