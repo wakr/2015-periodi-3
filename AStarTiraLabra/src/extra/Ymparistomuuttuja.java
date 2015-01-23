@@ -15,7 +15,7 @@ public enum Ymparistomuuttuja {
     /**
      * Äärettömyys
      */
-    INF(9999),
+    INF(9999999),
     /**
      * A*-algoritmin säätöparametri
      */
@@ -27,9 +27,6 @@ public enum Ymparistomuuttuja {
         this.arvo = arvo;
     }
 
-    private Ymparistomuuttuja(char arvo) {
-        this.arvo = arvo;
-    }
 
     public int getArvo() {
         return this.arvo;

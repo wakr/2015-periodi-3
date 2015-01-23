@@ -12,7 +12,7 @@ public class Solmu implements Comparable<Solmu> {
 
     public double paino;
     public int tunnus;
-    public int etaisyysAlusta;
+    public long etaisyysAlusta;
 
     /**
      * @param paino Heurestinen arvo solmulle, joka toimii samalla solmun painona
@@ -20,7 +20,7 @@ public class Solmu implements Comparable<Solmu> {
      * @param etaisyysAlusta Etäisyys lähtösolmusta
     */
     
-    public Solmu(double paino, int tunnus, int etaisyysAlusta) {
+    public Solmu(double paino, int tunnus, long etaisyysAlusta) {
         this.paino = paino;
         this.tunnus = tunnus;
         this.etaisyysAlusta = etaisyysAlusta;

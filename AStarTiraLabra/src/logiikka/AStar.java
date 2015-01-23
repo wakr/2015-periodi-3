@@ -1,8 +1,11 @@
 package logiikka;
 
 import extra.Ymparistomuuttuja;
+import io.Tulostaja;
 import util.Solmu;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
 /**
@@ -19,29 +22,52 @@ import java.util.PriorityQueue;
  */
 public class AStar {
 
-    private char[][] kartta;
+    //private char[][] kartta;
+    private int[][] kartta;
     private int[][] karttaArvoina;
-    private int[] etaisyysArviotAlkuun, polku;
+    private long[] etaisyysArviotAlkuun;
+    private int[] polku;
     private boolean[] lopullisetPituudet;
     private PriorityQueue<Solmu> minKeko;
     private ArrayList<Integer>[] verkko;
     private int kartanLeveys, kartanKorkeus, lahtoY, lahtoX, maaliY, maaliX;
     private Analysoija analysoija;
+    private HashSet<Integer> analysoidut;
 
-    public AStar(char[][] kartta) {
-        this.kartta = kartta;
+//    public AStar(char[][] kartta) {
+//        this.kartta = kartta;
+//        alustaAloitusKoordinaatit();
+//        this.analysoija = new Analysoija();
+//        this.karttaArvoina = analysoija.analysoiKarttaArvoiksi(kartta, this);
+//        this.kartanKorkeus = kartta.length;
+//        this.kartanLeveys = kartta[0].length;
+//        this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
+//        this.polku = new int[kartanKorkeus * kartanLeveys];
+//        this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
+//        this.minKeko = new PriorityQueue<>();
+//        luoVerkko();
+//        alustaEtaisyydetAarettomiksi();
+//         this.analysoidut = new HashSet<>();
+//    }
+    
+     public AStar(int[][] karttaRGB) {
+        this.kartta = karttaRGB;
+        this.analysoidut = new HashSet<>();
         alustaAloitusKoordinaatit();
         this.analysoija = new Analysoija();
-        this.karttaArvoina = analysoija.analysoiKarttaArvoiksi(kartta, this);
+        this.karttaArvoina = analysoija.analysoiKarttaArvoiksiVareista(karttaRGB, this);
         this.kartanKorkeus = kartta.length;
         this.kartanLeveys = kartta[0].length;
-        this.etaisyysArviotAlkuun = new int[kartanKorkeus * kartanLeveys];
+        this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
         this.minKeko = new PriorityQueue<>();
         luoVerkko();
         alustaEtaisyydetAarettomiksi();
+
     }
+    
+    
 
     private void alustaAloitusKoordinaatit() {
         this.lahtoX = -1;
@@ -63,6 +89,8 @@ public class AStar {
 
         minKeko.add(new Solmu(0, aloitus, 0));
 
+        System.out.println(minKeko.size());
+        
         while (!minKeko.isEmpty()) {
 
             Solmu pienin = minKeko.poll();
@@ -88,11 +116,12 @@ public class AStar {
                     continue;
                 }
 
-                int vanhaEtaisyys = etaisyysArviotAlkuun[toinenSolmu];
-                int uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[toinenY][toinenX];
+                long vanhaEtaisyys = etaisyysArviotAlkuun[toinenSolmu];
+                long uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[toinenY][toinenX];
 
                 if (uusiEtaisyys < vanhaEtaisyys) {
                     kartta[toinenY][toinenX] = '*';
+                    analysoidut.add(toinenSolmu);
                     etaisyysArviotAlkuun[toinenSolmu] = uusiEtaisyys;
                     double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY)
                             + Heurestiikka.addCross(toinenX, toinenY, maaliX, maaliY, lahtoX, lahtoY);
@@ -122,6 +151,10 @@ public class AStar {
 
     public int getLahto() {
         return Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
+    }
+    
+    public HashSet<Integer> getAnalysoidut(){
+        return this.analysoidut;
     }
 
     /**
@@ -164,7 +197,11 @@ public class AStar {
         return verkko[solmu];
     }
 
-    public char[][] getKartta() {
+//    public char[][] getKartta() {
+//        return kartta;
+//    }
+    
+    public int[][] getKartta(){
         return kartta;
     }
 
