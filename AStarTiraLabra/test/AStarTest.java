@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  * Reitinhakuihin liittyvät testit
  * @author kride
  */
-public class ReitinhakuTest {
+public class AStarTest {
 
     static char[][] pieninKartta = new char[][]{
         {'A', '.'},

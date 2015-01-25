@@ -1,4 +1,4 @@
-package astartiralabra;
+package main;
 
 import io.Tulostaja;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import logiikka.AStar;
  * 
  * @author kristianw
  */
-public class AStarTiraLabra {
+public class Main {
 
     public static void main(String[] args) {
 //        char[][] kartta = new char[][]{

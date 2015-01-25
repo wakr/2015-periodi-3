@@ -20,10 +20,10 @@ public class VerkonRakennusTest {
     @Test(timeout = 1000)
     public void testaaPienenKartanNaapuritLahdosta() {
 
-        aStar = new AStar(ReitinhakuTest.pieniKartta);
+        aStar = new AStar(AStarTest.pieniKartta);
         ArrayList<Integer> luvut = new ArrayList<>();
         luvut.add(1);
-        luvut.add(ReitinhakuTest.pieniKartta[0].length);
+        luvut.add(AStarTest.pieniKartta[0].length);
 
         assertTrue(aStar.getSolmunNaapurit(0).containsAll(luvut));
 
@@ -32,10 +32,10 @@ public class VerkonRakennusTest {
     @Test(timeout = 1000)
     public void testaaMiniKartanNaapuritLahdosta() {
 
-        aStar = new AStar(ReitinhakuTest.miniKartta);
+        aStar = new AStar(AStarTest.miniKartta);
         ArrayList<Integer> luvut = new ArrayList<>();
         luvut.add(1);
-        luvut.add(ReitinhakuTest.miniKartta[0].length);
+        luvut.add(AStarTest.miniKartta[0].length);
 
         assertTrue(aStar.getSolmunNaapurit(0).containsAll(luvut));
 
@@ -44,10 +44,10 @@ public class VerkonRakennusTest {
     @Test(timeout = 1000)
     public void testaaKeskiKartanNaapuritLahdosta() {
 
-        aStar = new AStar(ReitinhakuTest.leveaKartta);
+        aStar = new AStar(AStarTest.leveaKartta);
         ArrayList<Integer> luvut = new ArrayList<>();
         luvut.add(0);
-        luvut.add(ReitinhakuTest.leveaKartta[0].length + 1);
+        luvut.add(AStarTest.leveaKartta[0].length + 1);
 
         assertTrue(aStar.getSolmunNaapurit(11).containsAll(luvut));
 
@@ -56,31 +56,31 @@ public class VerkonRakennusTest {
     @Test(timeout = 1000)
     public void miniKarttaAnalysoidaanOikein() {
         analysoija = new Analysoija();
-        aStar = new AStar(ReitinhakuTest.miniKartta);
+        aStar = new AStar(AStarTest.miniKartta);
         int[][] haluttu = new int[][]{
             {1, Ymparistomuuttuja.INF.getArvo(), 1},
             {1, 1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(ReitinhakuTest.miniKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.miniKartta, aStar);
         assertEquals(Arrays.deepToString(haluttu), Arrays.deepToString(analysoitu));
     }
 
     @Test(timeout = 1000)
     public void pieninKarttaAnalysoidaanOikein() {
         analysoija = new Analysoija();
-        aStar = new AStar(ReitinhakuTest.pieninKartta);
+        aStar = new AStar(AStarTest.pieninKartta);
         int[][] haluttu = new int[][]{
             {1, 1},
             {1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(ReitinhakuTest.pieninKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.pieninKartta, aStar);
         assertEquals(Arrays.deepToString(haluttu), Arrays.deepToString(analysoitu));
     }
 
     @Test(timeout = 1000)
     public void pieniKarttaAnalysoidaanOikein() {
         analysoija = new Analysoija();
-        aStar = new AStar(ReitinhakuTest.pieniKartta);
+        aStar = new AStar(AStarTest.pieniKartta);
         int nf = Ymparistomuuttuja.INF.getArvo();
         int[][] haluttu = new int[][]{
             {1, nf, nf, nf, 1},
@@ -88,19 +88,19 @@ public class VerkonRakennusTest {
             {1, nf, nf, nf, 1},
             {1, 1, 1, 1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(ReitinhakuTest.pieniKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.pieniKartta, aStar);
         assertEquals(Arrays.deepToString(haluttu), Arrays.deepToString(analysoitu));
     }
 
     @Test(timeout = 1000)
     public void leveaKarttaAnalysoidaanOikein() {
         analysoija = new Analysoija();
-        aStar = new AStar(ReitinhakuTest.leveaKartta);
+        aStar = new AStar(AStarTest.leveaKartta);
         int nf = Ymparistomuuttuja.INF.getArvo();
         int[][] haluttu = new int[][]{
             {1, nf, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(ReitinhakuTest.leveaKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.leveaKartta, aStar);
     }
 }

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
  * Koordinaatiston muutoksiin liittyvät testit
  * @author kride
  */
-public class LukuMuunnosTest {
+public class AnalysoijaTest {
 
     @Test(timeout = 1000)
     public void konvertteriToimiiLyhyeksi() {
