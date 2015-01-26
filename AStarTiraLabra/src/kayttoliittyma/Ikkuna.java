@@ -6,6 +6,7 @@
 package kayttoliittyma;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.WindowEvent;
@@ -34,6 +35,7 @@ public class Ikkuna extends javax.swing.JFrame {
 
     private Kuva karttaKuvana;
     private AStar aStar;
+    private BufferedImage alkuPerainenKuva;
 
     public Ikkuna() {
         initComponents();
@@ -44,6 +46,7 @@ public class Ikkuna extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelKuva = new javax.swing.JLabel();
+        jLabelPolkuMask = new javax.swing.JLabel();
         jYlaMenu = new javax.swing.JMenuBar();
         jTiedostoMenu = new javax.swing.JMenu();
         jMenuAvaa = new javax.swing.JMenuItem();
@@ -51,8 +54,17 @@ public class Ikkuna extends javax.swing.JFrame {
         jMenuPoistu = new javax.swing.JMenuItem();
         jAsetusMenu = new javax.swing.JMenu();
         jMenuAStar = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuResetoiKuva = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        jLabelPolkuMask.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPolkuMaskMouseClicked(evt);
+            }
+        });
 
         jTiedostoMenu.setText("Tiedosto");
 
@@ -84,6 +96,15 @@ public class Ikkuna extends javax.swing.JFrame {
             }
         });
         jAsetusMenu.add(jMenuAStar);
+        jAsetusMenu.add(jSeparator3);
+
+        jMenuResetoiKuva.setText("Resetoi");
+        jMenuResetoiKuva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuResetoiKuvaActionPerformed(evt);
+            }
+        });
+        jAsetusMenu.add(jMenuResetoiKuva);
 
         jYlaMenu.add(jAsetusMenu);
 
@@ -97,6 +118,11 @@ public class Ikkuna extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabelKuva, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabelPolkuMask, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,6 +130,11 @@ public class Ikkuna extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabelKuva, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabelPolkuMask, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
@@ -115,14 +146,16 @@ public class Ikkuna extends javax.swing.JFrame {
         if (kuvanAvaus.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 kuva = ImageIO.read(kuvanAvaus.getSelectedFile());
+                alkuPerainenKuva = ImageIO.read(kuvanAvaus.getSelectedFile());
                 karttaKuvana = new Kuva(kuva, jLabelKuva.getHeight(), jLabelKuva.getWidth());
                 jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
+                
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
         }
 
-        karttaKuvana.convertTo2DWithoutUsingGetRGB(karttaKuvana.getBufferoituKuva());
+
     }//GEN-LAST:event_jMenuAvaaActionPerformed
 
     private void jMenuPoistuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPoistuActionPerformed
@@ -130,6 +163,7 @@ public class Ikkuna extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuPoistuActionPerformed
 
     private void jMenuAStarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAStarActionPerformed
+        karttaKuvana.convertTo2DWithoutUsingGetRGB(karttaKuvana.getBufferoituKuva());
         aStar = new AStar(karttaKuvana.getRGPArvot());
         aStar.suoritaReitinHaku();
         ArrayList<Integer> saatuPolku = aStar.polku(aStar.getMaali(), new ArrayList<Integer>());
@@ -139,6 +173,7 @@ public class Ikkuna extends javax.swing.JFrame {
             int y = Analysoija.getRivi(kayty, karttaKuvana.getLeveys());
 
             karttaKuvana.getBufferoituKuva().setRGB(x, y, Color.MAGENTA.getRGB());
+
         }
 
         for (Integer saatuPolku1 : saatuPolku) {
@@ -148,10 +183,40 @@ public class Ikkuna extends javax.swing.JFrame {
             karttaKuvana.getBufferoituKuva().setRGB(x, y, Color.ORANGE.getRGB());
         }
 
-        karttaKuvana = new Kuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
+        //karttaKuvana = new Kuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
+        karttaKuvana.setKuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
         jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
 
     }//GEN-LAST:event_jMenuAStarActionPerformed
+
+    private void jLabelPolkuMaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseClicked
+        if (alkuPerainenKuva != null) {
+
+            double korkeusKerroin = (double) jLabelKuva.getHeight() / (double) alkuPerainenKuva.getHeight();
+            double leveysKerroin = (double) jLabelKuva.getWidth() / (double) alkuPerainenKuva.getWidth();
+
+            double offSetYD = evt.getY() / korkeusKerroin;
+            double offSetXD = evt.getX() / leveysKerroin;
+
+            int offSetY = (int) offSetYD;
+            int offSetX = (int) offSetXD;
+
+            karttaKuvana.getBufferoituKuva().setRGB(offSetX, offSetY, Color.BLACK.getRGB());
+            karttaKuvana.setKuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
+            jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
+        }
+
+    }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
+
+    private void jMenuResetoiKuvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuResetoiKuvaActionPerformed
+        BufferedImage copyOfImage
+                = new BufferedImage(alkuPerainenKuva.getWidth(), alkuPerainenKuva.getHeight(),BufferedImage.TYPE_3BYTE_BGR);
+        Graphics g = copyOfImage.createGraphics();
+        g.drawImage(alkuPerainenKuva, 0, 0, null);
+
+        karttaKuvana.setKuva(copyOfImage, jLabelKuva.getHeight(), jLabelKuva.getWidth());
+        jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
+    }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,10 +254,13 @@ public class Ikkuna extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jAsetusMenu;
     private javax.swing.JLabel jLabelKuva;
+    private javax.swing.JLabel jLabelPolkuMask;
     private javax.swing.JMenuItem jMenuAStar;
     private javax.swing.JMenuItem jMenuAvaa;
     private javax.swing.JMenuItem jMenuPoistu;
+    private javax.swing.JMenuItem jMenuResetoiKuva;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenu jTiedostoMenu;
     private javax.swing.JMenuBar jYlaMenu;
     // End of variables declaration//GEN-END:variables

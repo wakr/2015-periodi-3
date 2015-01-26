@@ -23,6 +23,11 @@ public class Kuva {
 
     }
 
+    public void setKuva(BufferedImage bufferoituKuva, int skaalattuKorkeus, int skaalattuLeveys) {
+        this.bufferoituKuva = bufferoituKuva;
+        this.kuva = bufferoituKuva.getScaledInstance(skaalattuLeveys, skaalattuKorkeus, Image.SCALE_SMOOTH);
+    }
+
     public Image getKuva() {
         return kuva;
     }
@@ -49,22 +54,6 @@ public class Kuva {
         int green = (pixel >> 8) & 0xff;
         int blue = (pixel) & 0xff;
         System.out.println("argb: " + alpha + ", " + red + ", " + green + ", " + blue);
-    }
-
-    public void marchThroughImage(BufferedImage image) {
-        int w = image.getWidth();
-        int h = image.getHeight();
-        System.out.println("Analysing...");
-        System.out.println("width, height: " + w + ", " + h);
-
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                System.out.println("x,y: " + j + ", " + i);
-                int pixel = image.getRGB(j, i);
-                printPixelARGB(pixel);
-                System.out.println("");
-            }
-        }
     }
 
     public void convertTo2DWithoutUsingGetRGB(BufferedImage image) {
