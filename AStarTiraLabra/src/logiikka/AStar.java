@@ -1,10 +1,7 @@
 package logiikka;
 
-import extra.Ymparistomuuttuja;
-import io.Tulostaja;
-import util.Solmu;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -15,15 +12,16 @@ import java.util.PriorityQueue;
  *
  * @author kride
  * @see io.Tulostaja
- * @see extra.Ymparistomuuttuja
+ * @see logiikka.Ymparistomuuttuja
  * @see logiikka.Analysoija
  * @see logiikka.Heurestiikka
  * @see util.Solmu
  */
 public class AStar {
 
-    //private char[][] kartta;
-    private int[][] kartta;
+    //private char[][] RGBKartta;
+    private int[][] RGBKartta;
+    private char[][] merkkiKartta;
     private int[][] karttaArvoina;
     private long[] etaisyysArviotAlkuun;
     private int[] polku;
@@ -34,40 +32,38 @@ public class AStar {
     private Analysoija analysoija;
     private HashSet<Integer> analysoidut;
 
-//    public AStar(char[][] kartta) {
-//        this.kartta = kartta;
-//        alustaAloitusKoordinaatit();
-//        this.analysoija = new Analysoija();
-//        this.karttaArvoina = analysoija.analysoiKarttaArvoiksi(kartta, this);
-//        this.kartanKorkeus = kartta.length;
-//        this.kartanLeveys = kartta[0].length;
-//        this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
-//        this.polku = new int[kartanKorkeus * kartanLeveys];
-//        this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-//        this.minKeko = new PriorityQueue<>();
-//        luoVerkko();
-//        alustaEtaisyydetAarettomiksi();
-//         this.analysoidut = new HashSet<>();
-//    }
-    
-     public AStar(int[][] karttaRGB) {
-        this.kartta = karttaRGB;
-        this.analysoidut = new HashSet<>();
+    public AStar(char[][] merkkiKartta) {
+        this.merkkiKartta = merkkiKartta;
         alustaAloitusKoordinaatit();
         this.analysoija = new Analysoija();
-        this.karttaArvoina = analysoija.analysoiKarttaArvoiksiVareista(karttaRGB, this);
-        this.kartanKorkeus = kartta.length;
-        this.kartanLeveys = kartta[0].length;
+        this.karttaArvoina = analysoija.analysoiKarttaArvoiksiMerkeista(merkkiKartta, this);
+        this.kartanKorkeus = merkkiKartta.length;
+        this.kartanLeveys = merkkiKartta[0].length;
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
         this.minKeko = new PriorityQueue<>();
-        luoVerkko();
+        luoVerkkoChar();
+        alustaEtaisyydetAarettomiksi();
+        this.analysoidut = new HashSet<>();
+    }
+
+    public AStar(int[][] karttaRGB) {
+        this.RGBKartta = karttaRGB;
+        this.analysoidut = new HashSet<>();
+        alustaAloitusKoordinaatit();
+        this.analysoija = new Analysoija();
+        this.karttaArvoina = analysoija.analysoiKarttaArvoiksiVareista(karttaRGB, this);
+        this.kartanKorkeus = RGBKartta.length;
+        this.kartanLeveys = RGBKartta[0].length;
+        this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
+        this.polku = new int[kartanKorkeus * kartanLeveys];
+        this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
+        this.minKeko = new PriorityQueue<>();
+        luoVerkkoRBG();
         alustaEtaisyydetAarettomiksi();
 
     }
-    
-    
 
     private void alustaAloitusKoordinaatit() {
         this.lahtoX = -1;
@@ -89,8 +85,7 @@ public class AStar {
 
         minKeko.add(new Solmu(0, aloitus, 0));
 
-        System.out.println(minKeko.size());
-        
+
         while (!minKeko.isEmpty()) {
 
             Solmu pienin = minKeko.poll();
@@ -98,7 +93,6 @@ public class AStar {
             int tY = Analysoija.getRivi(tunnus, kartanLeveys);
             int tX = Analysoija.getSarake(tunnus, kartanLeveys);
 
-            kartta[tY][tX] = '*';
 
             lopullisetPituudet[tunnus] = true;
 
@@ -120,7 +114,6 @@ public class AStar {
                 long uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[toinenY][toinenX];
 
                 if (uusiEtaisyys < vanhaEtaisyys) {
-                    kartta[toinenY][toinenX] = '*';
                     analysoidut.add(toinenSolmu);
                     etaisyysArviotAlkuun[toinenSolmu] = uusiEtaisyys;
                     double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY)
@@ -133,6 +126,18 @@ public class AStar {
 
         }
 
+        merkkaaKaydytKarttaan('*');
+        
+    }
+
+    private void merkkaaKaydytKarttaan(char merkkaaja) {
+        if (merkkiKartta != null) {
+            for (int koordinaatti : analysoidut) {
+                int kX = Analysoija.getSarake(koordinaatti, kartanLeveys);
+                int kY = Analysoija.getRivi(koordinaatti, kartanLeveys);
+                merkkiKartta[kY][kX] = merkkaaja;
+            }
+        }
     }
 
     public void asetaLahto(int Ax, int Ay) {
@@ -152,8 +157,8 @@ public class AStar {
     public int getLahto() {
         return Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
     }
-    
-    public HashSet<Integer> getAnalysoidut(){
+
+    public HashSet<Integer> getAnalysoidut() {
         return this.analysoidut;
     }
 
@@ -162,7 +167,7 @@ public class AStar {
      * yhteys. Käytännössä tämä tarkoittaa, että myös esteisiin on yhteys, mutta
      * INF-muuttuja estää suuruudellaan sen läpikäynnin.
      */
-    private void luoVerkko() {
+    private void luoVerkkoRBG() {
         verkko = new ArrayList[kartanKorkeus * kartanLeveys];
 
         for (int i = 0; i < verkko.length; i++) {
@@ -171,7 +176,38 @@ public class AStar {
 
         int[][] suunnat = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-        for (int i = 0; i < kartta.length; i++) {
+        for (int i = 0; i < RGBKartta.length; i++) {
+            int[] rivi = karttaArvoina[i];
+            for (int j = 0; j < rivi.length; j++) {
+
+                for (int[] pari : suunnat) {
+                    int y = pari[0];
+                    int x = pari[1];
+                    int uusiY = i + y;
+                    int uusiX = j + x;
+                    if (uusiY < 0 || uusiX < 0 || uusiY >= kartanKorkeus || uusiX >= kartanLeveys) {
+                        continue;
+                    }
+                    int tarkasteltava = (i * kartanLeveys) + j;
+                    int naapuri = (uusiY * kartanLeveys) + uusiX;
+                    verkko[tarkasteltava].add(naapuri);
+
+                }
+
+            }
+        }
+    }
+
+    private void luoVerkkoChar() {
+        verkko = new ArrayList[kartanKorkeus * kartanLeveys];
+
+        for (int i = 0; i < verkko.length; i++) {
+            verkko[i] = new ArrayList<>();
+        }
+
+        int[][] suunnat = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+        for (int i = 0; i < kartanKorkeus; i++) {
             int[] rivi = karttaArvoina[i];
             for (int j = 0; j < rivi.length; j++) {
 
@@ -197,12 +233,12 @@ public class AStar {
         return verkko[solmu];
     }
 
-//    public char[][] getKartta() {
-//        return kartta;
-//    }
-    
-    public int[][] getKartta(){
-        return kartta;
+    public char[][] getMerkkiKartta() {
+        return merkkiKartta;
+    }
+
+    public int[][] getRGBKartta() {
+        return RGBKartta;
     }
 
     private void alustaEtaisyydetAarettomiksi() {
@@ -226,7 +262,7 @@ public class AStar {
             polku(polku[s]);
         }
 
-        kartta[Analysoija.getRivi(s, kartanLeveys)][Analysoija.getSarake(s, kartanLeveys)] = '©';
+        merkkiKartta[Analysoija.getRivi(s, kartanLeveys)][Analysoija.getSarake(s, kartanLeveys)] = '©';
     }
 
     /**

@@ -1,6 +1,5 @@
 package logiikka;
 
-import extra.Ymparistomuuttuja;
 import java.util.Arrays;
 
 /**
@@ -16,6 +15,7 @@ public class Analysoija {
     private final int[] white = new int[]{255, 255, 255};
     private final int[] red = new int[]{255, 0, 0};
     private final int[] green = new int[]{0, 255, 0};
+    private final int[] blue = new int[]{0, 0, 255};
 
     /**
      * Analysoi annetun kartan jokaisen arvon palauttaen uuden kartan, joka
@@ -26,7 +26,7 @@ public class Analysoija {
      * asetetaan maali ja lähtö
      * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
      */
-    public int[][] analysoiKarttaArvoiksi(char[][] kartta, AStar aStar) {
+    public int[][] analysoiKarttaArvoiksiMerkeista(char[][] kartta, AStar aStar) {
         this.aStar = aStar;
         int[][] arvoTaulu = new int[kartta.length][kartta[0].length];
         for (int i = 0; i < kartta.length; i++) {
@@ -63,18 +63,18 @@ public class Analysoija {
      */
     private int analysoiMerkki(char tarkasteltavana, int y, int x) {
         if (tarkasteltavana == '.') {
-            return 1;
+            return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (tarkasteltavana == ',') {
-            return 5;
+            return Ymparistomuuttuja.VesiRuutu.getArvo();
         }
         if (tarkasteltavana == 'A') {
             aStar.asetaLahto(x, y);
-            return 1;
+            return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (tarkasteltavana == 'B') {
             aStar.asetaMaali(x, y);
-            return 1;
+            return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         } else {
             return Ymparistomuuttuja.INF.getArvo();
         }
@@ -83,17 +83,19 @@ public class Analysoija {
     private int analysoiVari(int RGBVari, int y, int x) {
         int[] RGB = new int[]{getRed(RGBVari), getGreen(RGBVari), getBlue(RGBVari)};
 
-        
         if (RGB[0] == red[0] && RGB[1] == red[1] && RGB[2] == red[2]) { // maali
             aStar.asetaMaali(x, y);
-            return 1;
+            return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (RGB[0] == white[0] && RGB[1] == white[1] && RGB[2] == white[2]) {
-            return 1;
+            return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (RGB[0] == green[0] && RGB[1] == green[1] && RGB[2] == green[2]) { //lahto
             aStar.asetaLahto(x, y);
-            return 1;
+            return Ymparistomuuttuja.NormaaliRuutu.getArvo();
+        }
+        if (RGB[0] == blue[0] && RGB[1] == blue[1] && RGB[2] == blue[2]) {
+            return Ymparistomuuttuja.VesiRuutu.getArvo();
         } else {
             return Ymparistomuuttuja.INF.getArvo();
         }

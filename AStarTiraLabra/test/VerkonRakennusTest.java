@@ -1,6 +1,6 @@
 
 
-import extra.Ymparistomuuttuja;
+import logiikka.Ymparistomuuttuja;
 import java.util.ArrayList;
 import java.util.Arrays;
 import logiikka.AStar;
@@ -61,7 +61,7 @@ public class VerkonRakennusTest {
             {1, Ymparistomuuttuja.INF.getArvo(), 1},
             {1, 1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.miniKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksiMerkeista(AStarTest.miniKartta, aStar);
         assertEquals(Arrays.deepToString(haluttu), Arrays.deepToString(analysoitu));
     }
 
@@ -73,7 +73,7 @@ public class VerkonRakennusTest {
             {1, 1},
             {1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.pieninKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksiMerkeista(AStarTest.pieninKartta, aStar);
         assertEquals(Arrays.deepToString(haluttu), Arrays.deepToString(analysoitu));
     }
 
@@ -88,7 +88,7 @@ public class VerkonRakennusTest {
             {1, nf, nf, nf, 1},
             {1, 1, 1, 1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.pieniKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksiMerkeista(AStarTest.pieniKartta, aStar);
         assertEquals(Arrays.deepToString(haluttu), Arrays.deepToString(analysoitu));
     }
 
@@ -101,6 +101,6 @@ public class VerkonRakennusTest {
             {1, nf, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-        int[][] analysoitu = analysoija.analysoiKarttaArvoiksi(AStarTest.leveaKartta, aStar);
+        int[][] analysoitu = analysoija.analysoiKarttaArvoiksiMerkeista(AStarTest.leveaKartta, aStar);
     }
 }

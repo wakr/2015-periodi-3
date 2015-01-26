@@ -1,4 +1,4 @@
-package extra;
+package logiikka;
 
 /**
  * Sisältää hyödylliset arvot, jotka muun muassa määrittelevät äärettömyyden
@@ -19,7 +19,10 @@ public enum Ymparistomuuttuja {
     /**
      * A*-algoritmin säätöparametri
      */
-    D(2); //2
+    D(2), //2
+    NormaaliRuutu(1),
+    VesiRuutu(5);
+    
 
     private final int arvo;
 

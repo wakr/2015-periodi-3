@@ -1,7 +1,5 @@
 package logiikka;
 
-import extra.Ymparistomuuttuja;
-
 /**
  * Laskee Manhattan etäisyyden kahden solmun välille. Manhattan etäisyyteen
  * lisätään suhdeluku tulona, jolloin etäisyyden suhdetta voidaan säätää.

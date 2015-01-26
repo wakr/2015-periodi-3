@@ -1,5 +1,5 @@
 
-package util;
+package logiikka;
 
 /**
  * Solmujen avulla mallinnetaan verkko A*-algoritmissa. Prioriteetti määräytyy
