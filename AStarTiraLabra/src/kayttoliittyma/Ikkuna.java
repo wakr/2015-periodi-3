@@ -1,35 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kayttoliittyma;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.event.ActionEvent;
+
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import logiikka.AStar;
 import logiikka.Analysoija;
 import util.Kuva;
 
 /**
+ * Sovelluksen käyttöliittymä, joka visualisoi A*-algoritmin sekä siihen
+ * liittyvän analysoinnin.
  *
  * @author kristianw
  */
@@ -217,8 +206,8 @@ public class Ikkuna extends javax.swing.JFrame {
             jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
         }
         // resetoi A*
-        aStar.resetoiAlgoritmi();
-       // jMenuResetoiKuvaActionPerformed(new ActionEvent(evt, WIDTH, null));
+        //aStar.resetoiAlgoritmi();
+        // jMenuResetoiKuvaActionPerformed(new ActionEvent(evt, WIDTH, null));
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
 
     private void jMenuResetoiKuvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuResetoiKuvaActionPerformed
@@ -233,7 +222,7 @@ public class Ikkuna extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
-    private void liikutaKohtiMaaliin() {
+    public void liikutaKohtiMaaliin() {
 
         Thread.yield();
 
@@ -243,12 +232,20 @@ public class Ikkuna extends javax.swing.JFrame {
 
             // karttaKuvana.getBufferoituKuva().setRGB(x, y, Color.ORANGE.getRGB());
             int[] muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
-            
-            
+
         }
     }
 
-    private int[] muutaKoordinaatitPitkasta(int y, int x) {
+    /**
+     * Muuttaa koordinaatin skaalatusta kuvasta oikea kuvan X ja Y
+     * koordinaateiksi
+     *
+     * @param x X-koordinaatti
+     * @param y Y-koordinaatti
+     * @return Taulukko, jossa 0-paikalla Y ja 1-paikalla X koordinaatti
+     * muutettuna
+     */
+    public int[] muutaKoordinaatitPitkasta(int y, int x) {
 
         double korkeusKerroin = (double) jLabelKuva.getHeight() / (double) alkuPerainenKuva.getHeight();
         double leveysKerroin = (double) jLabelKuva.getWidth() / (double) alkuPerainenKuva.getWidth();
@@ -262,7 +259,13 @@ public class Ikkuna extends javax.swing.JFrame {
         return new int[]{offSetY, offSetX};
     }
 
-    private int[] muutaKoordinaatitLyhyesta(int y, int x) {
+    /**
+     * @param y Oikean kuvan y-koordinaatti
+     * @param x Oikean kuvan x-koordinaatti
+     * @return Taulukko, jossa 0-paikalla Y ja 1-paikalla X koordinaatti
+     * muutettuna
+     */
+    public int[] muutaKoordinaatitLyhyesta(int y, int x) {
 
         double korkeusKerroin = (double) jLabelKuva.getHeight() / (double) alkuPerainenKuva.getHeight();
         double leveysKerroin = (double) jLabelKuva.getWidth() / (double) alkuPerainenKuva.getWidth();
@@ -313,7 +316,7 @@ public class Ikkuna extends javax.swing.JFrame {
             int[] muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
             g.drawRect(muutetutKoordinaatit[1], muutetutKoordinaatit[0], 5, 5);
             try {
-                Thread.sleep(10);
+                Thread.sleep(0);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Ikkuna.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -321,38 +324,6 @@ public class Ikkuna extends javax.swing.JFrame {
         g.dispose();
     }
 
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Ikkuna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Ikkuna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Ikkuna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Ikkuna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Ikkuna().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jAsetusMenu;

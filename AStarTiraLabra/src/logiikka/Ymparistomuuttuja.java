@@ -19,17 +19,21 @@ public enum Ymparistomuuttuja {
     /**
      * A*-algoritmin säätöparametri
      */
-    D(2), //2
+    D(2),
+    /**
+     * "Maksuttoman" ruudun paino
+     */
     NormaaliRuutu(1),
+    /**
+     * Vesiesteen paino
+     */
     VesiRuutu(5);
-    
 
     private final int arvo;
 
     private Ymparistomuuttuja(int arvo) {
         this.arvo = arvo;
     }
-
 
     public int getArvo() {
         return this.arvo;

@@ -9,7 +9,7 @@ package logiikka;
  *
  * @author kristianw
  * @see logiikka.AStar
- * @see extra.Ymparistomuuttuja
+ * @see logiikka.Ymparistomuuttuja
  */
 public class Heurestiikka {
 
@@ -27,7 +27,8 @@ public class Heurestiikka {
         int dx = Math.abs(aloitusX - maaliX);
         int dy = Math.abs(aloitusY - maaliY);
 
-        return Ymparistomuuttuja.D.getArvo() * (dx + dy);
+        return Ymparistomuuttuja.D.getArvo() * (dy +dx);
+        //return Ymparistomuuttuja.D.getArvo() * Math.max(dy, dx);
     }
 
     /**

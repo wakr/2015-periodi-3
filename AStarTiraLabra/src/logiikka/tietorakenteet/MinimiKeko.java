@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package logiikka.tietorakenteet;
 
 import java.io.Serializable;
@@ -10,7 +6,7 @@ import java.util.AbstractQueue;
 import java.util.Iterator;
 
 /**
- * PriorityQueue
+ * PriorityQueue *Kesken*
  * @author kride
  */
 public class MinimiKeko extends AbstractQueue<Object> implements Serializable{

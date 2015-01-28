@@ -6,8 +6,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
 /**
- * *Kesken R G B 255 255 255 = valkoinen 254 0 0 = punainen 0 0 0 = musta 0 255
- * 1 = vihreä
+ * Kuvan esittämistä ja muokkaamista varten oleva luokka. Kuva vastaa
+ * käytännössä aina karttaa ohjelmassa.
+ *
  *
  * @author kristianw
  */
@@ -20,7 +21,6 @@ public class Kuva {
     public Kuva(BufferedImage bufKuva, int skaalattuKorkeus, int skaalattuLeveys) {
         this.bufferoituKuva = bufKuva;
         this.kuva = bufferoituKuva.getScaledInstance(skaalattuLeveys, skaalattuKorkeus, Image.SCALE_SMOOTH);
-
     }
 
     public void setKuva(BufferedImage bufferoituKuva, int skaalattuKorkeus, int skaalattuLeveys) {
@@ -48,14 +48,11 @@ public class Kuva {
         return rgb;
     }
 
-    public void printPixelARGB(int pixel) {
-        int alpha = (pixel >> 24) & 0xff;
-        int red = (pixel >> 16) & 0xff;
-        int green = (pixel >> 8) & 0xff;
-        int blue = (pixel) & 0xff;
-        System.out.println("argb: " + alpha + ", " + red + ", " + green + ", " + blue);
-    }
-
+    /**
+     * Muuttaa kuvan RPG-esitykseen
+     * @param image kartta kuvana
+     */
+    
     public void convertTo2DWithoutUsingGetRGB(BufferedImage image) {
 
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
@@ -97,18 +94,6 @@ public class Kuva {
         }
 
         this.rgb = result;
-    }
-
-    public int getRed(int rgb) {
-        return (rgb >> 16) & 0x000000FF;
-    }
-
-    public int getGreen(int rgb) {
-        return (rgb >> 8) & 0x000000FF;
-    }
-
-    public int getBlue(int rgb) {
-        return (rgb) & 0x000000FF;
     }
 
 }

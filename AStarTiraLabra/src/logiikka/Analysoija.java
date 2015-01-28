@@ -80,6 +80,15 @@ public class Analysoija {
         }
     }
 
+    /**
+     * Analysoi kartan/kuvan yksittäisen RPGVärin palauttaen sitä vastaavan
+     * painon solmun luontia varten
+     *
+     * @param RGBVari Saatu väriarvo
+     * @param y y-indeksi
+     * @param x x-indeksi
+     * @return Solmun paino
+     */
     private int analysoiVari(int RGBVari, int y, int x) {
         int[] RGB = new int[]{getRed(RGBVari), getGreen(RGBVari), getBlue(RGBVari)};
 
@@ -101,15 +110,21 @@ public class Analysoija {
         }
     }
 
-    private int getRed(int rgb) {
+    /**
+     * Analysoi värit palauttamalla niistä arvon välille 0...255
+     *
+     * @param rgb RGB-muodossa oleva väriarvo
+     * @return RPG-arvo väliltä 0...255
+     */
+    public int getRed(int rgb) {
         return (rgb >> 16) & 0x000000FF;
     }
 
-    private int getGreen(int rgb) {
+    public int getGreen(int rgb) {
         return (rgb >> 8) & 0x000000FF;
     }
 
-    private int getBlue(int rgb) {
+    public int getBlue(int rgb) {
         return (rgb) & 0x000000FF;
     }
 

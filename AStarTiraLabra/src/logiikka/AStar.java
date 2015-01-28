@@ -2,7 +2,6 @@ package logiikka;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -16,7 +15,7 @@ import java.util.Queue;
  * @see logiikka.Ymparistomuuttuja
  * @see logiikka.Analysoija
  * @see logiikka.Heurestiikka
- * @see util.Solmu
+ * @see logiikka.Solmu
  */
 public class AStar {
 
@@ -49,6 +48,9 @@ public class AStar {
         polunKoordinaatit = new ArrayDeque<>();
     }
 
+    /**
+     * @param karttaRGB Kartta, joka on muokattu RGB-väreihin ts. kuva
+     */
     public AStar(int[][] karttaRGB) {
         this.RGBKartta = karttaRGB;
         this.analysoidut = new ArrayDeque<>();
@@ -162,6 +164,10 @@ public class AStar {
         return this.analysoidut;
     }
 
+    /**
+     * Alustaa A* uudelleen, jotta sitä voitaisiin käyttää, vaikka kartta
+     * muuttuu.
+     */
     public void resetoiAlgoritmi() {
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
@@ -183,7 +189,8 @@ public class AStar {
             verkko[i] = new ArrayList<>();
         }
 
-        int[][] suunnat = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        int[][] suunnat = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1},
+        {1, 1}, {-1, -1}, {1, -1}, {-1, 1}};
 
         for (int i = 0; i < RGBKartta.length; i++) {
             int[] rivi = karttaArvoina[i];
@@ -270,6 +277,7 @@ public class AStar {
      *
      * @param s Solmu johon halutaan polku
      */
+    
     public void polku(int s) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s]);
@@ -279,11 +287,13 @@ public class AStar {
     }
 
     /**
-     *
+     * Luo polun ArrayListaan
+     * 
      * @param s Solmun tunnus yksiulotteisena johon polku halutaan
      * @param p ArrayList johon polku halutaan asettaa
      * @return Lyhyin polku solmuun s
      */
+    
     public ArrayList<Integer> polku(int s, ArrayList<Integer> p) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s], p);
@@ -294,9 +304,8 @@ public class AStar {
     }
 
     /**
-     *
-     * @param s
-     * @return
+     * Luo polun jonoon, joka on tehokkaampi kuin ArrayList.
+     * @param s Solmun tunnus yksiulotteisena johon polku halutaan
      */
     public void luoPolku(int s) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
