@@ -1,11 +1,13 @@
 package logiikka;
 
+import util.Piste;
+
 /**
  * Laskee Manhattan etäisyyden kahden solmun välille. Manhattan etäisyyteen
  * lisätään suhdeluku tulona, jolloin etäisyyden suhdetta voidaan säätää.
- * Käytännössä D = 0 tarkoittaa, että A*-algoritmin pitäisi toimia kuten Dijkstra ja
- * jos D on suurempi kuin 0, niin A*-algoritmin käyttäytyminen reitinhaussa
- * muuttuu.
+ * Käytännössä D = 0 tarkoittaa, että A*-algoritmin pitäisi toimia kuten
+ * Dijkstra ja jos D on suurempi kuin 0, niin A*-algoritmin käyttäytyminen
+ * reitinhaussa muuttuu.
  *
  * @author kristianw
  * @see logiikka.AStar
@@ -27,27 +29,24 @@ public class Heurestiikka {
         int dx = Math.abs(aloitusX - maaliX);
         int dy = Math.abs(aloitusY - maaliY);
 
-        return Ymparistomuuttuja.D.getArvo() * (dy +dx);
+         return Ymparistomuuttuja.D.getArvo() * (dy +dx);
         //return Ymparistomuuttuja.D.getArvo() * Math.max(dy, dx);
     }
 
     /**
      * Tiebraker A* varten
      *
-     * @param aloitusX Nykyisen solmun x-koordinaatti
-     * @param aloitusY Nykyisen solmun y-koordinaatti
-     * @param maaliX Maalin x-koordinaatti
-     * @param maaliY Maalin y-koordinaatti
-     * @param lahtoX Lähdön x-koordinaatti
-     * @param lahtoY Lähdön y-koordinaatti
+     * @param aloitus Aloituksen koordinaatti
+     * @param maali Maalin koordinaatti
+     * @param lahto Lahdon koordinaatti
      * @return Etäisyyden suhteen avulla
      */
-    public static double addCross(int aloitusX, int aloitusY, int maaliX, int maaliY, int lahtoX, int lahtoY) {
-
-        double dx1 = aloitusX - maaliX;
-        double dy1 = aloitusY - maaliY;
-        double dx2 = lahtoX - maaliX;
-        double dy2 = lahtoY - maaliY;
+   
+    public static double lisaaTiebraker(Piste aloitus, Piste maali, Piste lahto) {
+        double dx1 = aloitus.getX() - maali.getX();
+        double dy1 = aloitus.getY() - maali.getY();
+        double dx2 = lahto.getX() - maali.getX();
+        double dy2 = lahto.getY() - maali.getY();
         double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
         return cross * 0.001;
     }

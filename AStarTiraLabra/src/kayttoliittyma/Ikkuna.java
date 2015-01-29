@@ -165,7 +165,7 @@ public class Ikkuna extends javax.swing.JFrame {
 
     private void jMenuAStarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAStarActionPerformed
 
-        karttaKuvana.convertTo2DWithoutUsingGetRGB(karttaKuvana.getBufferoituKuva());
+        karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
 
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -192,9 +192,6 @@ public class Ikkuna extends javax.swing.JFrame {
             }
         });
 
-        //karttaKuvana = new Kuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
-        //karttaKuvana.setKuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
-        //jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
 
     }//GEN-LAST:event_jMenuAStarActionPerformed
 
@@ -205,23 +202,19 @@ public class Ikkuna extends javax.swing.JFrame {
             karttaKuvana.setKuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
             jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
         }
-        // resetoi A*
-        //aStar.resetoiAlgoritmi();
-        // jMenuResetoiKuvaActionPerformed(new ActionEvent(evt, WIDTH, null));
+
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
 
     private void jMenuResetoiKuvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuResetoiKuvaActionPerformed
-//        BufferedImage copyOfImage
-//                = new BufferedImage(alkuPerainenKuva.getWidth(), alkuPerainenKuva.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-//        Graphics g = copyOfImage.createGraphics();
-//        g.drawImage(alkuPerainenKuva, 0, 0, null);
-//
-//        karttaKuvana.setKuva(copyOfImage, jLabelKuva.getHeight(), jLabelKuva.getWidth());
-//        jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
+
         jLabelPolkuMask.repaint();
 
     }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
+    /**
+     * Liikuttaa ukkoa kohti maalia *kesken*
+     */
+    
     public void liikutaKohtiMaaliin() {
 
         Thread.yield();
@@ -230,14 +223,13 @@ public class Ikkuna extends javax.swing.JFrame {
             int x = Analysoija.getSarake(saatuPolku1, karttaKuvana.getLeveys());
             int y = Analysoija.getRivi(saatuPolku1, karttaKuvana.getLeveys());
 
-            // karttaKuvana.getBufferoituKuva().setRGB(x, y, Color.ORANGE.getRGB());
             int[] muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
 
         }
     }
 
     /**
-     * Muuttaa koordinaatin skaalatusta kuvasta oikea kuvan X ja Y
+     * Muuttaa koordinaatin skaalatusta kuvasta oikean kuvan X ja Y
      * koordinaateiksi
      *
      * @param x X-koordinaatti
@@ -294,7 +286,6 @@ public class Ikkuna extends javax.swing.JFrame {
             int x = Analysoija.getSarake(kayty, karttaKuvana.getLeveys());
             int y = Analysoija.getRivi(kayty, karttaKuvana.getLeveys());
             int[] muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
-            //karttaKuvana.getBufferoituKuva().setRGB(x, y, Color.MAGENTA.getRGB());
 
             g.setColor(Color.MAGENTA);
             g.drawRect(muutetutKoordinaatit[1], muutetutKoordinaatit[0], 1, 1);
@@ -312,7 +303,6 @@ public class Ikkuna extends javax.swing.JFrame {
             int x = Analysoija.getSarake(saatuPolku1, karttaKuvana.getLeveys());
             int y = Analysoija.getRivi(saatuPolku1, karttaKuvana.getLeveys());
 
-            // karttaKuvana.getBufferoituKuva().setRGB(x, y, Color.ORANGE.getRGB());
             int[] muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
             g.drawRect(muutetutKoordinaatit[1], muutetutKoordinaatit[0], 5, 5);
             try {

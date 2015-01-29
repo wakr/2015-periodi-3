@@ -4,11 +4,12 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import util.Piste;
 
 /**
  * A*-algoritmi. Analysoi ja luo verkon jonkan jälkeen ajattaessa etsii
- * pienimmän polun A ja B pisteiden välille käyttäen Dijkstran ideaa johon on
- * lisättä heurestiikka eli Manhattan etäisyys * TieBraker.
+ * pienimmän polun A ja B pisteiden välille käyttäen Dijkstran algoritmin ideaa johon on
+ * lisätty heurestiikka eli Manhattan etäisyys * TieBraker.
  *
  * @author kride
  * @see io.Tulostaja
@@ -25,12 +26,15 @@ public class AStar {
     private long[] etaisyysArviotAlkuun;
     private int[] polku;
     private boolean[] lopullisetPituudet;
-    private PriorityQueue<Solmu> minKeko;
+    private PriorityQueue<Solmu> openSet;
     private ArrayList<Integer>[] verkko;
     private int kartanLeveys, kartanKorkeus, lahtoY, lahtoX, maaliY, maaliX;
     private Analysoija analysoija;
     private Queue<Integer> analysoidut, polunKoordinaatit;
 
+    /**
+     * @param merkkiKartta Kartta char-merkkeinä
+     */
     public AStar(char[][] merkkiKartta) {
         this.merkkiKartta = merkkiKartta;
         alustaAloitusKoordinaatit();
@@ -41,7 +45,7 @@ public class AStar {
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        this.minKeko = new PriorityQueue<>();
+        this.openSet = new PriorityQueue<>();
         luoVerkkoChar();
         alustaEtaisyydetAarettomiksi();
         this.analysoidut = new ArrayDeque<>();
@@ -62,7 +66,7 @@ public class AStar {
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        this.minKeko = new PriorityQueue<>();
+        this.openSet = new PriorityQueue<>();
         luoVerkkoRBG();
         alustaEtaisyydetAarettomiksi();
         this.analysoidut = new ArrayDeque<>();
@@ -87,11 +91,11 @@ public class AStar {
         int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
         etaisyysArviotAlkuun[aloitus] = 0;
 
-        minKeko.add(new Solmu(0, aloitus, 0));
+        openSet.add(new Solmu(0, aloitus, 0));
 
-        while (!minKeko.isEmpty()) {
+        while (!openSet.isEmpty()) {
 
-            Solmu pienin = minKeko.poll();
+            Solmu pienin = openSet.poll();
             int tunnus = pienin.tunnus;
             int tY = Analysoija.getRivi(tunnus, kartanLeveys);
             int tX = Analysoija.getSarake(tunnus, kartanLeveys);
@@ -104,25 +108,27 @@ public class AStar {
 
             for (int i = 0; i < verkko[tunnus].size(); i++) {
 
-                int toinenSolmu = verkko[tunnus].get(i);
-                int toinenY = Analysoija.getRivi(toinenSolmu, kartanLeveys);
-                int toinenX = Analysoija.getSarake(toinenSolmu, kartanLeveys);
+                int vierusSolmu = verkko[tunnus].get(i);
+                int vierusSolmunY = Analysoija.getRivi(vierusSolmu, kartanLeveys);
+                int vierusSolmunX = Analysoija.getSarake(vierusSolmu, kartanLeveys);
 
-                if (lopullisetPituudet[toinenSolmu]) {
+                if (lopullisetPituudet[vierusSolmu]) {
                     continue;
                 }
 
-                long vanhaEtaisyys = etaisyysArviotAlkuun[toinenSolmu];
-                long uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[toinenY][toinenX];
+                long vanhaEtaisyys = etaisyysArviotAlkuun[vierusSolmu];
+                long uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[vierusSolmunY][vierusSolmunX];
 
                 if (uusiEtaisyys < vanhaEtaisyys) {
-                    analysoidut.add(toinenSolmu);
-                    etaisyysArviotAlkuun[toinenSolmu] = uusiEtaisyys;
-                    double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(toinenX, toinenY, maaliX, maaliY)
-                            + Heurestiikka.addCross(toinenX, toinenY, maaliX, maaliY, lahtoX, lahtoY);
-
-                    polku[toinenSolmu] = tunnus;
-                    minKeko.add(new Solmu(prioriteetti, toinenSolmu, uusiEtaisyys));
+                    analysoidut.add(vierusSolmu);
+                    etaisyysArviotAlkuun[vierusSolmu] = uusiEtaisyys;
+                    double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(vierusSolmunX, vierusSolmunY, maaliX, maaliY)
+                            + Heurestiikka.lisaaTiebraker(
+                                    new Piste(vierusSolmunX, vierusSolmunY),
+                                    new Piste(maaliX, maaliY),
+                                    new Piste(lahtoX, lahtoY));
+                    polku[vierusSolmu] = tunnus;
+                    openSet.add(new Solmu(prioriteetti, vierusSolmu, uusiEtaisyys));
                 }
             }
 
@@ -172,7 +178,7 @@ public class AStar {
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        this.minKeko = new PriorityQueue<>();
+        this.openSet = new PriorityQueue<>();
         this.analysoidut = new ArrayDeque<>();
         polunKoordinaatit = new ArrayDeque<>();
     }
@@ -277,7 +283,6 @@ public class AStar {
      *
      * @param s Solmu johon halutaan polku
      */
-    
     public void polku(int s) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s]);
@@ -288,12 +293,11 @@ public class AStar {
 
     /**
      * Luo polun ArrayListaan
-     * 
+     *
      * @param s Solmun tunnus yksiulotteisena johon polku halutaan
      * @param p ArrayList johon polku halutaan asettaa
      * @return Lyhyin polku solmuun s
      */
-    
     public ArrayList<Integer> polku(int s, ArrayList<Integer> p) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s], p);
@@ -304,7 +308,8 @@ public class AStar {
     }
 
     /**
-     * Luo polun jonoon, joka on tehokkaampi kuin ArrayList.
+     * Luo polun jonoon
+     *
      * @param s Solmun tunnus yksiulotteisena johon polku halutaan
      */
     public void luoPolku(int s) {

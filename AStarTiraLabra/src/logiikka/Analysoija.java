@@ -81,7 +81,7 @@ public class Analysoija {
     }
 
     /**
-     * Analysoi kartan/kuvan yksittäisen RPGVärin palauttaen sitä vastaavan
+     * Analysoi kartan/kuvan yksittäisen RPG värin palauttaen sitä vastaavan
      * painon solmun luontia varten
      *
      * @param RGBVari Saatu väriarvo

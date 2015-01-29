@@ -13,7 +13,8 @@ public class Tulostaja {
 
     /**
      * Tulostaa kartan arvoina
-     * @param  kartta Kartta kaksiulotteisessa taulukossa
+     *
+     * @param kartta Kartta kaksiulotteisessa taulukossa
      */
     public static void tulostaKartta(int[][] kartta) {
         for (int[] rivi : kartta) {
@@ -23,6 +24,7 @@ public class Tulostaja {
 
     /**
      * Tulostaa kartan merkkein
+     *
      * @param kartta Kartta sisältäen merkkejä
      */
     public static void tulostaKartta(char[][] kartta) {
@@ -33,6 +35,7 @@ public class Tulostaja {
 
     /**
      * Tulostaa kartan etaisyydet
+     *
      * @param etaisyys Solmujen etäisyydet lähtösolmusta
      * @param leveys Kartan leveys
      */

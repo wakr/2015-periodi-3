@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package logiikka.tietorakenteet;
 
 import java.io.Serializable;
@@ -16,8 +12,7 @@ import java.util.ListIterator;
 import java.util.RandomAccess;
 
 /**
- * ArrayList
- * *Kesken
+ * ArrayList *Kesken*
  *
  *
  * @author kride
@@ -33,6 +28,9 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         this(OLETUS_KAPASITEETTI);
     }
 
+    /**
+     * @param kapasiteetti Taulukon maksimi tilavuus
+     */
     public TaulukkoLista(int kapasiteetti) {
         this.kapasiteetti = kapasiteetti;
         this.koko = 0;
@@ -54,6 +52,11 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return koko == 0;
     }
 
+    /**
+     * Etsii taulukosta 
+     * 
+     * @param o Etsittävä objekti
+     */
     @Override
     public boolean contains(Object o) {
         for (int i = 0; i < koko; i++) {
@@ -65,6 +68,10 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return false;
     }
 
+    /**
+     * Iteraattori taulukkoa varten
+     * @return Iteraattori
+     */
     @Override
     public Iterator<Object> iterator() {
         return new Iterator<Object>() {
@@ -81,6 +88,9 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         };
     }
 
+    /**
+     * @return  Syötetty data
+     */
     @Override
     public Object[] toArray() {
         Object[] palautettava = new Object[koko];
@@ -91,11 +101,19 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return palautettava;
     }
 
+    /**
+     * @param a tyyppitaulukko
+     * @return Taulukko samaatyyppia kuin annettu parametri
+     */
     @Override
     public <T> T[] toArray(T[] a) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Lisaa objektin taulukkoon
+     * @param e Lisättävä objekti
+     */
     @Override
     public boolean add(Object e) {
 
@@ -143,6 +161,11 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         alkiot = new Object[koko];
     }
 
+    /**
+     * Palauttaa alkio kohdasta
+     * @param index kohta taulussa
+     * @throws IllegalStateException Jos indeksi on isompi kuin taulu
+     */
     @Override
     public Object get(int index) {
         if (index < 0 || index > koko) {
@@ -151,6 +174,13 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return alkiot[index];
     }
 
+    /**
+     * Asettaa taulussa olevan objektin halutuksi ja palauttaa vanhan
+     * @param index halutun indeksi
+     * @param element korvaaja
+     * @return korvattu
+     * @throws IllegalStateException Jos indeksi on isompi kuin taulu
+     */
     @Override
     public Object set(int index, Object element) {
         if (index < 0 || index > koko) {
@@ -161,6 +191,12 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return edellinen;
     }
 
+    /**
+     * Lisää kohtaan i, muttei palauta sitä 
+     * @param index haluttu kohta
+     * @param element korvaaja
+     * @throws IllegalStateException Jos indeksi on isompi kuin taulu
+     */
     @Override
     public void add(int index, Object element) {
         if (index < 0 || index > koko) {
@@ -173,6 +209,11 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         }
     }
 
+    /**
+     * Poistaa halutusta indeksistä
+     * @param index Haluttu indeksi
+     * @throws IllegalStateException Jos indeksi on isompi kuin taulu
+     */
     @Override
     public Object remove(int index) {
         if (index < 0 || index > koko) {
@@ -183,6 +224,10 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return edellinen;
     }
 
+    /**
+     * Hakee halutun objektin indeksin taulusta
+     * @param o Haluttu objekti
+     */
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < koko; i++) {
@@ -194,6 +239,9 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return -1;
     }
 
+    /**
+     *
+     */
     @Override
     public int lastIndexOf(Object o) {
         for (int i = koko - 1; i >= 0; i--) {
@@ -204,6 +252,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         }
         return -1;
     }
+
 
     @Override
     public ListIterator<Object> listIterator() {

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 /**
  * Koordinaatiston muutoksiin liittyvät testit
+ *
  * @author kride
  */
 public class AnalysoijaTest {
@@ -67,5 +68,29 @@ public class AnalysoijaTest {
 
         int haluttu = 4;
         assertEquals(haluttu, Analysoija.muutaPitkaksi(1, 1, pieniKartta1[0].length));
+    }
+
+    @Test(timeout = 1000)
+    public void RGPKonvertteritoimiiPunaiseksi() {
+
+        int haluttu = 255;
+        Analysoija a = new Analysoija();
+        assertEquals(255, a.getRed(-1));
+    }
+
+    @Test(timeout = 1000)
+    public void RGPKonvertteritoimiiSiniseksi() {
+
+        int haluttu = 255;
+        Analysoija a = new Analysoija();
+        assertEquals(255, a.getBlue(-1));
+    }
+
+    @Test(timeout = 1000)
+    public void RGPKonvertteritoimiiVihreaksi() {
+
+        int haluttu = 255;
+        Analysoija a = new Analysoija();
+        assertEquals(255, a.getGreen(-1));
     }
 }
