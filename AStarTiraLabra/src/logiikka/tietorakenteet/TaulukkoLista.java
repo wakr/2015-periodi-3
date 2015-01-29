@@ -1,4 +1,3 @@
-
 package logiikka.tietorakenteet;
 
 import java.io.Serializable;
@@ -53,8 +52,8 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * Etsii taulukosta 
-     * 
+     * Etsii taulukosta
+     *
      * @param o Etsittävä objekti
      */
     @Override
@@ -70,6 +69,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
     /**
      * Iteraattori taulukkoa varten
+     *
      * @return Iteraattori
      */
     @Override
@@ -89,7 +89,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * @return  Syötetty data
+     * @return Syötetty data
      */
     @Override
     public Object[] toArray() {
@@ -102,7 +102,8 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * @param a tyyppitaulukko
+     *  @param a tyyppitaulukko
+     *
      * @return Taulukko samaatyyppia kuin annettu parametri
      */
     @Override
@@ -112,6 +113,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
     /**
      * Lisaa objektin taulukkoon
+     *
      * @param e Lisättävä objekti
      */
     @Override
@@ -163,6 +165,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
     /**
      * Palauttaa alkio kohdasta
+     *
      * @param index kohta taulussa
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      */
@@ -176,6 +179,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
     /**
      * Asettaa taulussa olevan objektin halutuksi ja palauttaa vanhan
+     *
      * @param index halutun indeksi
      * @param element korvaaja
      * @return korvattu
@@ -192,7 +196,8 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * Lisää kohtaan i, muttei palauta sitä 
+     * Lisää kohtaan i, muttei palauta sitä
+     *
      * @param index haluttu kohta
      * @param element korvaaja
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
@@ -211,6 +216,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
     /**
      * Poistaa halutusta indeksistä
+     *
      * @param index Haluttu indeksi
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      */
@@ -226,6 +232,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
     /**
      * Hakee halutun objektin indeksin taulusta
+     *
      * @param o Haluttu objekti
      */
     @Override
@@ -252,7 +259,6 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         }
         return -1;
     }
-
 
     @Override
     public ListIterator<Object> listIterator() {

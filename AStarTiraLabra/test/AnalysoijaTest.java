@@ -71,26 +71,26 @@ public class AnalysoijaTest {
     }
 
     @Test(timeout = 1000)
-    public void RGPKonvertteritoimiiPunaiseksi() {
+    public void RGBKonvertteritoimiiPunaiseksi() {
 
         int haluttu = 255;
         Analysoija a = new Analysoija();
-        assertEquals(255, a.getRed(-1));
+        assertEquals(haluttu, a.getRed(-1));
     }
 
     @Test(timeout = 1000)
-    public void RGPKonvertteritoimiiSiniseksi() {
+    public void RGBKonvertteritoimiiSiniseksi() {
 
         int haluttu = 255;
         Analysoija a = new Analysoija();
-        assertEquals(255, a.getBlue(-1));
+        assertEquals(haluttu, a.getBlue(-1));
     }
 
     @Test(timeout = 1000)
-    public void RGPKonvertteritoimiiVihreaksi() {
+    public void RGBKonvertteritoimiiVihreaksi() {
 
         int haluttu = 255;
         Analysoija a = new Analysoija();
-        assertEquals(255, a.getGreen(-1));
+        assertEquals(haluttu, a.getGreen(-1));
     }
 }

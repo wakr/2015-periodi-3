@@ -1,4 +1,3 @@
-
 package logiikka.tietorakenteet;
 
 import java.io.Serializable;
@@ -7,9 +6,11 @@ import java.util.Iterator;
 
 /**
  * PriorityQueue *Kesken*
+ *
+ *
  * @author kride
  */
-public class MinimiKeko extends AbstractQueue<Object> implements Serializable{
+public class MinimiKeko extends AbstractQueue<Object> implements Serializable {
 
     @Override
     public Iterator<Object> iterator() {
@@ -35,5 +36,5 @@ public class MinimiKeko extends AbstractQueue<Object> implements Serializable{
     public Object peek() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

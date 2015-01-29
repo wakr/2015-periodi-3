@@ -1,5 +1,4 @@
 
-
 import logiikka.Ymparistomuuttuja;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +9,7 @@ import static org.junit.Assert.*;
 
 /**
  * Verkon rakennukseen ja analysointiin liittyvät testit
+ *
  * @author kride
  */
 public class VerkonRakennusTest {
@@ -102,5 +102,6 @@ public class VerkonRakennusTest {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
         int[][] analysoitu = analysoija.analysoiKarttaArvoiksiMerkeista(AStarTest.leveaKartta, aStar);
+        assertEquals(Arrays.deepToString(haluttu), Arrays.deepToString(analysoitu));
     }
 }

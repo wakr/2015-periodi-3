@@ -1,4 +1,3 @@
-
 package logiikka.tietorakenteet;
 
 import java.util.Collection;
@@ -7,9 +6,10 @@ import java.util.Queue;
 
 /**
  * Kesken
+ *
  * @author kride
  */
-public class Jono implements Queue<Object>{
+public class Jono implements Queue<Object> {
 
     @Override
     public boolean add(Object e) {
@@ -100,5 +100,5 @@ public class Jono implements Queue<Object>{
     public void clear() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

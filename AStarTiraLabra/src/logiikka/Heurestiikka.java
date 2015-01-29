@@ -30,7 +30,6 @@ public class Heurestiikka {
         int dy = Math.abs(aloitusY - maaliY);
 
          return Ymparistomuuttuja.D.getArvo() * (dy +dx);
-        //return Ymparistomuuttuja.D.getArvo() * Math.max(dy, dx);
     }
 
     /**

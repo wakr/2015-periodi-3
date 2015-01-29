@@ -1,9 +1,9 @@
-
 package logiikka;
 
 /**
  * Solmujen avulla mallinnetaan verkko A*-algoritmissa. Prioriteetti määräytyy
  * heurestiikan mukaan.
+ *
  * @author kride
  * @see logiikka.AStar
  * @see logiikka.Heurestiikka
@@ -15,11 +15,11 @@ public class Solmu implements Comparable<Solmu> {
     public long etaisyysAlusta;
 
     /**
-     * @param paino Heurestinen arvo solmulle, joka toimii samalla solmun painona
+     * @param paino Heurestinen arvo solmulle, joka toimii samalla solmun
+     * painona
      * @param tunnus Koordinaatti yksiulotteisena
      * @param etaisyysAlusta Etäisyys lähtösolmusta
-    */
-    
+     */
     public Solmu(double paino, int tunnus, long etaisyysAlusta) {
         this.paino = paino;
         this.tunnus = tunnus;
@@ -59,12 +59,9 @@ public class Solmu implements Comparable<Solmu> {
         return true;
     }
 
-
     @Override
     public String toString() {
         return "Paino: " + paino + " tunnus: " + tunnus;
-     }
-    
-    
+    }
 
 }
