@@ -8,8 +8,8 @@ import util.Piste;
 
 /**
  * A*-algoritmi. Analysoi ja luo verkon jonkan jälkeen ajattaessa etsii
- * pienimmän polun A ja B pisteiden välille käyttäen Dijkstran algoritmin ideaa johon on
- * lisätty heurestiikka eli Manhattan etäisyys * TieBraker.
+ * pienimmän polun A ja B pisteiden välille käyttäen Dijkstran algoritmin ideaa
+ * johon on lisätty heurestiikka eli Manhattan etäisyys * TieBraker.
  *
  * @author kride
  * @see io.Tulostaja
@@ -158,6 +158,14 @@ public class AStar {
         this.maaliY = By;
     }
 
+    public Piste getMaaliPisteena() {
+        return new Piste(maaliX, maaliY);
+    }
+
+    public Piste getLahtoPisteena() {
+        return new Piste(lahtoX, lahtoY);
+    }
+
     public int getMaali() {
         return Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys);
     }
@@ -175,12 +183,12 @@ public class AStar {
      * muuttuu.
      */
     public void resetoiAlgoritmi() {
-        this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        this.openSet = new PriorityQueue<>();
-        this.analysoidut = new ArrayDeque<>();
-        polunKoordinaatit = new ArrayDeque<>();
+        this.openSet.clear();
+        this.analysoidut.clear();
+        this.polunKoordinaatit.clear();
+        alustaEtaisyydetAarettomiksi();
     }
 
     /**

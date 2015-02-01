@@ -2,6 +2,8 @@ package kayttoliittyma;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -12,6 +14,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
 import logiikka.AStar;
 import logiikka.Analysoija;
 import util.Kuva;
@@ -150,7 +154,8 @@ public class Ikkuna extends javax.swing.JFrame {
                 alkuPerainenKuva = ImageIO.read(kuvanAvaus.getSelectedFile());
                 karttaKuvana = new Kuva(kuva, jLabelKuva.getHeight(), jLabelKuva.getWidth());
                 jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
-
+                karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
+                aStar = new AStar(karttaKuvana.getRGPArvot());
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -163,45 +168,62 @@ public class Ikkuna extends javax.swing.JFrame {
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_jMenuPoistuActionPerformed
 
+    SwingWorker pathPainter = new SwingWorker() {
+
+        @Override
+        protected Object doInBackground() throws Exception {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        protected void done() {
+          
+            super.done(); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+        
+    };
+
     private void jMenuAStarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAStarActionPerformed
 
-        karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
+        
+        
+        
+        ajaAStarAlgoritmi();
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        piirraPolkuKarttaan();
 
-            @Override
-            public void run() {
-                ajaAStarAlgoritmi();
-
-            }
-        });
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                piirraPolkuKarttaan();
-
-            }
-        });
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                liikutaKohtiMaaliin();
-
-            }
-        });
-
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                liikutaKohtiMaaliin();
+//
+//            }
+//
+//        });
 
     }//GEN-LAST:event_jMenuAStarActionPerformed
 
     private void jLabelPolkuMaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseClicked
-        if (alkuPerainenKuva != null) {
+//        if (alkuPerainenKuva != null) {
+//            int[] muutetutKoordinaatit = muutaKoordinaatitPitkasta(evt.getY(), evt.getX());
+//            karttaKuvana.getBufferoituKuva().setRGB(muutetutKoordinaatit[1], muutetutKoordinaatit[0], Color.BLACK.getRGB());
+//            karttaKuvana.setKuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
+//            jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
+//        }
+
+        if (alkuPerainenKuva != null && aStar != null) {
             int[] muutetutKoordinaatit = muutaKoordinaatitPitkasta(evt.getY(), evt.getX());
-            karttaKuvana.getBufferoituKuva().setRGB(muutetutKoordinaatit[1], muutetutKoordinaatit[0], Color.BLACK.getRGB());
+            karttaKuvana.getBufferoituKuva().setRGB(muutetutKoordinaatit[1], muutetutKoordinaatit[0], Color.RED.getRGB());
+            karttaKuvana.getBufferoituKuva().setRGB(aStar.getMaaliPisteena().getX(), aStar.getMaaliPisteena().getY(), Color.WHITE.getRGB());
+            aStar.asetaMaali(muutetutKoordinaatit[1], muutetutKoordinaatit[0]);
             karttaKuvana.setKuva(karttaKuvana.getBufferoituKuva(), jLabelKuva.getHeight(), jLabelKuva.getWidth());
             jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
+            aStar.resetoiAlgoritmi();
+
         }
+
 
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
 
@@ -214,18 +236,23 @@ public class Ikkuna extends javax.swing.JFrame {
     /**
      * Liikuttaa ukkoa kohti maalia *kesken*
      */
-    
     public void liikutaKohtiMaaliin() {
 
-        Thread.yield();
-
+        Graphics g = jLabelPolkuMask.getGraphics();
+        g.setColor(Color.GREEN);
         for (int saatuPolku1 : saatuPolku) {
             int x = Analysoija.getSarake(saatuPolku1, karttaKuvana.getLeveys());
             int y = Analysoija.getRivi(saatuPolku1, karttaKuvana.getLeveys());
 
             int[] muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
-
+            g.fillRect(muutetutKoordinaatit[1], muutetutKoordinaatit[0], 5, 5);
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Ikkuna.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        g.dispose();
     }
 
     /**
@@ -273,7 +300,7 @@ public class Ikkuna extends javax.swing.JFrame {
     }
 
     private void ajaAStarAlgoritmi() {
-        aStar = new AStar(karttaKuvana.getRGPArvot());
+        aStar.resetoiAlgoritmi();
         aStar.suoritaReitinHaku();
         aStar.luoPolku(aStar.getMaali());
         saatuPolku = aStar.getPolku();
@@ -281,15 +308,14 @@ public class Ikkuna extends javax.swing.JFrame {
 
     private void piirraPolkuKarttaan() {
         Graphics g = jLabelPolkuMask.getGraphics();
+        g.setColor(Color.MAGENTA);
 
         for (int kayty : aStar.getAnalysoidut()) {
             int x = Analysoija.getSarake(kayty, karttaKuvana.getLeveys());
             int y = Analysoija.getRivi(kayty, karttaKuvana.getLeveys());
             int[] muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
 
-            g.setColor(Color.MAGENTA);
             g.drawRect(muutetutKoordinaatit[1], muutetutKoordinaatit[0], 1, 1);
-
             try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {

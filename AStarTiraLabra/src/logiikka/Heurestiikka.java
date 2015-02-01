@@ -28,8 +28,8 @@ public class Heurestiikka {
 
         int dx = Math.abs(aloitusX - maaliX);
         int dy = Math.abs(aloitusY - maaliY);
-
-         return Ymparistomuuttuja.D.getArvo() * (dy +dx);
+        return Ymparistomuuttuja.D.getArvo() * Math.max(dy, dx);
+        //return Ymparistomuuttuja.D.getArvo() * (dy +dx);
     }
 
     /**
@@ -40,7 +40,6 @@ public class Heurestiikka {
      * @param lahto Lahdon koordinaatti
      * @return Etäisyyden suhteen avulla
      */
-   
     public static double lisaaTiebraker(Piste aloitus, Piste maali, Piste lahto) {
         double dx1 = aloitus.getX() - maali.getX();
         double dy1 = aloitus.getY() - maali.getY();
