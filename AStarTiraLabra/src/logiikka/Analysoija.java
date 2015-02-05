@@ -39,6 +39,15 @@ public class Analysoija {
         return arvoTaulu;
     }
 
+    /**
+     * Analysoi annetun kartan jokaisen arvon palauttaen uuden kartan, joka
+     * sisältää arvot kaksiulotteisessa taulukossa.
+     *
+     * @param karttaRGB Annettava kartta väreinä
+     * @param aStar {@link logiikka.AStar} luokan ilmentymä jonka avulla
+     * asetetaan maali ja lähtö
+     * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
+     */
     public int[][] analysoiKarttaArvoiksiVareista(int[][] karttaRGB, AStar aStar) {
         this.aStar = aStar;
         int[][] arvoTaulu = new int[karttaRGB.length][karttaRGB[0].length];

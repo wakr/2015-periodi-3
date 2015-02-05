@@ -38,14 +38,20 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
     private void kasvataKokoa() {
         kapasiteetti *= 2;
-        Arrays.copyOf(alkiot, kapasiteetti);
+        alkiot = Arrays.copyOf(alkiot, kapasiteetti);
     }
 
+    /**
+     * Palauttaa taulukon koon
+     */
     @Override
     public int size() {
         return koko;
     }
 
+    /**
+     * Palauttaa onko taulukko tyhjä
+     */
     @Override
     public boolean isEmpty() {
         return koko == 0;
@@ -96,6 +102,9 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         Object[] palautettava = new Object[koko];
 
         for (int i = 0; i < koko; i++) {
+            if (alkiot[i] == null) {
+                continue;
+            }
             palautettava[i] = alkiot[i];
         }
         return palautettava;
@@ -108,7 +117,12 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
      */
     @Override
     public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object[] palautettava = new Object[koko];
+
+        for (int i = 0; i < koko; i++) {
+            palautettava[i] = alkiot[i];
+        }
+        return (T[]) palautettava;
     }
 
     /**
@@ -161,6 +175,7 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     @Override
     public void clear() {
         alkiot = new Object[koko];
+        koko = 0;
     }
 
     /**
@@ -207,11 +222,9 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
         }
-        if (index == 0) {
 
-        } else {
+        alkiot[index] = element;
 
-        }
     }
 
     /**
@@ -319,6 +332,11 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     @Override
     public List<Object> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(alkiot);
     }
 
 }

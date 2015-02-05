@@ -1,7 +1,10 @@
 package main;
 
 import io.Tulostaja;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.TreeSet;
 import kayttoliittyma.Ikkuna;
 import logiikka.AStar;
 
@@ -58,13 +61,14 @@ public class Main {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Ikkuna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        // </editor-fold>
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Ikkuna().setVisible(true);
             }
         });
+
     }
 
 }

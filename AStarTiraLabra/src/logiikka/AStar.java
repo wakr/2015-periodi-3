@@ -148,32 +148,70 @@ public class AStar {
         }
     }
 
+    /**
+     * Asettaa A*-algoritmin lähdön koordinaatin
+     *
+     * @param Ax x-koordinaatti
+     * @param Ay y-koordinaatti
+     */
     public void asetaLahto(int Ax, int Ay) {
         this.lahtoX = Ax;
         this.lahtoY = Ay;
     }
 
+    /**
+     * Asettaa A*-algoritmin maalin koordinaatin
+     *
+     * @param Bx x-koordinaatti
+     * @param By y-koordinaatti
+     */
     public void asetaMaali(int Bx, int By) {
         this.maaliX = Bx;
         this.maaliY = By;
     }
 
+    /**
+     * Palauttaa maalikoordinaatin
+     *
+     * @return Piste-olio (x,y) muotoisena
+     */
     public Piste getMaaliPisteena() {
         return new Piste(maaliX, maaliY);
     }
 
+    /**
+     * Palauttaa lahtokoordinaatin
+     *
+     * @return Piste-olio (x,y) muotoisena
+     */
     public Piste getLahtoPisteena() {
         return new Piste(lahtoX, lahtoY);
     }
 
+    /**
+     * Palauttaa maalikoordinaatin pitkässä muodossa
+     *
+     * @return Maalikoordinaatti
+     */
     public int getMaali() {
         return Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys);
     }
 
+    /**
+     * Palauttaa lahtokoordinaatin pitkässä muodossa
+     *
+     * @return Lähtökoordinaatti
+     */
     public int getLahto() {
         return Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
     }
 
+    /**
+     * Palauttaa kaikki analysoidut solmut jonossa, jotta ne voidaan myöhemmin
+     * piirtää järjestyksessä
+     *
+     * @return Jono analysoituja koordinaatteja
+     */
     public Queue<Integer> getAnalysoidut() {
         return this.analysoidut;
     }
@@ -189,6 +227,17 @@ public class AStar {
         this.analysoidut.clear();
         this.polunKoordinaatit.clear();
         alustaEtaisyydetAarettomiksi();
+    }
+
+    private void alustaEtaisyydetAarettomiksi() {
+        for (int i = 0; i < etaisyysArviotAlkuun.length; i++) {
+            etaisyysArviotAlkuun[i] = Ymparistomuuttuja.INF.getArvo();
+        }
+
+        for (int i = 0; i < polku.length; i++) {
+            polku[i] = Ymparistomuuttuja.INF.getArvo();
+
+        }
     }
 
     /**
@@ -228,6 +277,11 @@ public class AStar {
         }
     }
 
+    /**
+     * Luodaan verkko niin, että jokaiseen viereiseen solmuun kartassa on
+     * yhteys. Käytännössä tämä tarkoittaa, että myös esteisiin on yhteys, mutta
+     * INF-muuttuja estää suuruudellaan sen läpikäynnin.
+     */
     private void luoVerkkoChar() {
         verkko = new ArrayList[kartanKorkeus * kartanLeveys];
 
@@ -263,6 +317,12 @@ public class AStar {
         return verkko[solmu];
     }
 
+    /**
+     * Palauttaa polun koordinaatit jonossa, jotta ne voidaan piirtää myöhemmin
+     * 
+     * @return Polun koordinaatit jonossa
+     */
+    
     public Queue<Integer> getPolku() {
         return polunKoordinaatit;
     }
@@ -273,17 +333,6 @@ public class AStar {
 
     public int[][] getRGBKartta() {
         return RGBKartta;
-    }
-
-    private void alustaEtaisyydetAarettomiksi() {
-        for (int i = 0; i < etaisyysArviotAlkuun.length; i++) {
-            etaisyysArviotAlkuun[i] = Ymparistomuuttuja.INF.getArvo();
-        }
-
-        for (int i = 0; i < polku.length; i++) {
-            polku[i] = Ymparistomuuttuja.INF.getArvo();
-
-        }
     }
 
     /**

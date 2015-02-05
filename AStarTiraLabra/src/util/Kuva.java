@@ -18,6 +18,11 @@ public class Kuva {
     private BufferedImage bufferoituKuva;
     private int[][] rgb;
 
+    /**
+     * @param bufKuva Kuva bufferoituna
+     * @param skaalattuKorkeus skaalatun kuvan korkeus
+     * @param skaalattuLeveys skaalatun kuvan leveys
+     */
     public Kuva(BufferedImage bufKuva, int skaalattuKorkeus, int skaalattuLeveys) {
         this.bufferoituKuva = bufKuva;
         this.kuva = bufferoituKuva.getScaledInstance(skaalattuLeveys, skaalattuKorkeus, Image.SCALE_SMOOTH);
@@ -50,9 +55,9 @@ public class Kuva {
 
     /**
      * Muuttaa kuvan RPG-esitykseen
+     *
      * @param image kartta kuvana
      */
-    
     public void konvertoi2DTaulukkoonRPGArvoina(BufferedImage image) {
 
         final byte[] pikselit = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
