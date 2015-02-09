@@ -28,7 +28,9 @@ public class Heurestiikka {
 
         int dx = Math.abs(aloitusX - maaliX);
         int dy = Math.abs(aloitusY - maaliY);
-        return Ymparistomuuttuja.D.getArvo() * Math.max(dy, dx);
+        return Ymparistomuuttuja.D.getArvo() * (dx + dy)
+                + (Ymparistomuuttuja.D2.getArvo() - 2 * Ymparistomuuttuja.D.getArvo())
+                * Math.min(dx, dy);
     }
 
     /**
@@ -45,7 +47,7 @@ public class Heurestiikka {
         double dx2 = lahto.getX() - maali.getX();
         double dy2 = lahto.getY() - maali.getY();
         double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
-        return cross * 0.001;
+        return cross * 0.0001;
     }
 
 }

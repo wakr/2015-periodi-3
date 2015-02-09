@@ -10,6 +10,7 @@ import java.util.Queue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 import logiikka.AStar;
 import logiikka.Analysoija;
@@ -27,13 +28,10 @@ public class Ikkuna extends javax.swing.JFrame {
     private Kuva karttaKuvana;
     private AStar aStar;
     private BufferedImage alkuPerainenKuva;
-    private Queue<Integer> saatuPolku;
     private SwingWorker pathPainter;
-    private int solmuJotaKaydaan;
 
     public Ikkuna() {
         initComponents();
-        solmuJotaKaydaan = 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -159,7 +157,8 @@ public class Ikkuna extends javax.swing.JFrame {
                 karttaKuvana = new Kuva(kuva, jLabelKuva.getHeight(), jLabelKuva.getWidth());
                 jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
                 karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
-                aStar = new AStar(karttaKuvana.getRGPArvot());
+                Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
+                aStar = new AStar(karttaKuvana.getRGPArvot(), p);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -176,7 +175,6 @@ public class Ikkuna extends javax.swing.JFrame {
     private void jMenuAStarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAStarActionPerformed
 
         luoTaustaProsessiPiirtamiselle();
-        ajaAStarAlgoritmi();
         pathPainter.execute();
 
 
@@ -192,7 +190,7 @@ public class Ikkuna extends javax.swing.JFrame {
 
             @Override
             protected Void doInBackground() throws Exception {
-                piirraPolkuKarttaan();
+                ajaAStarAlgoritmi();
                 return null;
             }
 
@@ -203,11 +201,12 @@ public class Ikkuna extends javax.swing.JFrame {
 
         if (alkuPerainenKuva != null && aStar != null && pathPainter != null) {
             pathPainter.cancel(false);
+            aStar.keskeyta();
+            aStar.ilmoitaMaalinMuutoksesta();
             aStar.resetoiAlgoritmi();
             muutaMaaliJaLahtoKlikkauksella(evt);
             luoTaustaProsessiPiirtamiselle();
             jLabelKuva.repaint();
-            ajaAStarAlgoritmi();
             pathPainter.execute();
         }
 
@@ -218,8 +217,8 @@ public class Ikkuna extends javax.swing.JFrame {
         karttaKuvana.getBufferoituKuva().setRGB(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), Color.RED.getRGB());
         karttaKuvana.getBufferoituKuva().setRGB(aStar.getMaaliPisteena().getX(), aStar.getMaaliPisteena().getY(), Color.WHITE.getRGB());
         aStar.asetaMaali(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY());
-        int tY = Analysoija.getRivi(solmuJotaKaydaan, alkuPerainenKuva.getWidth());
-        int tX = Analysoija.getSarake(solmuJotaKaydaan, alkuPerainenKuva.getWidth());
+        int tY = Analysoija.getRivi(aStar.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
+        int tX = Analysoija.getSarake(aStar.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
         aStar.asetaLahto(tX, tY);
     }
 
@@ -281,43 +280,6 @@ public class Ikkuna extends javax.swing.JFrame {
     private void ajaAStarAlgoritmi() {
         aStar.resetoiAlgoritmi();
         aStar.suoritaReitinHaku();
-        aStar.luoPolku(aStar.getMaali());
-        saatuPolku = aStar.getPolku();
-    }
-
-    private void piirraPolkuKarttaan() {
-        Graphics2D g = (Graphics2D) jLabelPolkuMask.getGraphics();
-        g.setColor(Color.MAGENTA);
-
-        for (int kayty : aStar.getAnalysoidut()) {
-            solmuJotaKaydaan = kayty;
-            int x = Analysoija.getSarake(kayty, karttaKuvana.getLeveys());
-            int y = Analysoija.getRivi(kayty, karttaKuvana.getLeveys());
-            Piste muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
-
-            g.drawRect(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), 1, 1);
-
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        g.setColor(Color.CYAN);
-
-        for (int saatuPolku1 : saatuPolku) {
-            int x = Analysoija.getSarake(saatuPolku1, karttaKuvana.getLeveys());
-            int y = Analysoija.getRivi(saatuPolku1, karttaKuvana.getLeveys());
-
-            Piste muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
-            g.drawRect(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), 5, 5);
-            try {
-                Thread.sleep(0);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        g.dispose();
     }
 
 

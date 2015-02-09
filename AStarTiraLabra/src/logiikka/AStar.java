@@ -1,9 +1,11 @@
 package logiikka;
 
+import java.awt.Color;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import kayttoliittyma.Piirtaja;
 import util.Piste;
 
 /**
@@ -31,46 +33,56 @@ public class AStar {
     private int kartanLeveys, kartanKorkeus, lahtoY, lahtoX, maaliY, maaliX;
     private Analysoija analysoija;
     private Queue<Integer> analysoidut, polunKoordinaatit;
+    private boolean keskeyta;
+    private int solmuNyt;
+
+    // Piirto
+    Piirtaja karttaPiirtaja;
 
     /**
      * @param merkkiKartta Kartta char-merkkeinä
      */
     public AStar(char[][] merkkiKartta) {
+        this();
         this.merkkiKartta = merkkiKartta;
-        alustaAloitusKoordinaatit();
-        this.analysoija = new Analysoija();
         this.karttaArvoina = analysoija.analysoiKarttaArvoiksiMerkeista(merkkiKartta, this);
         this.kartanKorkeus = merkkiKartta.length;
         this.kartanLeveys = merkkiKartta[0].length;
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        this.openSet = new PriorityQueue<>();
         luoVerkkoChar();
         alustaEtaisyydetAarettomiksi();
-        this.analysoidut = new ArrayDeque<>();
-        polunKoordinaatit = new ArrayDeque<>();
+
     }
 
     /**
+     * @param karttaPiirtaja Luokka jonka luodaan Ikkuna-luokassa ja tuodaan
+     * A*:n käyttöön
      * @param karttaRGB Kartta, joka on muokattu RGB-väreihin ts. kuva
      */
-    public AStar(int[][] karttaRGB) {
+    public AStar(int[][] karttaRGB, Piirtaja karttaPiirtaja) {
+        this();
+        this.karttaPiirtaja = karttaPiirtaja;
         this.RGBKartta = karttaRGB;
-        this.analysoidut = new ArrayDeque<>();
-        alustaAloitusKoordinaatit();
-        this.analysoija = new Analysoija();
         this.karttaArvoina = analysoija.analysoiKarttaArvoiksiVareista(karttaRGB, this);
         this.kartanKorkeus = RGBKartta.length;
         this.kartanLeveys = RGBKartta[0].length;
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        this.openSet = new PriorityQueue<>();
         luoVerkkoRBG();
         alustaEtaisyydetAarettomiksi();
+    }
+
+    public AStar() {
+        alustaAloitusKoordinaatit();
         this.analysoidut = new ArrayDeque<>();
-        polunKoordinaatit = new ArrayDeque<>();
+        this.analysoija = new Analysoija();
+        this.openSet = new PriorityQueue<>();
+        this.polunKoordinaatit = new ArrayDeque<>();
+        keskeyta = false;
+        solmuNyt = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
     }
 
     private void alustaAloitusKoordinaatit() {
@@ -99,10 +111,11 @@ public class AStar {
             int tunnus = pienin.tunnus;
             int tY = Analysoija.getRivi(tunnus, kartanLeveys);
             int tX = Analysoija.getSarake(tunnus, kartanLeveys);
-
+            merkkaaKarttaan(Color.MAGENTA, tunnus);
+            solmuNyt = tunnus;
             lopullisetPituudet[tunnus] = true;
 
-            if (tY == maaliY && tX == maaliX) {
+            if ((tY == maaliY && tX == maaliX) || keskeyta) {
                 break;
             }
 
@@ -129,6 +142,7 @@ public class AStar {
                                     new Piste(lahtoX, lahtoY));
                     polku[vierusSolmu] = tunnus;
                     openSet.add(new Solmu(prioriteetti, vierusSolmu, uusiEtaisyys));
+                    merkkaaKarttaan(Color.DARK_GRAY, vierusSolmu);
                 }
             }
 
@@ -138,6 +152,14 @@ public class AStar {
 
     }
 
+    public int getNykyinenSolmu() {
+        return solmuNyt;
+    }
+
+    public void keskeyta() {
+        keskeyta = true;
+    }
+
     private void merkkaaKaydytKarttaan(char merkkaaja) {
         if (merkkiKartta != null) {
             for (int koordinaatti : analysoidut) {
@@ -145,6 +167,12 @@ public class AStar {
                 int kY = Analysoija.getRivi(koordinaatti, kartanLeveys);
                 merkkiKartta[kY][kX] = merkkaaja;
             }
+        }
+    }
+
+    private void merkkaaKarttaan(Color vari, int koordinaatti) {
+        if (karttaPiirtaja != null) {
+            karttaPiirtaja.piirraKarttaan(vari, koordinaatti);
         }
     }
 
@@ -168,6 +196,10 @@ public class AStar {
     public void asetaMaali(int Bx, int By) {
         this.maaliX = Bx;
         this.maaliY = By;
+    }
+
+    public void ilmoitaMaalinMuutoksesta() {
+        System.out.println("to be doned");
     }
 
     /**
@@ -227,6 +259,7 @@ public class AStar {
         this.analysoidut.clear();
         this.polunKoordinaatit.clear();
         alustaEtaisyydetAarettomiksi();
+        keskeyta = false;
     }
 
     private void alustaEtaisyydetAarettomiksi() {
@@ -319,10 +352,9 @@ public class AStar {
 
     /**
      * Palauttaa polun koordinaatit jonossa, jotta ne voidaan piirtää myöhemmin
-     * 
+     *
      * @return Polun koordinaatit jonossa
      */
-    
     public Queue<Integer> getPolku() {
         return polunKoordinaatit;
     }

@@ -21,6 +21,10 @@ public enum Ymparistomuuttuja {
      */
     D(2),
     /**
+     * Keskimääräinen kustannus liikkuessa
+     */
+    D2(2),
+    /**
      * "Maksuttoman" ruudun paino
      */
     NormaaliRuutu(1),
