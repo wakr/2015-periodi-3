@@ -8,54 +8,74 @@ import logiikka.Analysoija;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  * Reitinhakuihin liittyvät testit
+ *
  * @author kride
  */
 public class AStarTest {
 
-    static char[][] pieninKartta = new char[][]{
-        {'A', '.'},
-        {'.', 'B'}};
-    static char[][] pieninKarttaEsteella = new char[][]{
-        {'A', 'X'},
-        {'.', 'B'}};
-    static char[][] pieniKartta = new char[][]{
-        {'A', 'X', 'X', 'X', 'B'},
-        {'.', 'X', 'X', 'X', '.'},
-        {'.', 'X', 'X', 'X', '.'},
-        {'.', '.', '.', '.', '.'}};
-    static char[][] vapaaPieniKartta = new char[][]{
-        {'A', 'X', 'X', 'X', 'B'},
-        {'.', '.', '.', '.', '.'},
-        {'.', 'X', 'X', 'X', '.'},
-        {'.', '.', '.', '.', '.'}};
-    static char[][] esteKartta = new char[][]{
-        {'A', 'X', 'X', 'X', 'B'},
-        {'.', '.', 'X', '.', '.'},
-        {'.', 'X', '.', 'X', '.'},
-        {'.', '.', 'X', 'X', '.'},
-        {'.', '.', 'X', '.', '.'},
-        {'.', '.', 'X', '.', '.'},
-        {'.', '.', '.', '.', '.'}};
-    static char[][] esteKartta2 = new char[][]{
-        {'A', '.', '.', '.', '.'},
-        {'.', '.', '.', 'X', '.'},
-        {'.', '.', '.', 'X', '.'},
-        {'.', '.', 'X', 'X', '.'},
-        {'.', '.', 'X', 'B', '.'},
-        {'.', '.', 'X', '.', '.'},
-        {'.', '.', '.', '.', '.'}};
-    static char[][] leveaKartta = new char[][]{
-        {'.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', 'B'},
-        {'A', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'}};
-    static char[][] miniKartta = new char[][]{
-        {'A', 'X', 'B'},
-        {'.', '.', '.'}};
-    static char[][] serpettiiniKentta = new char[][]{
-        {'.', 'X', '.', '.', '.', 'X', '.', '.', '.', 'X', 'B'},
-        {'A', '.', '.', 'X', '.', '.', '.', 'X', '.', '.', '.'}};
+    static char[][] pieninKartta, pieninKarttaEsteella, pieniKartta, vapaaPieniKartta,
+            esteKartta, esteKartta2, leveaKartta, miniKartta, serpettiiniKentta, jatti;
+
+    @Before
+    public void alustaKartat() {
+        pieninKartta = new char[][]{
+            {'A', '.'},
+            {'.', 'B'}};
+        pieninKarttaEsteella = new char[][]{
+            {'A', 'X'},
+            {'.', 'B'}};
+        pieniKartta = new char[][]{
+            {'A', 'X', 'X', 'X', 'B'},
+            {'.', 'X', 'X', 'X', '.'},
+            {'.', 'X', 'X', 'X', '.'},
+            {'.', '.', '.', '.', '.'}};
+        vapaaPieniKartta = new char[][]{
+            {'A', 'X', 'X', 'X', 'B'},
+            {'.', '.', '.', '.', '.'},
+            {'.', 'X', 'X', 'X', '.'},
+            {'.', '.', '.', '.', '.'}};
+        esteKartta = new char[][]{
+            {'A', 'X', 'X', 'X', 'B'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', 'X', '.', 'X', '.'},
+            {'.', '.', 'X', 'X', '.'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', '.', '.', '.', '.'}};
+        esteKartta2 = new char[][]{
+            {'A', '.', '.', '.', '.'},
+            {'.', '.', '.', 'X', '.'},
+            {'.', '.', '.', 'X', '.'},
+            {'.', '.', 'X', 'X', '.'},
+            {'.', '.', 'X', 'B', '.'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', '.', '.', '.', '.'}};
+        leveaKartta = new char[][]{
+            {'.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', 'B'},
+            {'A', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'}};
+        miniKartta = new char[][]{
+            {'A', 'X', 'B'},
+            {'.', '.', '.'}};
+        serpettiiniKentta = new char[][]{
+            {'.', 'X', '.', '.', '.', 'X', '.', '.', '.', 'X', 'B'},
+            {'A', '.', '.', 'X', '.', '.', '.', 'X', '.', '.', '.'}};
+
+        jatti = new char[100][1000];
+        for (int i = 0; i < jatti.length; i++) {
+            for (int j = 0; j < jatti[0].length; j++) {
+                jatti[i][j] = '.';
+
+            }
+
+        }
+        jatti[0][0] = 'A';
+        jatti[jatti.length - 1][jatti[0].length - 1] = 'B';
+
+    }
 
     private AStar aStar;
 
@@ -82,6 +102,14 @@ public class AStarTest {
         aStar.polku(10);
         List<Integer> haluttu = Arrays.asList(11, 12, 13, 2, 3, 4, 15, 16, 17, 6, 7, 8, 19, 20, 21, 10);
         assertEquals(haluttu.toString(), aStar.polku(10, new ArrayList<Integer>()).toString());
+    }
+
+    @Test(timeout = 1000)
+    public void jattiKartassaHakuNOpeaa() {
+
+        aStar = new AStar(jatti);
+        aStar.suoritaReitinHaku();
+        assertEquals((jatti[0].length + jatti.length) - 2, aStar.getPituusAlkuun(aStar.getMaali()));
     }
 
     @Test(timeout = 1000)
@@ -118,6 +146,27 @@ public class AStarTest {
         int lyhyimmanPituus = 10;
         ArrayList<Integer> lyhinPolku = aStar.polku(aStar.getMaali(), new ArrayList<Integer>());
         assertEquals(lyhyimmanPituus, lyhinPolku.size());
+    }
+
+    @Test
+    public void etaisyydetAlkuunOvatOikeatPienella() {
+        aStar = new AStar(pieninKartta);
+        aStar.suoritaReitinHaku();
+        assertEquals(2, aStar.getPituusAlkuun(aStar.getMaali()));
+    }
+
+    @Test
+    public void etaisyydetAlkuunOvatOikeatEsteella() {
+        aStar = new AStar(esteKartta);
+        aStar.suoritaReitinHaku();
+        assertEquals(16, aStar.getPituusAlkuun(aStar.getMaali()));
+    }
+
+    @Test
+    public void etaisyydetAlkuunOvatOikeatSerpettiiniKentalla() {
+        aStar = new AStar(serpettiiniKentta);
+        aStar.suoritaReitinHaku();
+        assertEquals(15, aStar.getPituusAlkuun(aStar.getMaali()));
     }
 
 }

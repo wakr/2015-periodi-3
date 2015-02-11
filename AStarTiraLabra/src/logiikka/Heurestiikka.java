@@ -24,10 +24,10 @@ public class Heurestiikka {
      * @param maaliY Maalin y-koordinaatti
      * @return Palauttaa Manhattan etäisyyden
      */
-    public static int laskeHeurestinenArvo(int aloitusX, int aloitusY, int maaliX, int maaliY) {
-
-        int dx = Math.abs(aloitusX - maaliX);
-        int dy = Math.abs(aloitusY - maaliY);
+    //public static int laskeHeurestinenArvo(int aloitusX, int aloitusY, int maaliX, int maaliY) {
+       public static int laskeHeurestinenArvo(Piste aloitus, Piste maali){
+        int dx = Math.abs(aloitus.getX() - maali.getX());
+        int dy = Math.abs(aloitus.getY() - maali.getY());
         return Ymparistomuuttuja.D.getArvo() * (dx + dy)
                 + (Ymparistomuuttuja.D2.getArvo() - 2 * Ymparistomuuttuja.D.getArvo())
                 * Math.min(dx, dy);

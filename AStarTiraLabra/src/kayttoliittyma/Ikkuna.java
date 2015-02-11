@@ -40,7 +40,7 @@ public class Ikkuna extends javax.swing.JFrame {
 
         jLabelPolkuMask = new javax.swing.JLabel();
         jLabelKuva = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        jAStarProgressi = new javax.swing.JProgressBar();
         jYlaMenu = new javax.swing.JMenuBar();
         jTiedostoMenu = new javax.swing.JMenu();
         jMenuAvaa = new javax.swing.JMenuItem();
@@ -121,7 +121,7 @@ public class Ikkuna extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(358, 358, 358)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jAStarProgressi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -133,7 +133,7 @@ public class Ikkuna extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jAStarProgressi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jLabelKuva, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -159,6 +159,7 @@ public class Ikkuna extends javax.swing.JFrame {
                 karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
                 Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
                 aStar = new AStar(karttaKuvana.getRGPArvot(), p);
+                jAStarProgressi.setValue(0);
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -191,6 +192,7 @@ public class Ikkuna extends javax.swing.JFrame {
             @Override
             protected Void doInBackground() throws Exception {
                 ajaAStarAlgoritmi();
+                jAStarProgressi.setValue(100);
                 return null;
             }
 
@@ -199,15 +201,16 @@ public class Ikkuna extends javax.swing.JFrame {
 
     private void jLabelPolkuMaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseClicked
 
-        if (alkuPerainenKuva != null && aStar != null && pathPainter != null) {
-            pathPainter.cancel(false);
-            aStar.keskeyta();
-            aStar.ilmoitaMaalinMuutoksesta();
-            aStar.resetoiAlgoritmi();
+        if (alkuPerainenKuva != null && aStar != null && pathPainter != null && jAStarProgressi.getValue() != 100) {
+            // pathPainter.cancel(false);
+            //aStar.keskeyta();
+
+//            aStar.resetoiAlgoritmi();
             muutaMaaliJaLahtoKlikkauksella(evt);
-            luoTaustaProsessiPiirtamiselle();
+            aStar.ilmoitaMaalinMuutoksesta();
+//            luoTaustaProsessiPiirtamiselle();
             jLabelKuva.repaint();
-            pathPainter.execute();
+//            pathPainter.execute();
         }
 
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
@@ -224,13 +227,22 @@ public class Ikkuna extends javax.swing.JFrame {
 
     private void jMenuResetoiKuvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuResetoiKuvaActionPerformed
 
+        jAStarProgressi.setValue(0);
+        pathPainter.cancel(false);
+        aStar.keskeyta();
         jLabelPolkuMask.repaint();
+        Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
+        aStar = new AStar(karttaKuvana.getRGPArvot(), p);
 
     }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
     private void jLabelPolkuMaskMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseMoved
-
-        // ToBe-Added
+//        if (alkuPerainenKuva != null && aStar != null && pathPainter != null && jAStarProgressi.getValue() != 100) {
+//            muutaMaaliJaLahtoKlikkauksella(evt);
+//            aStar.ilmoitaMaalinMuutoksesta();
+//            jLabelKuva.repaint();
+//            // ToBe-Added
+//        }
     }//GEN-LAST:event_jLabelPolkuMaskMouseMoved
 
     /**
@@ -284,6 +296,7 @@ public class Ikkuna extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar jAStarProgressi;
     private javax.swing.JMenu jAsetusMenu;
     private javax.swing.JLabel jLabelKuva;
     private javax.swing.JLabel jLabelPolkuMask;
@@ -291,7 +304,6 @@ public class Ikkuna extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuAvaa;
     private javax.swing.JMenuItem jMenuPoistu;
     private javax.swing.JMenuItem jMenuResetoiKuva;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenu jTiedostoMenu;

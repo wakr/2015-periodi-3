@@ -3,6 +3,7 @@ package logiikka;
 import java.awt.Color;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import kayttoliittyma.Piirtaja;
@@ -22,9 +23,8 @@ import util.Piste;
  */
 public class AStar {
 
-    private int[][] RGBKartta;
+    private int[][] RGBKartta, karttaArvoina;
     private char[][] merkkiKartta;
-    private int[][] karttaArvoina;
     private long[] etaisyysArviotAlkuun;
     private int[] polku;
     private boolean[] lopullisetPituudet;
@@ -124,6 +124,8 @@ public class AStar {
                 int vierusSolmu = verkko[tunnus].get(i);
                 int vierusSolmunY = Analysoija.getRivi(vierusSolmu, kartanLeveys);
                 int vierusSolmunX = Analysoija.getSarake(vierusSolmu, kartanLeveys);
+                Piste vSP = new Piste(vierusSolmunX, vierusSolmunY);
+                Piste mSP = new Piste(maaliX, maaliY);
 
                 if (lopullisetPituudet[vierusSolmu]) {
                     continue;
@@ -135,9 +137,9 @@ public class AStar {
                 if (uusiEtaisyys < vanhaEtaisyys) {
                     analysoidut.add(vierusSolmu);
                     etaisyysArviotAlkuun[vierusSolmu] = uusiEtaisyys;
-                    double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(vierusSolmunX, vierusSolmunY, maaliX, maaliY)
+                    double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(vSP, mSP)
                             + Heurestiikka.lisaaTiebraker(
-                                    new Piste(vierusSolmunX, vierusSolmunY),
+                                    vSP,
                                     new Piste(maaliX, maaliY),
                                     new Piste(lahtoX, lahtoY));
                     polku[vierusSolmu] = tunnus;
@@ -199,7 +201,14 @@ public class AStar {
     }
 
     public void ilmoitaMaalinMuutoksesta() {
-        System.out.println("to be doned");
+        System.err.println("to be doned");
+        //  System.out.println(openSet);
+        openSet.clear();
+        this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
+        int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
+        etaisyysArviotAlkuun[aloitus] = 0;
+        alustaEtaisyydetAarettomiksi();
+        openSet.add(new Solmu(0, aloitus, 0));
     }
 
     /**
@@ -338,7 +347,7 @@ public class AStar {
                     }
                     int tarkasteltava = (i * kartanLeveys) + j;
                     int naapuri = (uusiY * kartanLeveys) + uusiX;
-                    verkko[tarkasteltava].add(naapuri);
+                    verkko[tarkasteltava].add(naapuri); //aiheuttaa hitautta
 
                 }
 
@@ -348,6 +357,10 @@ public class AStar {
 
     public ArrayList<Integer> getSolmunNaapurit(int solmu) {
         return verkko[solmu];
+    }
+
+    public long getPituusAlkuun(int tunnus) {
+        return etaisyysArviotAlkuun[tunnus];
     }
 
     /**

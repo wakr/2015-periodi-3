@@ -6,6 +6,7 @@ import logiikka.AStar;
 import logiikka.Analysoija;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  * Verkon rakennukseen ja analysointiin liittyvät testit
@@ -16,6 +17,52 @@ public class VerkonRakennusTest {
 
     private AStar aStar;
     private Analysoija analysoija;
+
+    @Before
+    public void alustaKartat() {
+        AStarTest.pieninKartta = new char[][]{
+            {'A', '.'},
+            {'.', 'B'}};
+        AStarTest.pieninKarttaEsteella = new char[][]{
+            {'A', 'X'},
+            {'.', 'B'}};
+        AStarTest.pieniKartta = new char[][]{
+            {'A', 'X', 'X', 'X', 'B'},
+            {'.', 'X', 'X', 'X', '.'},
+            {'.', 'X', 'X', 'X', '.'},
+            {'.', '.', '.', '.', '.'}};
+        AStarTest.vapaaPieniKartta = new char[][]{
+            {'A', 'X', 'X', 'X', 'B'},
+            {'.', '.', '.', '.', '.'},
+            {'.', 'X', 'X', 'X', '.'},
+            {'.', '.', '.', '.', '.'}};
+        AStarTest.esteKartta = new char[][]{
+            {'A', 'X', 'X', 'X', 'B'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', 'X', '.', 'X', '.'},
+            {'.', '.', 'X', 'X', '.'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', '.', '.', '.', '.'}};
+        AStarTest.esteKartta2 = new char[][]{
+            {'A', '.', '.', '.', '.'},
+            {'.', '.', '.', 'X', '.'},
+            {'.', '.', '.', 'X', '.'},
+            {'.', '.', 'X', 'X', '.'},
+            {'.', '.', 'X', 'B', '.'},
+            {'.', '.', 'X', '.', '.'},
+            {'.', '.', '.', '.', '.'}};
+        AStarTest.leveaKartta = new char[][]{
+            {'.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', 'B'},
+            {'A', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'}};
+        AStarTest.miniKartta = new char[][]{
+            {'A', 'X', 'B'},
+            {'.', '.', '.'}};
+        AStarTest.serpettiiniKentta = new char[][]{
+            {'.', 'X', '.', '.', '.', 'X', '.', '.', '.', 'X', 'B'},
+            {'A', '.', '.', 'X', '.', '.', '.', 'X', '.', '.', '.'}};
+
+    }
 
     @Test(timeout = 1000)
     public void testaaPienenKartanNaapuritLahdosta() {
