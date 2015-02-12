@@ -75,7 +75,7 @@ public class AStar {
         alustaEtaisyydetAarettomiksi();
     }
 
-    public AStar() {
+    private AStar() {
         alustaAloitusKoordinaatit();
         this.analysoidut = new ArrayDeque<>();
         this.analysoija = new Analysoija();
@@ -100,22 +100,19 @@ public class AStar {
      */
     public void suoritaReitinHaku() {
 
-        int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
-        etaisyysArviotAlkuun[aloitus] = 0;
-
-        openSet.add(new Solmu(0, aloitus, 0));
+        lisaaAloitusSolmu();
 
         while (!openSet.isEmpty()) {
 
             Solmu pienin = openSet.poll();
             int tunnus = pienin.tunnus;
-            int tY = Analysoija.getRivi(tunnus, kartanLeveys);
-            int tX = Analysoija.getSarake(tunnus, kartanLeveys);
+            int pieninY = Analysoija.getRivi(tunnus, kartanLeveys);
+            int pieninX = Analysoija.getSarake(tunnus, kartanLeveys);
             merkkaaKarttaan(Color.MAGENTA, tunnus);
             solmuNyt = tunnus;
             lopullisetPituudet[tunnus] = true;
 
-            if ((tY == maaliY && tX == maaliX) || keskeyta) {
+            if ((pieninY == maaliY && pieninX == maaliX) || keskeyta) {
                 break;
             }
 
@@ -154,28 +151,24 @@ public class AStar {
 
     }
 
+    private void lisaaAloitusSolmu() {
+        int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
+        etaisyysArviotAlkuun[aloitus] = 0;
+        openSet.add(new Solmu(0, aloitus, 0));
+    }
+
+    /**
+     * @return viimeksi analysoidun solmun 
+     */
     public int getNykyinenSolmu() {
         return solmuNyt;
     }
 
+    /**
+     * Keskeyttää A* algoritmin suorituksen
+     */
     public void keskeyta() {
         keskeyta = true;
-    }
-
-    private void merkkaaKaydytKarttaan(char merkkaaja) {
-        if (merkkiKartta != null) {
-            for (int koordinaatti : analysoidut) {
-                int kX = Analysoija.getSarake(koordinaatti, kartanLeveys);
-                int kY = Analysoija.getRivi(koordinaatti, kartanLeveys);
-                merkkiKartta[kY][kX] = merkkaaja;
-            }
-        }
-    }
-
-    private void merkkaaKarttaan(Color vari, int koordinaatti) {
-        if (karttaPiirtaja != null) {
-            karttaPiirtaja.piirraKarttaan(vari, koordinaatti);
-        }
     }
 
     /**
@@ -200,15 +193,15 @@ public class AStar {
         this.maaliY = By;
     }
 
+    /**
+     * Ilmoittaa A*-algoritmille, että maali on vaihtunut
+     * TO-DO: MT-AA*
+     */
     public void ilmoitaMaalinMuutoksesta() {
-        System.err.println("to be doned");
-        //  System.out.println(openSet);
         openSet.clear();
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
-        etaisyysArviotAlkuun[aloitus] = 0;
+        lisaaAloitusSolmu();
         alustaEtaisyydetAarettomiksi();
-        openSet.add(new Solmu(0, aloitus, 0));
     }
 
     /**
@@ -255,6 +248,42 @@ public class AStar {
      */
     public Queue<Integer> getAnalysoidut() {
         return this.analysoidut;
+    }
+
+    /**
+     * Palauttaa solmun kaikki naapurit
+     * @param solmu Haluttu solmu
+     * @return Lista naapureiden tunnuksista
+     */
+    public ArrayList<Integer> getSolmunNaapurit(int solmu) {
+        return verkko[solmu];
+    }
+
+    /**
+     * Palauttaa g-arvon solmulle.
+     * 
+     * @param tunnus Haluttu solmu
+     * @return Pituus lähdöstä haluttuun solmuun.
+     */
+    public long getPituusAlkuun(int tunnus) {
+        return etaisyysArviotAlkuun[tunnus];
+    }
+
+    /**
+     * Palauttaa polun koordinaatit jonossa, jotta ne voidaan piirtää myöhemmin
+     *
+     * @return Polun koordinaatit jonossa
+     */
+    public Queue<Integer> getPolku() {
+        return polunKoordinaatit;
+    }
+
+    public char[][] getMerkkiKartta() {
+        return merkkiKartta;
+    }
+
+    public int[][] getRGBKartta() {
+        return RGBKartta;
     }
 
     /**
@@ -355,31 +384,6 @@ public class AStar {
         }
     }
 
-    public ArrayList<Integer> getSolmunNaapurit(int solmu) {
-        return verkko[solmu];
-    }
-
-    public long getPituusAlkuun(int tunnus) {
-        return etaisyysArviotAlkuun[tunnus];
-    }
-
-    /**
-     * Palauttaa polun koordinaatit jonossa, jotta ne voidaan piirtää myöhemmin
-     *
-     * @return Polun koordinaatit jonossa
-     */
-    public Queue<Integer> getPolku() {
-        return polunKoordinaatit;
-    }
-
-    public char[][] getMerkkiKartta() {
-        return merkkiKartta;
-    }
-
-    public int[][] getRGBKartta() {
-        return RGBKartta;
-    }
-
     /**
      * Luo lyhyimmän polun karttaan.
      *
@@ -419,6 +423,22 @@ public class AStar {
             luoPolku(polku[s]);
         }
         polunKoordinaatit.add(s);
+    }
+
+    private void merkkaaKaydytKarttaan(char merkkaaja) {
+        if (merkkiKartta != null) {
+            for (int koordinaatti : analysoidut) {
+                int kX = Analysoija.getSarake(koordinaatti, kartanLeveys);
+                int kY = Analysoija.getRivi(koordinaatti, kartanLeveys);
+                merkkiKartta[kY][kX] = merkkaaja;
+            }
+        }
+    }
+
+    private void merkkaaKarttaan(Color vari, int koordinaatti) {
+        if (karttaPiirtaja != null) {
+            karttaPiirtaja.piirraKarttaan(vari, koordinaatti);
+        }
     }
 
 }

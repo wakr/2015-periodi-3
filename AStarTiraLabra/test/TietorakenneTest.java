@@ -1,4 +1,5 @@
 
+import logiikka.tietorakenteet.MinimiKeko;
 import logiikka.tietorakenteet.TaulukkoLista;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,10 +13,12 @@ import static org.junit.Assert.*;
 public class TietorakenneTest {
 
     TaulukkoLista omaLista;
+    MinimiKeko<Integer> minKeko;
 
     @Before
     public void setUp() {
         omaLista = new TaulukkoLista();
+        minKeko = new MinimiKeko<>();
     }
 
     @Test
@@ -67,6 +70,12 @@ public class TietorakenneTest {
         omaLista.add(5);
         omaLista.clear();
         assertEquals(0, omaLista.size());
+    }
+
+    // Minimikeko
+    @Test
+    public void minimikekoonLisattavatAlkiotLoytyvatSielta() {
+        // To-Do
     }
 
 }

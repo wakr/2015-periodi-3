@@ -1,16 +1,13 @@
 package kayttoliittyma;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Queue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 import logiikka.AStar;
 import logiikka.Analysoija;
@@ -201,19 +198,19 @@ public class Ikkuna extends javax.swing.JFrame {
 
     private void jLabelPolkuMaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseClicked
 
-        if (alkuPerainenKuva != null && aStar != null && pathPainter != null && jAStarProgressi.getValue() != 100) {
-            // pathPainter.cancel(false);
-            //aStar.keskeyta();
-
-//            aStar.resetoiAlgoritmi();
+        if (onkoAlkuVaiheessa()) {
             muutaMaaliJaLahtoKlikkauksella(evt);
             aStar.ilmoitaMaalinMuutoksesta();
-//            luoTaustaProsessiPiirtamiselle();
+
             jLabelKuva.repaint();
-//            pathPainter.execute();
+
         }
 
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
+
+    private boolean onkoAlkuVaiheessa() {
+        return alkuPerainenKuva != null && aStar != null && pathPainter != null && jAStarProgressi.getValue() != 100;
+    }
 
     private void muutaMaaliJaLahtoKlikkauksella(MouseEvent evt) {
         Piste muutetutKoordinaatit = muutaKoordinaatitPitkasta(evt.getY(), evt.getX());
@@ -237,12 +234,7 @@ public class Ikkuna extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
     private void jLabelPolkuMaskMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseMoved
-//        if (alkuPerainenKuva != null && aStar != null && pathPainter != null && jAStarProgressi.getValue() != 100) {
-//            muutaMaaliJaLahtoKlikkauksella(evt);
-//            aStar.ilmoitaMaalinMuutoksesta();
-//            jLabelKuva.repaint();
-//            // ToBe-Added
-//        }
+        // TO-DO
     }//GEN-LAST:event_jLabelPolkuMaskMouseMoved
 
     /**

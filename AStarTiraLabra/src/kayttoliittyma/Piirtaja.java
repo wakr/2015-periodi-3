@@ -7,17 +7,16 @@ package kayttoliittyma;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
-import javax.swing.Timer;
 import logiikka.Analysoija;
 import util.Kuva;
 import util.Piste;
 
 /**
- *
+ *  Huolehtii piirto-operaatiosta kokonaan. Piirtää kuviin haluttuun kohtiin
+ *  pisteet.
+ * 
  * @author kride
  */
 public class Piirtaja {
@@ -25,8 +24,13 @@ public class Piirtaja {
     private JLabel piirrettava;
     private Kuva karttaKuvana;
     private BufferedImage alkuperainenKuva;
-    Graphics2D g;
+    private Graphics2D g;
 
+    /**
+     * @param piirrettava Kuva, johon piirretään
+     * @param karttaKuvana Kuva, joka on venytetty
+     * @param alkuperainenKuva Kuva, joka on talletettu alkuperäisenä
+     */
     public Piirtaja(JLabel piirrettava, Kuva karttaKuvana, BufferedImage alkuperainenKuva) {
         this.piirrettava = piirrettava;
         this.karttaKuvana = karttaKuvana;
@@ -34,6 +38,12 @@ public class Piirtaja {
         g = (Graphics2D) piirrettava.getGraphics();
     }
 
+    /**
+     * Piirtää kuvaan halutulla värillä olevan pisteen
+     *
+     * @param vari Haluttu väri
+     * @param kayty Koordinaatti pitkässä muodossa
+     */
     public void piirraKarttaan(Color vari, int kayty) {
 
         g.setColor(vari);
@@ -44,14 +54,18 @@ public class Piirtaja {
 
         g.drawRect(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), 1, 1);
 
+        nuku(1);
+    }
+
+    private void nuku(int millisekuntia) {
         try {
-            Thread.sleep(5);
+            Thread.sleep(millisekuntia);
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
     }
 
-    public Piste muutaKoordinaatitLyhyesta(int y, int x) {
+    private Piste muutaKoordinaatitLyhyesta(int y, int x) {
 
         double korkeusKerroin = (double) piirrettava.getHeight() / (double) alkuperainenKuva.getHeight();
         double leveysKerroin = (double) piirrettava.getWidth() / (double) alkuperainenKuva.getWidth();

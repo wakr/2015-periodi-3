@@ -18,14 +18,12 @@ public class Heurestiikka {
     /**
      * Laskee Manhattan-etäisyyden koordinaattiin
      *
-     * @param aloitusX Aloittavan solmun x-koordinaatti
-     * @param aloitusY Aloittavan solmun y-koordinaatti
-     * @param maaliX Maalin x-koordinaatti
-     * @param maaliY Maalin y-koordinaatti
+     * @param aloitus Aloituksen koordinaatit
+     * @param maali Maalin koordinaatit
      * @return Palauttaa Manhattan etäisyyden
      */
-    //public static int laskeHeurestinenArvo(int aloitusX, int aloitusY, int maaliX, int maaliY) {
-       public static int laskeHeurestinenArvo(Piste aloitus, Piste maali){
+   
+    public static int laskeHeurestinenArvo(Piste aloitus, Piste maali) {
         int dx = Math.abs(aloitus.getX() - maali.getX());
         int dy = Math.abs(aloitus.getY() - maali.getY());
         return Ymparistomuuttuja.D.getArvo() * (dx + dy)
