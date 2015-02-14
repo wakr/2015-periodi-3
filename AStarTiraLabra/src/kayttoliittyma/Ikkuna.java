@@ -49,18 +49,18 @@ public class Ikkuna extends javax.swing.JFrame {
         jMenuResetoiKuva = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 900));
+        setPreferredSize(new java.awt.Dimension(900, 700));
         setResizable(false);
 
         jLabelPolkuMask.setOpaque(true);
-        jLabelPolkuMask.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jLabelPolkuMaskMouseMoved(evt);
-            }
-        });
         jLabelPolkuMask.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelPolkuMaskMouseClicked(evt);
+            }
+        });
+        jLabelPolkuMask.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jLabelPolkuMaskMouseMoved(evt);
             }
         });
 
@@ -132,13 +132,13 @@ public class Ikkuna extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jAStarProgressi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jLabelKuva, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jLabelKuva, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(112, 112, 112))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(71, Short.MAX_VALUE)
-                    .addComponent(jLabelPolkuMask, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                    .addContainerGap(72, Short.MAX_VALUE)
+                    .addComponent(jLabelPolkuMask, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(112, 112, 112)))
         );
 
         pack();
@@ -190,6 +190,8 @@ public class Ikkuna extends javax.swing.JFrame {
             protected Void doInBackground() throws Exception {
                 ajaAStarAlgoritmi();
                 jAStarProgressi.setValue(100);
+                jLabelKuva.repaint();
+                aStar.naytaPolku();
                 return null;
             }
 

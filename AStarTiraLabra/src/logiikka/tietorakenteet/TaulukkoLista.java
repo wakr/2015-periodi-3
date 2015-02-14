@@ -91,6 +91,11 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
             public Object next() {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
         };
     }
 

@@ -54,7 +54,7 @@ public class Piirtaja {
 
         g.drawRect(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), 1, 1);
 
-        nuku(1);
+        nuku(5);
     }
 
     private void nuku(int millisekuntia) {

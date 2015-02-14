@@ -100,6 +100,10 @@ public class AStar {
      */
     public void suoritaReitinHaku() {
 
+        if(onkoaAustamaton()){
+            throw new IllegalStateException("Maali tai lähtö alustamaton.");
+        }
+        
         lisaaAloitusSolmu();
 
         while (!openSet.isEmpty()) {
@@ -157,8 +161,12 @@ public class AStar {
         openSet.add(new Solmu(0, aloitus, 0));
     }
 
+    private boolean onkoaAustamaton() {
+        return lahtoX == -1 || lahtoY == -1 || maaliX == -1 || maaliY == -1;
+    }
+
     /**
-     * @return viimeksi analysoidun solmun 
+     * @return viimeksi analysoidun solmun
      */
     public int getNykyinenSolmu() {
         return solmuNyt;
@@ -169,6 +177,14 @@ public class AStar {
      */
     public void keskeyta() {
         keskeyta = true;
+    }
+    
+    public void naytaPolku(){
+        luoPolku(getMaali());
+        for (int solmu : getPolku()) {
+            karttaPiirtaja.piirraKarttaan(Color.RED, solmu);
+        }
+        
     }
 
     /**
@@ -194,8 +210,7 @@ public class AStar {
     }
 
     /**
-     * Ilmoittaa A*-algoritmille, että maali on vaihtunut
-     * TO-DO: MT-AA*
+     * Ilmoittaa A*-algoritmille, että maali on vaihtunut TO-DO: MT-AA*
      */
     public void ilmoitaMaalinMuutoksesta() {
         openSet.clear();
@@ -252,6 +267,7 @@ public class AStar {
 
     /**
      * Palauttaa solmun kaikki naapurit
+     *
      * @param solmu Haluttu solmu
      * @return Lista naapureiden tunnuksista
      */
@@ -261,7 +277,7 @@ public class AStar {
 
     /**
      * Palauttaa g-arvon solmulle.
-     * 
+     *
      * @param tunnus Haluttu solmu
      * @return Pituus lähdöstä haluttuun solmuun.
      */

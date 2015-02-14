@@ -15,7 +15,7 @@ public enum Ymparistomuuttuja {
     /**
      * Äärettömyys
      */
-    INF(9999999),
+    INF(99999999),
     /**
      * A*-algoritmin säätöparametri
      */
