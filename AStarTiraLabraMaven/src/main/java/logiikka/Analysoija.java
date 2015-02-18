@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class Analysoija {
 
-    private AStar aStar;
+    private Reitinhakija aStar;
     private final int[] blk = new int[]{0, 0, 0};
     private final int[] white = new int[]{255, 255, 255};
     private final int[] red = new int[]{255, 0, 0};
@@ -26,7 +26,7 @@ public class Analysoija {
      * asetetaan maali ja lähtö
      * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
      */
-    public int[][] analysoiKarttaArvoiksiMerkeista(char[][] kartta, AStar aStar) {
+    public int[][] analysoiKarttaArvoiksiMerkeista(char[][] kartta, Reitinhakija aStar) {
         this.aStar = aStar;
         int[][] arvoTaulu = new int[kartta.length][kartta[0].length];
         for (int i = 0; i < kartta.length; i++) {
@@ -48,7 +48,7 @@ public class Analysoija {
      * asetetaan maali ja lähtö
      * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
      */
-    public int[][] analysoiKarttaArvoiksiVareista(int[][] karttaRGB, AStar aStar) {
+    public int[][] analysoiKarttaArvoiksiVareista(int[][] karttaRGB, Reitinhakija aStar) {
         this.aStar = aStar;
         int[][] arvoTaulu = new int[karttaRGB.length][karttaRGB[0].length];
         for (int i = 0; i < karttaRGB.length; i++) {

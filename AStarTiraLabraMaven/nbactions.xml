@@ -21,11 +21,5 @@
             <goal>javadoc:javadoc</goal>
         </goals>
     </action>
-    <action>
-        <actionName>CUSTOM-test</actionName>
-        <displayName>runTest</displayName>
-          <goals>
-            <goal></goal>
-        </goals>
-    </action>
+  
 </actions>

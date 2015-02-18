@@ -1,12 +1,8 @@
 package main;
 
-import io.Tulostaja;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.TreeSet;
+
 import kayttoliittyma.Ikkuna;
-import logiikka.AStar;
+
 
 /**
  * Käynnistää ja ajaa joko tekstipohjaisena tai tämän avulla voidaan käynnistää
@@ -35,12 +31,6 @@ public class Main {
             {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
             {'A', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'}};
         
-//        AStar aStar = new AStar(kartta);
-//
-//        aStar.suoritaReitinHaku();
-//        aStar.polku(aStar.getMaali());
-//        Tulostaja.tulostaKartta(aStar.getMerkkiKartta());
-//        System.out.println(aStar.polku(aStar.getMaali(), new ArrayList<Integer>()));
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -64,6 +54,7 @@ public class Main {
         // </editor-fold>
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Ikkuna().setVisible(true);
             }

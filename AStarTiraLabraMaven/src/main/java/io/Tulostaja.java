@@ -39,7 +39,7 @@ public class Tulostaja {
      * @param etaisyys Solmujen etäisyydet lähtösolmusta
      * @param leveys Kartan leveys
      */
-    public static void tulostaEtaisydet(int[] etaisyys, int leveys) {
+    public static void tulostaEtaisydet(long[] etaisyys, int leveys) {
 
         for (int i = 0; i < etaisyys.length; i++) {
             if (i % leveys == 0) {
@@ -48,5 +48,7 @@ public class Tulostaja {
             System.out.format("%-10d", etaisyys[i]);
         }
     }
+
+   
 
 }

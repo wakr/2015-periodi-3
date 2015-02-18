@@ -5,12 +5,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 import logiikka.AStar;
 import logiikka.Analysoija;
+import logiikka.MTAA;
 import util.Kuva;
 import util.Piste;
 
@@ -23,7 +26,7 @@ import util.Piste;
 public class Ikkuna extends javax.swing.JFrame {
 
     private Kuva karttaKuvana;
-    private AStar aStar;
+    private MTAA aStar; // AStar vaihdettu MTAA
     private BufferedImage alkuPerainenKuva;
     private SwingWorker pathPainter;
 
@@ -145,7 +148,7 @@ public class Ikkuna extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuAvaaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAvaaActionPerformed
-        JFileChooser kuvanAvaus = new JFileChooser(System.getProperty("user.dir")+"/src/main/java/util/karttakuvat");
+        JFileChooser kuvanAvaus = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/util/karttakuvat");
         BufferedImage kuva;
         if (kuvanAvaus.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
@@ -155,8 +158,11 @@ public class Ikkuna extends javax.swing.JFrame {
                 jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
                 karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
                 Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
-                aStar = new AStar(karttaKuvana.getRGPArvot(), p);
+                aStar = new MTAA(karttaKuvana.getRGPArvot(), p);
                 jAStarProgressi.setValue(0);
+                if (pathPainter != null) {
+                    pathPainter.cancel(false);
+                }
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -171,7 +177,10 @@ public class Ikkuna extends javax.swing.JFrame {
 
 
     private void jMenuAStarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAStarActionPerformed
+        if (pathPainter != null) {
+            pathPainter.cancel(false);
 
+        }
         luoTaustaProsessiPiirtamiselle();
         pathPainter.execute();
 
@@ -181,30 +190,46 @@ public class Ikkuna extends javax.swing.JFrame {
     private void luoTaustaProsessiPiirtamiselle() {
         pathPainter = new SwingWorker<Void, Void>() {
 
-            @Override
-            protected void done() {
-                super.done();
+            public void nuku(int ms) {
+                try {
+                    Thread.sleep(ms);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Ikkuna.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             @Override
             protected Void doInBackground() throws Exception {
                 ajaAStarAlgoritmi();
-                jAStarProgressi.setValue(100);
                 jLabelKuva.repaint();
+                if (this.isCancelled()) {
+                    return null;
+                }
+
+                nuku(10);
                 aStar.naytaPolku();
+                jAStarProgressi.setValue(100);
                 return null;
             }
 
         };
     }
 
+
     private void jLabelPolkuMaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseClicked
 
         if (onkoAlkuVaiheessa()) {
+
+            pathPainter.cancel(true);
+            aStar.keskeyta();
+            //jLabelKuva.repaint();
+
             muutaMaaliJaLahtoKlikkauksella(evt);
             aStar.ilmoitaMaalinMuutoksesta();
+            // aStar.updateH();
 
-            jLabelKuva.repaint();
+            luoTaustaProsessiPiirtamiselle();
+            pathPainter.execute();
 
         }
 
@@ -231,7 +256,7 @@ public class Ikkuna extends javax.swing.JFrame {
         aStar.keskeyta();
         jLabelPolkuMask.repaint();
         Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
-        aStar = new AStar(karttaKuvana.getRGPArvot(), p);
+        aStar = new MTAA(karttaKuvana.getRGPArvot(), p);
 
     }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
@@ -284,7 +309,7 @@ public class Ikkuna extends javax.swing.JFrame {
     }
 
     private void ajaAStarAlgoritmi() {
-        aStar.resetoiAlgoritmi();
+        //aStar.resetoiAlgoritmi();
         aStar.suoritaReitinHaku();
     }
 

@@ -14,9 +14,9 @@ import util.Kuva;
 import util.Piste;
 
 /**
- *  Huolehtii piirto-operaatiosta kokonaan. Piirtää kuviin haluttuun kohtiin
- *  pisteet.
- * 
+ * Huolehtii piirto-operaatiosta kokonaan. Piirtää kuviin haluttuun kohtiin
+ * pisteet.
+ *
  * @author kride
  */
 public class Piirtaja {
@@ -43,8 +43,22 @@ public class Piirtaja {
      *
      * @param vari Haluttu väri
      * @param kayty Koordinaatti pitkässä muodossa
+     * @param nopeus Kuinka kauan piirtämisessä odotetaan per piirto
      */
-    public void piirraKarttaan(Color vari, int kayty) {
+    public void piirraKarttaanHitaasti(Color vari, int kayty) {
+
+        g.setColor(vari);
+
+        int x = Analysoija.getSarake(kayty, karttaKuvana.getLeveys());
+        int y = Analysoija.getRivi(kayty, karttaKuvana.getLeveys());
+        Piste muutetutKoordinaatit = muutaKoordinaatitLyhyesta(y, x);
+
+        g.drawRect(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), 1, 1);
+
+        nuku(5);
+    }
+
+    public void piirraKarttaanNopeasti(Color vari, int kayty) {
 
         g.setColor(vari);
 

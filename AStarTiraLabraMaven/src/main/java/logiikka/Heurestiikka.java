@@ -22,13 +22,14 @@ public class Heurestiikka {
      * @param maali Maalin koordinaatit
      * @return Palauttaa Manhattan etäisyyden
      */
-   
     public static int laskeHeurestinenArvo(Piste aloitus, Piste maali) {
         int dx = Math.abs(aloitus.getX() - maali.getX());
         int dy = Math.abs(aloitus.getY() - maali.getY());
         return Ymparistomuuttuja.D.getArvo() * (dx + dy)
                 + (Ymparistomuuttuja.D2.getArvo() - 2 * Ymparistomuuttuja.D.getArvo())
                 * Math.min(dx, dy);
+
+
     }
 
     /**
