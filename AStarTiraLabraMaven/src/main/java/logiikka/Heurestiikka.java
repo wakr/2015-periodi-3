@@ -3,20 +3,21 @@ package logiikka;
 import util.Piste;
 
 /**
- * Laskee Manhattan etäisyyden kahden solmun välille. Manhattan etäisyyteen
+ * Laskee Chebyshevin etäisyyden kahden solmun välille. Chebyshevin etäisyyteen
  * lisätään suhdeluku tulona, jolloin etäisyyden suhdetta voidaan säätää.
- * Käytännössä D = 0 tarkoittaa, että A*-algoritmin pitäisi toimia kuten
- * Dijkstra ja jos D on suurempi kuin 0, niin A*-algoritmin käyttäytyminen
- * reitinhaussa muuttuu.
+ * Käytännössä D = 0 tarkoittaa, että heurestiikka alentuu Dijkstraksi ja jos D
+ * on suurempi kuin 0, niin heurestiikan käyttäytyminen reitinhaussa muuttuu.
+ * Tämä voi tarkoittaa nopeampaa hakua, mutta joka ei löydä lyhintä reittiä, vaan
+ * jonkin mahdollisen reitin.
  *
  * @author kristianw
- * @see logiikka.AStar
+ * @see logiikka.Reitinhakija
  * @see logiikka.Ymparistomuuttuja
  */
 public class Heurestiikka {
 
     /**
-     * Laskee Manhattan-etäisyyden koordinaattiin
+     * Laskee Chebyshevin-etäisyyden koordinaattiin
      *
      * @param aloitus Aloituksen koordinaatit
      * @param maali Maalin koordinaatit
@@ -29,11 +30,11 @@ public class Heurestiikka {
                 + (Ymparistomuuttuja.D2.getArvo() - 2 * Ymparistomuuttuja.D.getArvo())
                 * Math.min(dx, dy);
 
-
     }
 
     /**
-     * Tiebraker A* varten
+     * Tiebraker A* varten. Tämä on hyödyllistä, jos/kun minikeossa on monta 
+     * heurestiikka arviota samoilla arvoilla.
      *
      * @param aloitus Aloituksen koordinaatti
      * @param maali Maalin koordinaatti

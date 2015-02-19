@@ -10,12 +10,12 @@ import java.awt.image.DataBufferByte;
  * käytännössä aina karttaa ohjelmassa.
  *
  *
- * @author kristianw
+ * @author Kristian Wahlroos
  */
 public class Kuva {
 
-    private Image kuva;
-    private BufferedImage bufferoituKuva;
+    private final Image kuva;
+    private final BufferedImage bufferoituKuva;
     private int[][] rgb;
 
     /**
@@ -25,11 +25,6 @@ public class Kuva {
      */
     public Kuva(BufferedImage bufKuva, int skaalattuKorkeus, int skaalattuLeveys) {
         this.bufferoituKuva = bufKuva;
-        this.kuva = bufferoituKuva.getScaledInstance(skaalattuLeveys, skaalattuKorkeus, Image.SCALE_SMOOTH);
-    }
-
-    public void setKuva(BufferedImage bufferoituKuva, int skaalattuKorkeus, int skaalattuLeveys) {
-        this.bufferoituKuva = bufferoituKuva;
         this.kuva = bufferoituKuva.getScaledInstance(skaalattuLeveys, skaalattuKorkeus, Image.SCALE_SMOOTH);
     }
 
@@ -54,7 +49,8 @@ public class Kuva {
     }
 
     /**
-     * Muuttaa kuvan RPG-esitykseen
+     * Muuttaa kuvan RPG-esitykseen käyttäen hyödykseen tietoa RGB-arvojen
+     * tallennuksista. Tästä syystä bitshift-operaatiot.
      *
      * @param image kartta kuvana
      */

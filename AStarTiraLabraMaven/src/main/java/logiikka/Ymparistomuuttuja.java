@@ -4,7 +4,7 @@ package logiikka;
  * Sisältää hyödylliset arvot, jotka muun muassa määrittelevät äärettömyyden
  * verkkorakenteessa, sekä heurestiikkan käyttämän parametrin <i>D</i>.
  * Kumpiakin arvoja voidaan säädellä riippuen halutusta säätötoiminnallisuudesta
- * esimerkiksi A*-algoritmissa tai verkon dimensiosta.
+ * esimerkiksi reitinhaussa tai verkon dimensiosta.
  *
  * @author Kristian Wahlroos
  * @see logiikka.AStar

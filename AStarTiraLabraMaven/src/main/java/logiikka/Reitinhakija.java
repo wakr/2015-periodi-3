@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logiikka;
 
 import java.awt.Color;
@@ -14,11 +9,13 @@ import kayttoliittyma.Piirtaja;
 import util.Piste;
 
 /**
+ * Abstrakti luokka, joka määrittelee toiminnallisuuden reitinhaku-algoritmeille
  *
  * @author kride
  */
 public abstract class Reitinhakija {
 
+    // tarvittavat tietorakenteet 
     protected int[][] RGBKartta, karttaArvoina;
     protected char[][] merkkiKartta;
     protected long[] etaisyysArviotAlkuun;
@@ -35,11 +32,24 @@ public abstract class Reitinhakija {
     // Piirto
     protected Piirtaja karttaPiirtaja;
 
+    /**
+     * Suorittaa algoritmi kohtaisen reitinhaun verkossa
+     */
     public abstract void suoritaReitinHaku();
 
+    /**
+     * Ilmottaa algoritmille, että maali on muuttunut ja vanhat
+     * heurestiikka-arviot eivät välttämättä enää päde
+     */
     public abstract void ilmoitaMaalinMuutoksesta();
-    
 
+    /**
+     * Tutkii solmun, jolla on alhaisin f(s)-arvo naapurit
+     *
+     * @param tunnus Pienimmän solmun tunnus
+     * @param pienin Pienin solmu
+     */
+    public abstract void tutkiPienimmanNaapurit(int tunnus, Solmu pienin);
 
     protected Reitinhakija() {
         alustaAloitusKoordinaatit();
@@ -52,17 +62,20 @@ public abstract class Reitinhakija {
 
     }
 
-    protected boolean onkoaAustamaton() {
+    protected boolean onkoaAlustamaton() {
         return lahtoX == -1 || lahtoY == -1 || maaliX == -1 || maaliY == -1;
     }
 
     /**
-     * @return viimeksi analysoidun solmun
+     * @return viimeksi analysoidun solmun tunnus
      */
     public int getNykyinenSolmu() {
         return solmuNyt;
     }
 
+    /**
+     * Piirtää lopullisen polun karttaan.
+     */
     public void naytaPolku() {
         if (karttaPiirtaja != null) {
             luoPolku(getMaali());
@@ -73,7 +86,7 @@ public abstract class Reitinhakija {
     }
 
     /**
-     * Keskeyttää A* algoritmin suorituksen
+     * Keskeyttää reitinhaun suorituksen.
      */
     public void keskeyta() {
         keskeyta = true;
@@ -81,7 +94,7 @@ public abstract class Reitinhakija {
     }
 
     /**
-     * Asettaa A*-algoritmin lähdön koordinaatin
+     * Asettaa reitinhaun lähdön koordinaatin
      *
      * @param Ax x-koordinaatti
      * @param Ay y-koordinaatti
@@ -92,7 +105,7 @@ public abstract class Reitinhakija {
     }
 
     /**
-     * Asettaa A*-algoritmin maalin koordinaatin
+     * Asettaa reitinhaun maalin koordinaatin
      *
      * @param Bx x-koordinaatti
      * @param By y-koordinaatti
@@ -276,7 +289,7 @@ public abstract class Reitinhakija {
                     }
                     int tarkasteltava = (i * kartanLeveys) + j;
                     int naapuri = (uusiY * kartanLeveys) + uusiX;
-                    verkko[tarkasteltava].add(naapuri); //aiheuttaa hitautta
+                    verkko[tarkasteltava].add(naapuri);
 
                 }
 
@@ -342,8 +355,8 @@ public abstract class Reitinhakija {
     }
 
     /**
-     * Alustaa A* uudelleen, jotta sitä voitaisiin käyttää, vaikka kartta
-     * muuttuu.
+     * Alustaa reitinhaun uudelleen, jotta sitä voitaisiin käyttää, vaikka
+     * kartta muuttuu.
      */
     public void resetoiAlgoritmi() {
         this.polku = new int[kartanKorkeus * kartanLeveys];

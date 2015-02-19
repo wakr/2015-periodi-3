@@ -1,7 +1,5 @@
 package logiikka;
 
-import io.Tulostaja;
-import java.awt.FileDialog;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import kayttoliittyma.Piirtaja;
-import logiikka.AStar;
-import logiikka.Analysoija;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -73,6 +67,23 @@ public class AStarTest {
             {'.', 'X', '.', '.', '.', 'X', '.', '.', '.', 'X', 'B'},
             {'A', '.', '.', 'X', '.', '.', '.', 'X', '.', '.', '.'}};
 
+        char[][] kartta = new char[][]{
+            {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'B'},
+            {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+            {'.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'},
+            {'A', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.'}};
+
         jatti = new char[100][1000];
         for (int i = 0; i < jatti.length; i++) {
             for (int j = 0; j < jatti[0].length; j++) {
@@ -86,7 +97,7 @@ public class AStarTest {
 
     }
 
-    private AStar aStar;
+    private Reitinhakija aStar;
     private Kuva karttaKuvana;
     private BufferedImage alkuPerainenKuva;
     BufferedImage kuva;
@@ -192,6 +203,8 @@ public class AStarTest {
 
     /**
      * RBG-kuvien testit
+     *
+     * @throws java.io.IOException
      */
     @Test(timeout = 1000)
     public void kuvastaLoydetaanLyhinPolku() throws IOException {

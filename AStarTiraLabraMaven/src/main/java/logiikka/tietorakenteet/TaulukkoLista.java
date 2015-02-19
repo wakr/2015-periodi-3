@@ -1,22 +1,15 @@
 package logiikka.tietorakenteet;
 
-import java.io.Serializable;
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.RandomAccess;
 
 /**
- * ArrayList *Kesken*
+ * ArrayList-toteutus
  *
  *
- * @author kride
+ * @author Kristian Wahlroos
+ * @param <T> Taulukon tyyppi
  */
-public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Serializable {
+public class TaulukkoLista<T> {
 
     private Object[] alkiot;
     private int koko;
@@ -42,27 +35,30 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * Palauttaa taulukon koon
+     * Palauttaa taulukon koon.
+     *
+     * @return Listan alkioiden määrä
      */
-    @Override
     public int size() {
         return koko;
     }
 
     /**
-     * Palauttaa onko taulukko tyhjä
+     * Palauttaa onko taulukko tyhjä.
+     *
+     * @return True - jos taulukossa ei ole alkioita, False muuten
      */
-    @Override
     public boolean isEmpty() {
         return koko == 0;
     }
 
     /**
-     * Etsii taulukosta
+     * Etsii taulukosta, että sisältääkö se halutun arvon
      *
      * @param o Etsittävä objekti
+     *
+     * @return True - jos etsittävä löytyy. False muulloin.
      */
-    @Override
     public boolean contains(Object o) {
         for (int i = 0; i < koko; i++) {
             if (alkiot[i].equals(o)) {
@@ -74,35 +70,10 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * Iteraattori taulukkoa varten
+     * Muuttaa taulukon Object[]-tyyliseksi taulukoksi.
      *
-     * @return Iteraattori
+     * @return Alkiot Object[]-taulukossa
      */
-    @Override
-    public Iterator<Object> iterator() {
-        return new Iterator<Object>() {
-
-            @Override
-            public boolean hasNext() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public Object next() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-    }
-
-    /**
-     * @return Syötetty data
-     */
-    @Override
     public Object[] toArray() {
         Object[] palautettava = new Object[koko];
 
@@ -116,11 +87,14 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
+     * Muuttaa palautettavan taulukon haluttuun muotoon.
+     *
      *  @param a tyyppitaulukko
      *
+     * @param <T> Tyyppi jossa taulukko halutaan
+     * @param a
      * @return Taulukko samaatyyppia kuin annettu parametri
      */
-    @Override
     public <T> T[] toArray(T[] a) {
         Object[] palautettava = new Object[koko];
 
@@ -128,14 +102,15 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
             palautettava[i] = alkiot[i];
         }
         return (T[]) palautettava;
+
     }
 
     /**
-     * Lisaa objektin taulukkoon
+     * Lisaa objektin taulukkoon.
      *
      * @param e Lisättävä objekti
+     * @return True - jos objektin lisääminen onnistui.
      */
-    @Override
     public boolean add(Object e) {
 
         if (koko == kapasiteetti) {
@@ -147,37 +122,6 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
         return true;
     }
 
-    @Override
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends Object> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addAll(int index, Collection<? extends Object> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void clear() {
         alkiot = new Object[koko];
         koko = 0;
@@ -188,8 +132,8 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
      *
      * @param index kohta taulussa
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
+     * @return Object kohdasta index
      */
-    @Override
     public Object get(int index) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
@@ -198,14 +142,13 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * Asettaa taulussa olevan objektin halutuksi ja palauttaa vanhan
+     * Asettaa taulussa olevan objektin halutuksi ja palauttaa vanhan.
      *
      * @param index halutun indeksi
      * @param element korvaaja
      * @return korvattu
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      */
-    @Override
     public Object set(int index, Object element) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
@@ -222,7 +165,6 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
      * @param element korvaaja
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      */
-    @Override
     public void add(int index, Object element) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
@@ -233,12 +175,12 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
-     * Poistaa halutusta indeksistä
+     * Poistaa halutusta indeksistä ja palauttaa sen.
      *
      * @param index Haluttu indeksi
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
+     * @return Palauttaa poistetun
      */
-    @Override
     public Object remove(int index) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
@@ -252,8 +194,8 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
      * Hakee halutun objektin indeksin taulusta
      *
      * @param o Haluttu objekti
+     * @return Objektin indeksi
      */
-    @Override
     public int indexOf(Object o) {
         for (int i = 0; i < koko; i++) {
             if (alkiot[i].equals(o)) {
@@ -265,9 +207,11 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
     }
 
     /**
+     * Palauttaa viimeisen indeksin, jossa objekti esiintyy.
      *
+     * @param o Etsittävä objekti
+     * @return Esiintymän indeksi
      */
-    @Override
     public int lastIndexOf(Object o) {
         for (int i = koko - 1; i >= 0; i--) {
             if (alkiot[i].equals(o)) {
@@ -276,67 +220,6 @@ public class TaulukkoLista implements List<Object>, RandomAccess, Cloneable, Ser
 
         }
         return -1;
-    }
-
-    @Override
-    public ListIterator<Object> listIterator() {
-        return new ListIterator<Object>() {
-
-            @Override
-            public boolean hasNext() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public Object next() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public Object previous() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public int nextIndex() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public int previousIndex() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void set(Object e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void add(Object e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-    }
-
-    @Override
-    public ListIterator<Object> listIterator(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Object> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

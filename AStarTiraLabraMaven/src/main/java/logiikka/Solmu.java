@@ -1,7 +1,7 @@
 package logiikka;
 
 /**
- * Solmujen avulla mallinnetaan verkko A*-algoritmissa. Prioriteetti määräytyy
+ * Solmujen avulla mallinnetaan verkko reitinhaussa. Prioriteetti määräytyy
  * heurestiikan mukaan.
  *
  * @author kride

@@ -1,7 +1,5 @@
 package logiikka;
 
-
-import logiikka.Analysoija;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

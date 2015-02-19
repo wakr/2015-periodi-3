@@ -11,22 +11,22 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
-import logiikka.AStar;
 import logiikka.Analysoija;
 import logiikka.MTAA;
+import logiikka.Reitinhakija;
 import util.Kuva;
 import util.Piste;
 
 /**
- * Sovelluksen käyttöliittymä, joka visualisoi A*-algoritmin sekä siihen
- * liittyvän analysoinnin.
+ * Sovelluksen käyttöliittymä, joka visualisoi reitinhaun sekä siihen liittyvän
+ * analysoinnin.
  *
  * @author kristianw
  */
 public class Ikkuna extends javax.swing.JFrame {
 
     private Kuva karttaKuvana;
-    private MTAA aStar; // AStar vaihdettu MTAA
+    private Reitinhakija mTAA;
     private BufferedImage alkuPerainenKuva;
     private SwingWorker pathPainter;
 
@@ -158,7 +158,7 @@ public class Ikkuna extends javax.swing.JFrame {
                 jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
                 karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
                 Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
-                aStar = new MTAA(karttaKuvana.getRGPArvot(), p);
+                mTAA = new MTAA(karttaKuvana.getRGPArvot(), p);
                 jAStarProgressi.setValue(0);
                 if (pathPainter != null) {
                     pathPainter.cancel(false);
@@ -206,8 +206,8 @@ public class Ikkuna extends javax.swing.JFrame {
                     return null;
                 }
 
-                nuku(10);
-                aStar.naytaPolku();
+                nuku(1);
+                mTAA.naytaPolku();
                 jAStarProgressi.setValue(100);
                 return null;
             }
@@ -221,12 +221,10 @@ public class Ikkuna extends javax.swing.JFrame {
         if (onkoAlkuVaiheessa()) {
 
             pathPainter.cancel(true);
-            aStar.keskeyta();
-            //jLabelKuva.repaint();
+            mTAA.keskeyta();
 
             muutaMaaliJaLahtoKlikkauksella(evt);
-            aStar.ilmoitaMaalinMuutoksesta();
-            // aStar.updateH();
+            mTAA.ilmoitaMaalinMuutoksesta();
 
             luoTaustaProsessiPiirtamiselle();
             pathPainter.execute();
@@ -236,32 +234,32 @@ public class Ikkuna extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
 
     private boolean onkoAlkuVaiheessa() {
-        return alkuPerainenKuva != null && aStar != null && pathPainter != null && jAStarProgressi.getValue() != 100;
+        return alkuPerainenKuva != null && mTAA != null && pathPainter != null && jAStarProgressi.getValue() != 100;
     }
 
     private void muutaMaaliJaLahtoKlikkauksella(MouseEvent evt) {
         Piste muutetutKoordinaatit = muutaKoordinaatitPitkasta(evt.getY(), evt.getX());
         karttaKuvana.getBufferoituKuva().setRGB(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), Color.RED.getRGB());
-        karttaKuvana.getBufferoituKuva().setRGB(aStar.getMaaliPisteena().getX(), aStar.getMaaliPisteena().getY(), Color.WHITE.getRGB());
-        aStar.asetaMaali(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY());
-        int tY = Analysoija.getRivi(aStar.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
-        int tX = Analysoija.getSarake(aStar.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
-        aStar.asetaLahto(tX, tY);
+        karttaKuvana.getBufferoituKuva().setRGB(mTAA.getMaaliPisteena().getX(), mTAA.getMaaliPisteena().getY(), Color.WHITE.getRGB());
+        mTAA.asetaMaali(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY());
+        int tY = Analysoija.getRivi(mTAA.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
+        int tX = Analysoija.getSarake(mTAA.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
+        mTAA.asetaLahto(tX, tY);
     }
 
     private void jMenuResetoiKuvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuResetoiKuvaActionPerformed
 
         jAStarProgressi.setValue(0);
         pathPainter.cancel(false);
-        aStar.keskeyta();
+        mTAA.keskeyta();
         jLabelPolkuMask.repaint();
         Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
-        aStar = new MTAA(karttaKuvana.getRGPArvot(), p);
+        mTAA = new MTAA(karttaKuvana.getRGPArvot(), p);
 
     }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
     private void jLabelPolkuMaskMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseMoved
-        // TO-DO
+
     }//GEN-LAST:event_jLabelPolkuMaskMouseMoved
 
     /**
@@ -309,8 +307,7 @@ public class Ikkuna extends javax.swing.JFrame {
     }
 
     private void ajaAStarAlgoritmi() {
-        //aStar.resetoiAlgoritmi();
-        aStar.suoritaReitinHaku();
+        mTAA.suoritaReitinHaku();
     }
 
 

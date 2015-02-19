@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kayttoliittyma;
 
 import java.awt.Color;
@@ -21,10 +16,10 @@ import util.Piste;
  */
 public class Piirtaja {
 
-    private JLabel piirrettava;
-    private Kuva karttaKuvana;
-    private BufferedImage alkuperainenKuva;
-    private Graphics2D g;
+    private final JLabel piirrettava;
+    private final Kuva karttaKuvana;
+    private final BufferedImage alkuperainenKuva;
+    private final Graphics2D g;
 
     /**
      * @param piirrettava Kuva, johon piirretään
@@ -43,7 +38,7 @@ public class Piirtaja {
      *
      * @param vari Haluttu väri
      * @param kayty Koordinaatti pitkässä muodossa
-     * @param nopeus Kuinka kauan piirtämisessä odotetaan per piirto
+     * 
      */
     public void piirraKarttaanHitaasti(Color vari, int kayty) {
 
@@ -57,6 +52,12 @@ public class Piirtaja {
 
         nuku(5);
     }
+    
+    /**
+     * Piirtää polun karttaan heti eli ei pidä viivettä toisin kuin piirraKarttaanHitaasti-metodi
+     * @param vari Haluttu väri jolla piirretään
+     * @param kayty Koordinaatti pitkassa muodossa, joka tullaan piirtämään
+     */
 
     public void piirraKarttaanNopeasti(Color vari, int kayty) {
 
@@ -79,7 +80,14 @@ public class Piirtaja {
         }
     }
 
-    private Piste muutaKoordinaatitLyhyesta(int y, int x) {
+    /**
+     * Muuttaa koordinaatin kartan x ja y muodosta vastaamaan graafisen kartan pistettä
+     * @param y y-koordinaatti
+     * @param x x-koordinaatti
+     * @return Piste-olio, joka sisältää uudet pisteet
+     */
+    
+    public Piste muutaKoordinaatitLyhyesta(int y, int x) {
 
         double korkeusKerroin = (double) piirrettava.getHeight() / (double) alkuperainenKuva.getHeight();
         double leveysKerroin = (double) piirrettava.getWidth() / (double) alkuperainenKuva.getWidth();

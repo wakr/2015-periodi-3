@@ -1,18 +1,13 @@
 package logiikka;
 
 import java.awt.Color;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import kayttoliittyma.Piirtaja;
 import util.Piste;
 
 /**
  * A*-algoritmi. Analysoi ja luo verkon jonkan jälkeen ajattaessa etsii
  * pienimmän polun A ja B pisteiden välille käyttäen Dijkstran algoritmin ideaa
- * johon on lisätty heurestiikka eli Manhattan etäisyys * TieBraker.
+ * johon on lisätty heurestiikka eli Chebyshevin etäisyys * TieBraker.
  *
  * @author Kristian Wahlroos
  * @see io.Tulostaja
@@ -20,10 +15,13 @@ import util.Piste;
  * @see logiikka.Analysoija
  * @see logiikka.Heurestiikka
  * @see logiikka.Solmu
+ * @see logiikka.Reitinhakija
  */
 public class AStar extends Reitinhakija {
 
     /**
+     * Luo kartan char-merkeistä.
+     *
      * @param merkkiKartta Kartta char-merkkeinä
      */
     public AStar(char[][] merkkiKartta) {
@@ -41,8 +39,10 @@ public class AStar extends Reitinhakija {
     }
 
     /**
-     * @param karttaPiirtaja Luokka jonka luodaan Ikkuna-luokassa ja tuodaan
-     * A*:n käyttöön
+     * Luo kartan kuvasta.
+     *
+     * @param karttaPiirtaja Luokka joka luodaan Ikkuna-luokassa ja tuodaan A*:n
+     * käyttöön piirtämistä varten
      * @param karttaRGB Kartta, joka on muokattu RGB-väreihin ts. kuva
      */
     public AStar(int[][] karttaRGB, Piirtaja karttaPiirtaja) {
@@ -60,15 +60,15 @@ public class AStar extends Reitinhakija {
     }
 
     /**
-     * Aloittaa laittamalla lähtö solmun kekoon jonka jälkeen edetään
-     * naapureihin ja analysoidaan ne heurestiikan nojalla, kunnes keko on tyhjä
-     * tai ollaan löydetty maalissa sijaitseva solmu B. Metodi myös pitää yllä
-     * lyhintä polkua sekä kirjoittaa karttaan sijaintia.
+     * Aloittaa laittamalla lähtösolmun kekoon jonka jälkeen edetään naapureihin
+     * ja analysoidaan ne heurestiikan nojalla, kunnes keko on tyhjä tai ollaan
+     * löydetty maalissa sijaitseva solmu B. Metodi myös pitää yllä lyhintä
+     * polkua sekä kirjoittaa karttaan sijaintia. Toteuttaa ns. A*-algoritmin.
      */
     @Override
     public void suoritaReitinHaku() {
 
-        if (onkoaAustamaton()) {
+        if (onkoaAlustamaton()) {
             throw new IllegalStateException("Maali tai lähtö alustamaton.");
         }
 
@@ -76,6 +76,10 @@ public class AStar extends Reitinhakija {
 
         while (!openSet.isEmpty()) {
 
+            /* 
+             Otetaan solmu, jolla pienin f(s)-arvo, eli f(s) = h(s) + g(s), 
+             jossa h(s) on heurestiikka solmusta s maaliin ja g(s) etäisyysarvio alusta
+             */
             Solmu pienin = openSet.poll();
             int tunnus = pienin.tunnus;
             int pieninY = Analysoija.getRivi(tunnus, kartanLeveys);
@@ -88,39 +92,46 @@ public class AStar extends Reitinhakija {
                 break;
             }
 
-            for (int i = 0; i < verkko[tunnus].size(); i++) {
-
-                int vierusSolmu = verkko[tunnus].get(i);
-                int vierusSolmunY = Analysoija.getRivi(vierusSolmu, kartanLeveys);
-                int vierusSolmunX = Analysoija.getSarake(vierusSolmu, kartanLeveys);
-                Piste vSP = new Piste(vierusSolmunX, vierusSolmunY);
-                Piste mSP = new Piste(maaliX, maaliY);
-
-                if (lopullisetPituudet[vierusSolmu]) {
-                    continue;
-                }
-
-                long vanhaEtaisyys = etaisyysArviotAlkuun[vierusSolmu];
-                long uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[vierusSolmunY][vierusSolmunX];
-
-                if (uusiEtaisyys < vanhaEtaisyys) {
-                    analysoidut.add(vierusSolmu);
-                    etaisyysArviotAlkuun[vierusSolmu] = uusiEtaisyys;
-                    double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(vSP, mSP)
-                            + Heurestiikka.lisaaTiebraker(
-                                    vSP,
-                                    new Piste(maaliX, maaliY),
-                                    new Piste(lahtoX, lahtoY));
-                    polku[vierusSolmu] = tunnus;
-                    openSet.add(new Solmu(prioriteetti, vierusSolmu, uusiEtaisyys));
-                    merkkaaKarttaan(Color.DARK_GRAY, vierusSolmu);
-                }
-            }
+            tutkiPienimmanNaapurit(tunnus, pienin);
 
         }
 
         merkkaaKaydytKarttaan('*');
 
+    }
+
+    @Override
+    public void tutkiPienimmanNaapurit(int tunnus, Solmu pienin) {
+
+        // otetaan naapurit
+        for (int i = 0; i < verkko[tunnus].size(); i++) {
+
+            int vierusSolmu = verkko[tunnus].get(i);
+            int vierusSolmunY = Analysoija.getRivi(vierusSolmu, kartanLeveys);
+            int vierusSolmunX = Analysoija.getSarake(vierusSolmu, kartanLeveys);
+            Piste vSP = new Piste(vierusSolmunX, vierusSolmunY);
+            Piste mSP = new Piste(maaliX, maaliY);
+
+            if (lopullisetPituudet[vierusSolmu]) {
+                continue;
+            }
+
+            long vanhaEtaisyys = etaisyysArviotAlkuun[vierusSolmu];
+            long uusiEtaisyys = pienin.etaisyysAlusta + karttaArvoina[vierusSolmunY][vierusSolmunX];
+
+            if (uusiEtaisyys < vanhaEtaisyys) {
+                analysoidut.add(vierusSolmu);
+                etaisyysArviotAlkuun[vierusSolmu] = uusiEtaisyys;
+                double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(vSP, mSP)
+                        + Heurestiikka.lisaaTiebraker(
+                                vSP,
+                                new Piste(maaliX, maaliY),
+                                new Piste(lahtoX, lahtoY));
+                polku[vierusSolmu] = tunnus;
+                openSet.add(new Solmu(prioriteetti, vierusSolmu, uusiEtaisyys));
+                merkkaaKarttaan(Color.DARK_GRAY, vierusSolmu);
+            }
+        }
     }
 
     private void lisaaAloitusSolmu() {
@@ -130,7 +141,7 @@ public class AStar extends Reitinhakija {
     }
 
     /**
-     * Ilmoittaa A*-algoritmille, että maali on vaihtunut TO-DO: MT-AA*
+     * Ilmoittaa A*-algoritmille, että maali on vaihtunut.
      */
     @Override
     public void ilmoitaMaalinMuutoksesta() {

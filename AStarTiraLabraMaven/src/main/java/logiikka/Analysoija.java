@@ -1,17 +1,17 @@
 package logiikka;
 
-import java.util.Arrays;
-
 /**
- * A*-algoritmin tarvitsemat erilaiset analysointi-funktiot.
+ * Reitinhaku-algoritmien tarvitsemat erilaiset analysointi-funktiot.
  *
  * @author Kristian Wahlroos
  * @see logiikka.AStar
  */
 public class Analysoija {
 
-    private Reitinhakija aStar;
-    private final int[] blk = new int[]{0, 0, 0};
+    private Reitinhakija hakija;
+    
+    // Kaikki mahdolliset väriarvot ja niiden RGB-arvot
+    
     private final int[] white = new int[]{255, 255, 255};
     private final int[] red = new int[]{255, 0, 0};
     private final int[] green = new int[]{0, 255, 0};
@@ -22,12 +22,12 @@ public class Analysoija {
      * sisältää arvot kaksiulotteisessa taulukossa.
      *
      * @param kartta Annettava kartta
-     * @param aStar {@link logiikka.AStar} luokan ilmentymä jonka avulla
+     * @param hakija {@link logiikka.Reitinhakija} luokan ilmentymä jonka avulla
      * asetetaan maali ja lähtö
      * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
      */
-    public int[][] analysoiKarttaArvoiksiMerkeista(char[][] kartta, Reitinhakija aStar) {
-        this.aStar = aStar;
+    public int[][] analysoiKarttaArvoiksiMerkeista(char[][] kartta, Reitinhakija hakija) {
+        this.hakija = hakija;
         int[][] arvoTaulu = new int[kartta.length][kartta[0].length];
         for (int i = 0; i < kartta.length; i++) {
             char[] kartta1 = kartta[i];
@@ -44,12 +44,12 @@ public class Analysoija {
      * sisältää arvot kaksiulotteisessa taulukossa.
      *
      * @param karttaRGB Annettava kartta väreinä
-     * @param aStar {@link logiikka.AStar} luokan ilmentymä jonka avulla
+     * @param hakija {@link logiikka.AStar} luokan ilmentymä jonka avulla
      * asetetaan maali ja lähtö
      * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
      */
-    public int[][] analysoiKarttaArvoiksiVareista(int[][] karttaRGB, Reitinhakija aStar) {
-        this.aStar = aStar;
+    public int[][] analysoiKarttaArvoiksiVareista(int[][] karttaRGB, Reitinhakija hakija) {
+        this.hakija = hakija;
         int[][] arvoTaulu = new int[karttaRGB.length][karttaRGB[0].length];
         for (int i = 0; i < karttaRGB.length; i++) {
             int[] kartta1 = karttaRGB[i];
@@ -63,7 +63,7 @@ public class Analysoija {
 
     /**
      * Analysoi kartan yksittäisen merkin palauttaen sitä vastaavan painon
-     * solmun luontia varten
+     * solmun luontia varten. Tiedottaa myös reitinhakijalle maalin ja lähdön.
      *
      * @param tarkasteltavana Saatu merkki
      * @param y y-indeksi
@@ -78,11 +78,11 @@ public class Analysoija {
             return Ymparistomuuttuja.VesiRuutu.getArvo();
         }
         if (tarkasteltavana == 'A') {
-            aStar.asetaLahto(x, y);
+            hakija.asetaLahto(x, y);
             return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (tarkasteltavana == 'B') {
-            aStar.asetaMaali(x, y);
+            hakija.asetaMaali(x, y);
             return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         } else {
             return Ymparistomuuttuja.INF.getArvo();
@@ -102,14 +102,14 @@ public class Analysoija {
         int[] RGB = new int[]{getRed(RGBVari), getGreen(RGBVari), getBlue(RGBVari)};
 
         if (RGB[0] == red[0] && RGB[1] == red[1] && RGB[2] == red[2]) { // maali
-            aStar.asetaMaali(x, y);
+            hakija.asetaMaali(x, y);
             return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (RGB[0] == white[0] && RGB[1] == white[1] && RGB[2] == white[2]) {
             return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (RGB[0] == green[0] && RGB[1] == green[1] && RGB[2] == green[2]) { //lahto
-            aStar.asetaLahto(x, y);
+            hakija.asetaLahto(x, y);
             return Ymparistomuuttuja.NormaaliRuutu.getArvo();
         }
         if (RGB[0] == blue[0] && RGB[1] == blue[1] && RGB[2] == blue[2]) {

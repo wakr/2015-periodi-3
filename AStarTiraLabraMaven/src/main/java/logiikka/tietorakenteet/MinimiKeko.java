@@ -1,20 +1,18 @@
 package logiikka.tietorakenteet;
 
-import java.io.Serializable;
-import java.util.AbstractQueue;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Queue;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 /**
  * PriorityQueue *Kesken*
  *
  *
- * @author kride
+ * @author Kristian Wahlroos
+ * @param <T> Taulukon tyyppi
  */
-public class MinimiKeko<T> extends AbstractQueue<T>
-        implements Serializable {
+public class MinimiKeko<T extends Comparable<T>> implements Iterable<T> {
 
     private static final int DEF_KAPASITEETTI = 100;
     protected T[] alkiot;
@@ -25,14 +23,125 @@ public class MinimiKeko<T> extends AbstractQueue<T>
         koko = 0;
     }
 
-    @Override
-    public boolean add(T e) {
-        return super.add(e); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Lisää arvon minimikekoon
+     *
+     * @param arvo Lisättävä arvo, joka on tyyppiä T
+     */
+    public void add(T arvo) {
+        if (koko >= alkiot.length - 1) {
+            alkiot = this.laajenna();
+        }
+
+        koko++;
+        int index = koko;
+        alkiot[index] = arvo;
+
+        korjaaYlos();
     }
 
+    /**
+     * Tyhjentää minikeon
+     */
+    public void clear() {
+        alkiot = (T[]) new Comparable[DEF_KAPASITEETTI];
+        koko = 0;
+    }
+
+    /**
+     * Iteraattori, jonka avulla for each -komento on muuan muassa käytettävissä
+     */
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ListIterator<T>() {
+
+            int cursor = 0, start = 0;
+
+            @Override
+            public boolean hasNext() {
+                return cursor < koko;
+            }
+
+            @Override
+            public T next() {
+                if (hasNext()) {
+                    cursor++;
+                    return alkiot[cursor];
+                }
+                throw new NoSuchElementException();
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return cursor > 0;
+            }
+
+            @Override
+            public T previous() {
+                if (hasPrevious()) {
+                    cursor--;
+                    return alkiot[cursor];
+                }
+                throw new NoSuchElementException();
+            }
+
+            @Override
+            public int nextIndex() {
+                return cursor + 1;
+            }
+
+            @Override
+            public int previousIndex() {
+                return cursor - 1;
+            }
+
+            @Override
+            public void remove() {
+                alkiot[cursor] = null;
+            }
+
+            @Override
+            public void set(T e) {
+                alkiot[cursor] = e;
+            }
+
+            @Override
+            public void add(T e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+    }
+
+    protected void korjaaYlos() {
+        int indeksi = this.koko;
+
+        while (onVanhempi(indeksi)
+                && (vanhempi(indeksi).compareTo(alkiot[indeksi]) > 0)) {
+
+            vaihdaPaittain(indeksi, vanhemmanIndeksi(indeksi));
+            indeksi = vanhemmanIndeksi(indeksi);
+        }
+    }
+
+    protected void korjaaAlas() {
+        int index = 1;
+
+        while (onVasenLapsi(index)) {
+            int pienempiLapsi = vasenIndeksi(index);
+
+            if (onOikeaLapsi(index)
+                    && alkiot[vasenIndeksi(index)].compareTo(alkiot[oikeaIndeksi(index)]) > 0) {
+                pienempiLapsi = oikeaIndeksi(index);
+            }
+
+            if (alkiot[index].compareTo(alkiot[pienempiLapsi]) > 0) {
+                vaihdaPaittain(index, pienempiLapsi);
+            } else {
+                break;
+            }
+
+            index = pienempiLapsi;
+        }
     }
 
     /**
@@ -40,7 +149,6 @@ public class MinimiKeko<T> extends AbstractQueue<T>
      *
      * @return boolean-arvo, jossa true tarkoittaa, että keko on tyhjä.
      */
-    @Override
     public boolean isEmpty() {
         return koko == 0;
     }
@@ -48,24 +156,38 @@ public class MinimiKeko<T> extends AbstractQueue<T>
     /**
      * @return Keon alkioiden määrä.
      */
-    @Override
     public int size() {
         return koko;
     }
 
-    @Override
-    public boolean offer(T e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
+    /**
+     * Ottaa ensimmäisen ja palauttaa sen.
+     *
+     * @return T Tyyppiä T oleva alkio taulukossa
+     */
     public T poll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        T result = peek();
+
+        alkiot[1] = alkiot[size()];
+        alkiot[size()] = null;
+        koko--;
+
+        korjaaAlas();
+
+        return result;
     }
 
-    @Override
+    /**
+     * Palauttaa ensimmäisen alkion taulukosta
+     *
+     * @return T Tyyppiä T oleva alkio
+     */
     public T peek() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.isEmpty()) {
+            throw new IllegalStateException();
+        }
+
+        return alkiot[1];
     }
 
     private boolean onVanhempi(int i) {
@@ -98,6 +220,12 @@ public class MinimiKeko<T> extends AbstractQueue<T>
 
     private T[] laajenna() {
         return Arrays.copyOf(alkiot, alkiot.length * 2);
+    }
+
+    protected void vaihdaPaittain(int index1, int index2) {
+        T tmp = alkiot[index1];
+        alkiot[index1] = alkiot[index2];
+        alkiot[index2] = tmp;
     }
 
     @Override

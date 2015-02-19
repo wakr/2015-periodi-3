@@ -1,17 +1,15 @@
 package logiikka;
 
 import java.awt.Color;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import kayttoliittyma.Piirtaja;
 import util.Piste;
 
 /**
- * A*-algoritmi. Analysoi ja luo verkon jonkan jälkeen ajattaessa etsii
- * pienimmän polun A ja B pisteiden välille käyttäen Dijkstran algoritmin ideaa
- * johon on lisätty heurestiikka eli Manhattan etäisyys * TieBraker.
+ * Moving Target Adaptive A* -algoritmi.
+ * http://www.cs.cmu.edu/~maxim/files/mtswithaa_aamas07.pdf Laajennos
+ * A*-algoritmista, joka pitää kirjaa edellisistä hauista nopeuttaen seuraavaa
+ * hakua. Pystyy toimimaan jopa 50% nopeammin, kun peräkkäiset A* haut. Toimii
+ * myös liikkuviin maaleihin.
  *
  * @author Kristian Wahlroos
  * @see io.Tulostaja
@@ -19,15 +17,18 @@ import util.Piste;
  * @see logiikka.Analysoija
  * @see logiikka.Heurestiikka
  * @see logiikka.Solmu
+ * @see logiikka.Reitinhakija
  */
 public class MTAA extends Reitinhakija {
 
     //MTAA
-    private double[] hValues;
-    private int[] search;
-    private int counter;
+    private double[] heurestisetArvot;
+    private int[] hakuMaarat;
+    private int laskuri;
 
     /**
+     * Luo kartan merkkikartasta.
+     *
      * @param merkkiKartta Kartta char-merkkeinä
      */
     public MTAA(char[][] merkkiKartta) {
@@ -45,8 +46,10 @@ public class MTAA extends Reitinhakija {
     }
 
     /**
+     * Luo kartan kuvasta.
+     *
      * @param karttaPiirtaja Luokka jonka luodaan Ikkuna-luokassa ja tuodaan
-     * A*:n käyttöön
+     * MTAA*:n käyttöön
      * @param karttaRGB Kartta, joka on muokattu RGB-väreihin ts. kuva
      */
     public MTAA(int[][] karttaRGB, Piirtaja karttaPiirtaja) {
@@ -59,17 +62,17 @@ public class MTAA extends Reitinhakija {
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
-        this.hValues = new double[kartanKorkeus * kartanLeveys];
-        this.search = new int[kartanLeveys * kartanLeveys];
+        this.heurestisetArvot = new double[kartanKorkeus * kartanLeveys];
+        this.hakuMaarat = new int[kartanLeveys * kartanLeveys];
 
-        counter = 0;
+        laskuri = 0;
         luoVerkkoRBG();
         alustaEtaisyydetAarettomiksi();
         alustaHeurestiikka();
     }
 
-    private void alustaHeurestiikka() { // alustetaan h(s) jokaiselle s c- S
-        for (int i = 0; i < hValues.length; i++) {
+    private void alustaHeurestiikka() {
+        for (int i = 0; i < heurestisetArvot.length; i++) {
             int nytY = Analysoija.getRivi(i, kartanLeveys);
             int nytX = Analysoija.getSarake(i, kartanLeveys);
             Piste nyt = new Piste(nytX, nytY);
@@ -79,21 +82,21 @@ public class MTAA extends Reitinhakija {
                     nyt,
                     new Piste(maaliX, maaliY),
                     new Piste(lahtoX, lahtoY));
-            hValues[i] = hS;
+            heurestisetArvot[i] = hS;
         }
 
     }
 
     /**
-     * Aloittaa laittamalla lähtö solmun kekoon jonka jälkeen edetään
-     * naapureihin ja analysoidaan ne heurestiikan nojalla, kunnes keko on tyhjä
-     * tai ollaan löydetty maalissa sijaitseva solmu B. Metodi myös pitää yllä
-     * lyhintä polkua sekä kirjoittaa karttaan sijaintia.
+     * Ero MTAA* ja tavallisen A* välillä on tässä metodissa. Reitinhaun idea on
+     * sama, kuin A*-algoritmissa, mutta tässä pidetään kirjaa heurestisista
+     * arvoista ja päivitetään niitä kaavalla h(s) = g(maali) - g(s).
+     *
      */
     @Override
     public void suoritaReitinHaku() {
 
-        if (onkoaAustamaton()) {
+        if (onkoaAlustamaton()) {
             throw new IllegalStateException("Maali tai lähtö alustamaton.");
         }
 
@@ -121,16 +124,23 @@ public class MTAA extends Reitinhakija {
 
         }
 
-        updateH(); // updates all expanded nodes
+        updateH(); // päivittää kaikkien analysoitujen solmun h(s)-arvot.
         keskeyta = false;
 
     }
 
-    private void tutkiPienimmanNaapurit(int tunnus, Solmu pienin) {
+    /**
+     * Tutkii halvimman solmun kaikki mahdolliset naapurit verkossa.
+     *
+     * @param tunnus Pienimmän solmun tunnus
+     * @param pienin Pienin solmu
+     */
+    @Override
+    public void tutkiPienimmanNaapurit(int tunnus, Solmu pienin) {
         for (int i = 0; i < verkko[tunnus].size(); i++) {
 
             int vierusSolmu = verkko[tunnus].get(i);
-            initializeState(vierusSolmu);
+            alustaSolmuMTAA(vierusSolmu);
             int vierusSolmunY = Analysoija.getRivi(vierusSolmu, kartanLeveys);
             int vierusSolmunX = Analysoija.getSarake(vierusSolmu, kartanLeveys);
 
@@ -145,7 +155,7 @@ public class MTAA extends Reitinhakija {
         if (uusiEtaisyys < vanhaEtaisyys) {
             analysoidut.add(vierusSolmu);
             etaisyysArviotAlkuun[vierusSolmu] = uusiEtaisyys;
-            double prioriteetti = uusiEtaisyys + hValues[vierusSolmu];
+            double prioriteetti = uusiEtaisyys + heurestisetArvot[vierusSolmu];
             polku[vierusSolmu] = tunnus;
             openSet.add(new Solmu(prioriteetti, vierusSolmu, uusiEtaisyys));
             merkkaaKarttaan(Color.DARK_GRAY, vierusSolmu);
@@ -161,25 +171,34 @@ public class MTAA extends Reitinhakija {
     }
 
     private void alustaKierros() {
-        counter++;
-        initializeState(Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys)); // IS(s_start)
-        initializeState(Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys)); //IS(s_target)
+        laskuri++;
+        alustaSolmuMTAA(Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys));
+        alustaSolmuMTAA(Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys));
         softReset();
     }
 
-    private void initializeState(int s) {
-        if (search[s] != counter && search[s] != 0) {
-            etaisyysArviotAlkuun[s] = Ymparistomuuttuja.INF.getArvo();
+    /**
+     * Alustaa solmun hakujen välissä MTAA* mukaan. Tämän avulla turhista
+     * solmuista päästään eroon.
+     *
+     * @param solmu Alustettava solmu
+     */
+    public void alustaSolmuMTAA(int solmu) {
+        if (hakuMaarat[solmu] != laskuri && hakuMaarat[solmu] != 0) {
+            etaisyysArviotAlkuun[solmu] = Ymparistomuuttuja.INF.getArvo();
         }
-        search[s] = counter;
+        hakuMaarat[solmu] = laskuri;
     }
 
+    /**
+     * Päivitetään kaikki solmut Closed Setissä.
+     */
     public void updateH() {
 
         int maali = Analysoija.muutaPitkaksi(maaliY, maaliX, kartanLeveys);
         for (int i = 0; i < lopullisetPituudet.length; i++) {
             if (lopullisetPituudet[i]) { // for each s c- Closed
-                hValues[i] = etaisyysArviotAlkuun[maali] - etaisyysArviotAlkuun[i]; //h(s) = g(s_target) - g(s)
+                heurestisetArvot[i] = etaisyysArviotAlkuun[maali] - etaisyysArviotAlkuun[i]; //h(s) = g(s_target) - g(s)
             }
         }
     }
@@ -187,18 +206,19 @@ public class MTAA extends Reitinhakija {
     private void lisaaAloitusSolmu() {
         int aloitus = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
         etaisyysArviotAlkuun[aloitus] = 0;
-        openSet.add(new Solmu(etaisyysArviotAlkuun[aloitus] + hValues[aloitus], aloitus, 0));
+        openSet.add(new Solmu(etaisyysArviotAlkuun[aloitus] + heurestisetArvot[aloitus], aloitus, 0));
     }
 
     /**
-     * Ilmoittaa A*-algoritmille, että maali on vaihtunut TO-DO: MT-AA*
+     * Ilmoittaa MTAA*-algoritmille, että maali on vaihtunut, jolloin lasketaan
+     * heurestinen arvio uuteen maaliin.
      */
     @Override
     public void ilmoitaMaalinMuutoksesta() {
         keskeyta = true;
         int maaliNyt = Analysoija.muutaPitkaksi(maaliY, lahtoX, kartanLeveys);
-        double vanha = hValues[maaliNyt];
-        for (int i = 0; i < hValues.length; i++) {
+        double vanha = heurestisetArvot[maaliNyt];
+        for (int i = 0; i < heurestisetArvot.length; i++) {
 
             int iX = Analysoija.getSarake(i, kartanLeveys);
             int iY = Analysoija.getRivi(i, kartanLeveys);
@@ -210,8 +230,8 @@ public class MTAA extends Reitinhakija {
                     new Piste(maaliX, maaliY),
                     new Piste(lahtoX, lahtoY));
 
-            //hValues[i] = Math.max(hS, hValues[i] - vanha);
-            hValues[i] = hS;
+            //hValues[i] = Math.max(hS, hValues[i] - vanha); ei toimi pseudossa?
+            heurestisetArvot[i] = hS;
         }
 
     }

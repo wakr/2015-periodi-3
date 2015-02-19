@@ -1,6 +1,5 @@
 package logiikka;
 
-
 import logiikka.Ymparistomuuttuja;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +16,7 @@ import org.junit.Before;
  */
 public class VerkonRakennusTest {
 
-    private AStar aStar;
+    private Reitinhakija aStar;
     private Analysoija analysoija;
 
     @Before
