@@ -50,7 +50,7 @@ public class Piirtaja {
 
         g.drawRect(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), 1, 1);
 
-        nuku(5);
+        nuku(0);
     }
     
     /**
