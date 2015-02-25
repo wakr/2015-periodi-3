@@ -1,0 +1,3046 @@
+<html>
+<head>
+<style type='text/css'>
+html, body, div, span, p, blockquote, pre {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+body{
+	line-height: 1;
+	color: black;
+	background: white;
+	margin-left: 20px;
+}
+
+.src { 
+border: 1px solid #dddddd;
+padding-top: 10px;
+padding-right: 5px;
+padding-left: 5px;
+}
+
+
+.covered {background-color: #ddffdd}
+.uncovered {background-color: #ffdddd}
+.killed {background-color: #aaffaa}
+.survived {background-color: #ffaaaa}
+.uncertain {background-color: #dde7ef}
+.run_error {background-color: #dde7ef}
+.na {background-color: #eeeeee}
+.timed_out {background-color: #dde7ef}
+.non_viable {background-color: #aaffaa}
+.memory_error {background-color: #dde7ef}
+.not_started {background-color: #dde7ef; color : red}
+.no_coverage {background-color: #ffaaaa}
+
+
+.pop {outline:none; }
+.pop strong {line-height:30px;}
+.pop {text-decoration:none;}
+.pop span { z-index:10;display:none; padding:14px 20px; margin-top:-30px; margin-left:28px; width:800px; line-height:16px; word-wrap:break-word; }
+.pop:hover span{ display:inline; position:absolute; color:#111; border:1px solid #DCA; background:#fffAF0;}
+
+.pop span { border-radius:4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -moz-box-shadow: 5px 5px 8px #CCC; -webkit-box-shadow: 5px 5px 8px #CCC; box-shadow: 5px 5px 8px #CCC; }
+</style>
+
+</head>
+<body>
+
+
+<h1>Analysoija.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_1'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package fi.wakr.logiikka;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_2'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_3'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>/**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_4'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * Reitinhaku-algoritmien tarvitsemat erilaiset analysointi-funktiot.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_5'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_6'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @author Kristian Wahlroos</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_7'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> * @see fi.wakr.logiikka.AStar</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_8'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''> */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_9'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>public class Analysoija {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_10'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_11'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private Reitinhakija hakija;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_12'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    </span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_13'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    // Kaikki mahdolliset v&#228;riarvot ja niiden RGB-arvot</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_14'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    </span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_15'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private final int[] white = new int[]{255, 255, 255};</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_16'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private final int[] red = new int[]{255, 0, 0};</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_17'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private final int[] green = new int[]{0, 255, 0};</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_18'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private final int[] blue = new int[]{0, 0, 255};</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_19'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_20'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_21'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Analysoi annetun kartan jokaisen arvon palauttaen uuden kartan, joka</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_22'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * sis&#228;lt&#228;&#228; arvot kaksiulotteisessa taulukossa.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_23'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_24'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param kartta Annettava kartta</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_25'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param hakija {@link fi.wakr.logiikka.Reitinhakija} luokan ilmentym&#228; jonka avulla</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_26'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * asetetaan maali ja l&#228;ht&#246;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_27'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_28'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_29'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int[][] analysoiKarttaArvoiksiMerkeista(char[][] kartta, Reitinhakija hakija) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_30'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.hakija = hakija;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_31'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        int[][] arvoTaulu = new int[kartta.length][kartta[0].length];</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_32'/>
+32
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_32'>3</a>
+<span>
+1. analysoiKarttaArvoiksiMerkeista : changed conditional boundary &rarr; KILLED<br/>
+2. analysoiKarttaArvoiksiMerkeista : Changed increment from 1 to -1 &rarr; KILLED<br/>
+3. analysoiKarttaArvoiksiMerkeista : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        for (int i = 0; i &#60; kartta.length; i++) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_33'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            char[] kartta1 = kartta[i];</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_34'/>
+34
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_34'>3</a>
+<span>
+1. analysoiKarttaArvoiksiMerkeista : changed conditional boundary &rarr; KILLED<br/>
+2. analysoiKarttaArvoiksiMerkeista : Changed increment from 1 to -1 &rarr; KILLED<br/>
+3. analysoiKarttaArvoiksiMerkeista : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            for (int j = 0; j &#60; kartta1.length; j++) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_35'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                char l = kartta1[j];</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_36'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                arvoTaulu[i][j] = analysoiMerkki(l, i, j);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_37'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_38'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_39'/>
+39
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_39'>1</a>
+<span>
+1. analysoiKarttaArvoiksiMerkeista : mutated return of Object value for fi/wakr/logiikka/Analysoija::analysoiKarttaArvoiksiMerkeista to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return arvoTaulu;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_40'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_41'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_42'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_43'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Analysoi annetun kartan jokaisen arvon palauttaen uuden kartan, joka</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_44'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * sis&#228;lt&#228;&#228; arvot kaksiulotteisessa taulukossa.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_45'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_46'/>
+46
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_46'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param karttaRGB Annettava kartta v&#228;rein&#228;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_47'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param hakija {@link fi.wakr.logiikka.AStar} luokan ilmentym&#228; jonka avulla</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_48'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * asetetaan maali ja l&#228;ht&#246;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_49'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_50'/>
+50
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_50'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_51'/>
+51
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_51'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int[][] analysoiKarttaArvoiksiVareista(int[][] karttaRGB, Reitinhakija hakija) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_52'/>
+52
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_52'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        this.hakija = hakija;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_53'/>
+53
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_53'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        int[][] arvoTaulu = new int[karttaRGB.length][karttaRGB[0].length];</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_54'/>
+54
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_54'>3</a>
+<span>
+1. analysoiKarttaArvoiksiVareista : changed conditional boundary &rarr; KILLED<br/>
+2. analysoiKarttaArvoiksiVareista : Changed increment from 1 to -1 &rarr; KILLED<br/>
+3. analysoiKarttaArvoiksiVareista : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        for (int i = 0; i &#60; karttaRGB.length; i++) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_55'/>
+55
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_55'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>            int[] kartta1 = karttaRGB[i];</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_56'/>
+56
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_56'>3</a>
+<span>
+1. analysoiKarttaArvoiksiVareista : changed conditional boundary &rarr; KILLED<br/>
+2. analysoiKarttaArvoiksiVareista : Changed increment from 1 to -1 &rarr; KILLED<br/>
+3. analysoiKarttaArvoiksiVareista : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            for (int j = 0; j &#60; kartta1.length; j++) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_57'/>
+57
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_57'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                int l = kartta1[j];</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_58'/>
+58
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_58'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>                arvoTaulu[i][j] = analysoiVari(l, i, j);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_59'/>
+59
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_59'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>            }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_60'/>
+60
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_60'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_61'/>
+61
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_61'>1</a>
+<span>
+1. analysoiKarttaArvoiksiVareista : mutated return of Object value for fi/wakr/logiikka/Analysoija::analysoiKarttaArvoiksiVareista to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return arvoTaulu;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_62'/>
+62
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_62'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_63'/>
+63
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_63'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_64'/>
+64
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_64'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_65'/>
+65
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_65'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Analysoi kartan yksitt&#228;isen merkin palauttaen sit&#228; vastaavan painon</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_66'/>
+66
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_66'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * solmun luontia varten. Tiedottaa my&#246;s reitinhakijalle maalin ja l&#228;hd&#246;n.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_67'/>
+67
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_67'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_68'/>
+68
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_68'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param tarkasteltavana Saatu merkki</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_69'/>
+69
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_69'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param y y-indeksi</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_70'/>
+70
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_70'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param x x-indeksi</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_71'/>
+71
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_71'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Solmun paino</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_72'/>
+72
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_72'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_73'/>
+73
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_73'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private int analysoiMerkki(char tarkasteltavana, int y, int x) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_74'/>
+74
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_74'>1</a>
+<span>
+1. analysoiMerkki : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (tarkasteltavana == &#39;.&#39;) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_75'/>
+75
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_75'>1</a>
+<span>
+1. analysoiMerkki : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Ymparistomuuttuja.NormaaliRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_76'/>
+76
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_76'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_77'/>
+77
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_77'>1</a>
+<span>
+1. analysoiMerkki : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (tarkasteltavana == &#39;,&#39;) {</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_78'/>
+78
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_78'>1</a>
+<span>
+1. analysoiMerkki : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; NO_COVERAGE<br/>
+
+</span>
+</td>
+<td class='uncovered'><pre><span  class='survived'>            return Ymparistomuuttuja.VesiRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_79'/>
+79
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_79'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_80'/>
+80
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_80'>1</a>
+<span>
+1. analysoiMerkki : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (tarkasteltavana == &#39;A&#39;) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_81'/>
+81
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_81'>1</a>
+<span>
+1. analysoiMerkki : removed call to fi/wakr/logiikka/Reitinhakija::asetaLahto &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            hakija.asetaLahto(x, y);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_82'/>
+82
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_82'>1</a>
+<span>
+1. analysoiMerkki : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; SURVIVED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>            return Ymparistomuuttuja.NormaaliRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_83'/>
+83
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_83'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_84'/>
+84
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_84'>1</a>
+<span>
+1. analysoiMerkki : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (tarkasteltavana == &#39;B&#39;) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_85'/>
+85
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_85'>1</a>
+<span>
+1. analysoiMerkki : removed call to fi/wakr/logiikka/Reitinhakija::asetaMaali &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            hakija.asetaMaali(x, y);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_86'/>
+86
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_86'>1</a>
+<span>
+1. analysoiMerkki : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Ymparistomuuttuja.NormaaliRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_87'/>
+87
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_87'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        } else {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_88'/>
+88
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_88'>1</a>
+<span>
+1. analysoiMerkki : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Ymparistomuuttuja.INF.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_89'/>
+89
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_89'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_90'/>
+90
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_90'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_91'/>
+91
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_91'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_92'/>
+92
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_92'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_93'/>
+93
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_93'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Analysoi kartan/kuvan yksitt&#228;isen RPG v&#228;rin palauttaen sit&#228; vastaavan</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_94'/>
+94
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_94'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * painon solmun luontia varten</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_95'/>
+95
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_95'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_96'/>
+96
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_96'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param RGBVari Saatu v&#228;riarvo</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_97'/>
+97
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_97'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param y y-indeksi</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_98'/>
+98
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_98'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param x x-indeksi</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_99'/>
+99
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_99'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Solmun paino</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_100'/>
+100
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_100'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_101'/>
+101
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_101'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private int analysoiVari(int RGBVari, int y, int x) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_102'/>
+102
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_102'></a>
+<span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        int[] RGB = new int[]{getRed(RGBVari), getGreen(RGBVari), getBlue(RGBVari)};</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_103'/>
+103
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_103'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_104'/>
+104
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_104'>3</a>
+<span>
+1. analysoiVari : negated conditional &rarr; KILLED<br/>
+2. analysoiVari : negated conditional &rarr; KILLED<br/>
+3. analysoiVari : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (RGB[0] == red[0] &#38;&#38; RGB[1] == red[1] &#38;&#38; RGB[2] == red[2]) { // maali</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_105'/>
+105
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_105'>1</a>
+<span>
+1. analysoiVari : removed call to fi/wakr/logiikka/Reitinhakija::asetaMaali &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            hakija.asetaMaali(x, y);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_106'/>
+106
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_106'>1</a>
+<span>
+1. analysoiVari : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Ymparistomuuttuja.NormaaliRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_107'/>
+107
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_107'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_108'/>
+108
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_108'>3</a>
+<span>
+1. analysoiVari : negated conditional &rarr; KILLED<br/>
+2. analysoiVari : negated conditional &rarr; KILLED<br/>
+3. analysoiVari : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (RGB[0] == white[0] &#38;&#38; RGB[1] == white[1] &#38;&#38; RGB[2] == white[2]) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_109'/>
+109
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_109'>1</a>
+<span>
+1. analysoiVari : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Ymparistomuuttuja.NormaaliRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_110'/>
+110
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_110'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_111'/>
+111
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_111'>3</a>
+<span>
+1. analysoiVari : negated conditional &rarr; KILLED<br/>
+2. analysoiVari : negated conditional &rarr; KILLED<br/>
+3. analysoiVari : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        if (RGB[0] == green[0] &#38;&#38; RGB[1] == green[1] &#38;&#38; RGB[2] == green[2]) { //lahto</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_112'/>
+112
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_112'>1</a>
+<span>
+1. analysoiVari : removed call to fi/wakr/logiikka/Reitinhakija::asetaLahto &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            hakija.asetaLahto(x, y);</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_113'/>
+113
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_113'>1</a>
+<span>
+1. analysoiVari : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; SURVIVED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>            return Ymparistomuuttuja.NormaaliRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_114'/>
+114
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_114'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_115'/>
+115
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_115'>3</a>
+<span>
+1. analysoiVari : negated conditional &rarr; SURVIVED<br/>
+2. analysoiVari : negated conditional &rarr; SURVIVED<br/>
+3. analysoiVari : negated conditional &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='survived'>        if (RGB[0] == blue[0] &#38;&#38; RGB[1] == blue[1] &#38;&#38; RGB[2] == blue[2]) {</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_116'/>
+116
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_116'>1</a>
+<span>
+1. analysoiVari : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; NO_COVERAGE<br/>
+
+</span>
+</td>
+<td class='uncovered'><pre><span  class='survived'>            return Ymparistomuuttuja.VesiRuutu.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_117'/>
+117
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_117'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        } else {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_118'/>
+118
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_118'>1</a>
+<span>
+1. analysoiVari : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>            return Ymparistomuuttuja.INF.getArvo();</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_119'/>
+119
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_119'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>        }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_120'/>
+120
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_120'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_121'/>
+121
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_121'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_122'/>
+122
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_122'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_123'/>
+123
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_123'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Analysoi v&#228;rit palauttamalla niist&#228; arvon v&#228;lille 0...255</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_124'/>
+124
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_124'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_125'/>
+125
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_125'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param rgb RGB-muodossa oleva v&#228;riarvo</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_126'/>
+126
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_126'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return RPG-arvo v&#228;lilt&#228; 0...255</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_127'/>
+127
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_127'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_128'/>
+128
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_128'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getRed(int rgb) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_129'/>
+129
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_129'>3</a>
+<span>
+1. getRed : Replaced Shift Right with Shift Left &rarr; KILLED<br/>
+2. getRed : Replaced bitwise AND with OR &rarr; KILLED<br/>
+3. getRed : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return (rgb &#62;&#62; 16) &#38; 0x000000FF;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_130'/>
+130
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_130'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_131'/>
+131
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_131'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_132'/>
+132
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_132'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getGreen(int rgb) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_133'/>
+133
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_133'>3</a>
+<span>
+1. getGreen : Replaced Shift Right with Shift Left &rarr; KILLED<br/>
+2. getGreen : Replaced bitwise AND with OR &rarr; KILLED<br/>
+3. getGreen : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return (rgb &#62;&#62; 8) &#38; 0x000000FF;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_134'/>
+134
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_134'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_135'/>
+135
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_135'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_136'/>
+136
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_136'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public int getBlue(int rgb) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_137'/>
+137
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_137'>2</a>
+<span>
+1. getBlue : Replaced bitwise AND with OR &rarr; KILLED<br/>
+2. getBlue : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return (rgb) &#38; 0x000000FF;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_138'/>
+138
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_138'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_139'/>
+139
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_139'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_140'/>
+140
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_140'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_141'/>
+141
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_141'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Koska taulua k&#228;sitell&#228;&#228;n yksiulotteisena A*-algoritmissa sen selkeyden</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_142'/>
+142
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_142'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * vuoksi, niin koordinaatit on pystytt&#228;v&#228; muuttamaan yksiulotteisesta</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_143'/>
+143
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_143'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * esityksest&#228; kaksiulotteiseen. Seuraavat kaksi metodia hoitavat kyseisen</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_144'/>
+144
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_144'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * operaation.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_145'/>
+145
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_145'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_146'/>
+146
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_146'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param pidennettyKoordinaatti Koordinaatti yksiulotteisessa muodossa</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_147'/>
+147
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_147'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param leveys Kartan leveys</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_148'/>
+148
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_148'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Yksiulotteisen koordinaatin sit&#228; vastaava rivi eli y-koordinaatti</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_149'/>
+149
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_149'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_150'/>
+150
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_150'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public static int getRivi(int pidennettyKoordinaatti, int leveys) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_151'/>
+151
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_151'>2</a>
+<span>
+1. getRivi : Replaced integer division with multiplication &rarr; KILLED<br/>
+2. getRivi : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return pidennettyKoordinaatti / leveys;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_152'/>
+152
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_152'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_153'/>
+153
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_153'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_154'/>
+154
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_154'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_155'/>
+155
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_155'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Jatkoa edelliselle yksiulotteisen koordinaatin muuttamiselle. Kyseess&#228;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_156'/>
+156
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_156'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * t&#228;ss&#228; vain x-koordinaatin haku.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_157'/>
+157
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_157'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_158'/>
+158
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_158'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param pidennettyKoordinaatti Koordinaatti yksiulotteisessa muodossa</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_159'/>
+159
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_159'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param leveys Kartan leveys</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_160'/>
+160
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_160'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Yksiulotteisen koordinaatin sit&#228; vastaava sarake eli</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_161'/>
+161
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_161'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * x-koordinaatti</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_162'/>
+162
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_162'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_163'/>
+163
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_163'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public static int getSarake(int pidennettyKoordinaatti, int leveys) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_164'/>
+164
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_164'>2</a>
+<span>
+1. getSarake : Replaced integer modulus with multiplication &rarr; KILLED<br/>
+2. getSarake : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return pidennettyKoordinaatti % leveys;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_165'/>
+165
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_165'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_166'/>
+166
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_166'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_167'/>
+167
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_167'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_168'/>
+168
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_168'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * K&#228;&#228;nteinen operaatio koordinaateille, eli kaksiulotteisen koordinaatin</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_169'/>
+169
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_169'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * muutos yksiulotteiseksi.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_170'/>
+170
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_170'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_171'/>
+171
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_171'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param y y-koordinaatti</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_172'/>
+172
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_172'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param x x-koordinaatti</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_173'/>
+173
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_173'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param leveys Kartan leveys</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_174'/>
+174
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_174'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return Koordinaatti yksiulotteisessa esityksess&#228;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_175'/>
+175
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_175'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_176'/>
+176
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_176'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public static int muutaPitkaksi(int y, int x, int leveys) {</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_177'/>
+177
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_177'>3</a>
+<span>
+1. muutaPitkaksi : Replaced integer multiplication with division &rarr; KILLED<br/>
+2. muutaPitkaksi : Replaced integer addition with subtraction &rarr; KILLED<br/>
+3. muutaPitkaksi : replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED<br/>
+
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return (y * leveys) + x;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_178'/>
+178
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_178'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_179'/>
+179
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_179'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@cda0432_180'/>
+180
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_180'></a>
+<span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_32'>32</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_32'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiKarttaArvoiksiMerkeista<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiKarttaArvoiksiMerkeista<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> Changed increment from 1 to -1 &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiKarttaArvoiksiMerkeista<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_34'>34</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_34'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiKarttaArvoiksiMerkeista<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiKarttaArvoiksiMerkeista<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> Changed increment from 1 to -1 &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiKarttaArvoiksiMerkeista<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_39'>39</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_39'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiKarttaArvoiksiMerkeista<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> mutated return of Object value for fi/wakr/logiikka/Analysoija::analysoiKarttaArvoiksiMerkeista to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_54'>54</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_54'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiKarttaArvoiksiVareista<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiKarttaArvoiksiVareista<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> Changed increment from 1 to -1 &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiKarttaArvoiksiVareista<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_56'>56</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_56'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiKarttaArvoiksiVareista<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> changed conditional boundary &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiKarttaArvoiksiVareista<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> Changed increment from 1 to -1 &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiKarttaArvoiksiVareista<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_61'>61</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_61'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiKarttaArvoiksiVareista<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> mutated return of Object value for fi/wakr/logiikka/Analysoija::analysoiKarttaArvoiksiVareista to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_74'>74</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_74'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_75'>75</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_75'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.etaisyydetAlkuunOvatOikeatSerpettiiniKentalla(fi.wakr.logiikka.DijkstraTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_77'>77</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_77'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_78'>78</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_78'/> 
+
+<p class='NO_COVERAGE'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>none</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; NO_COVERAGE</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_80'>80</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_80'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_81'>81</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_81'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> removed call to fi/wakr/logiikka/Reitinhakija::asetaLahto &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_82'>82</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_82'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>none</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; SURVIVED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_84'>84</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_84'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_85'>85</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_85'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> removed call to fi/wakr/logiikka/Reitinhakija::asetaMaali &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_86'>86</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_86'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.etaisyydetAlkuunOvatOikeatSerpettiiniKentalla(fi.wakr.logiikka.DijkstraTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_88'>88</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_88'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiMerkki<br/><b>Killed by : </b>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_104'>104</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_104'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_105'>105</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_105'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> removed call to fi/wakr/logiikka/Reitinhakija::asetaMaali &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_106'>106</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_106'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_108'>108</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_108'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_109'>109</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_109'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_111'>111</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_111'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_112'>112</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_112'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> removed call to fi/wakr/logiikka/Reitinhakija::asetaLahto &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_113'>113</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_113'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>none</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; SURVIVED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_115'>115</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_115'/> 
+
+<p class='SURVIVED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>none</span></span> negated conditional &rarr; SURVIVED</p> <p class='SURVIVED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>none</span></span> negated conditional &rarr; SURVIVED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> negated conditional &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_116'>116</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_116'/> 
+
+<p class='NO_COVERAGE'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>none</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; NO_COVERAGE</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_118'>118</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_118'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>analysoiVari<br/><b>Killed by : </b>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_129'>129</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_129'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getRed<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiPunaiseksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced Shift Right with Shift Left &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getRed<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiPunaiseksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced bitwise AND with OR &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getRed<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiPunaiseksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_133'>133</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_133'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getGreen<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiVihreaksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced Shift Right with Shift Left &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getGreen<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiVihreaksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced bitwise AND with OR &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>getGreen<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiVihreaksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_137'>137</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_137'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getBlue<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiSiniseksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced bitwise AND with OR &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getBlue<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiSiniseksi(fi.wakr.logiikka.AnalysoijaTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_151'>151</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_151'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getRivi<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.konvertteriToimiiLyhyeksi3(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced integer division with multiplication &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getRivi<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.konvertteriToimiiLyhyeksi2(fi.wakr.logiikka.AnalysoijaTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_164'>164</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_164'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getSarake<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.konvertteriToimiiLyhyeksi3(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced integer modulus with multiplication &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>getSarake<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.konvertteriToimiiLyhyeksi2(fi.wakr.logiikka.AnalysoijaTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@cda0432_177'>177</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@cda0432_177'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>muutaPitkaksi<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.pitkaksiMuutosToimii2(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced integer multiplication with division &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>muutaPitkaksi<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.pitkaksiMuutosToimii(fi.wakr.logiikka.AnalysoijaTest)</span></span> Replaced integer addition with subtraction &rarr; KILLED</p> <p class='KILLED'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>muutaPitkaksi<br/><b>Killed by : </b>fi.wakr.logiikka.AnalysoijaTest.pitkaksiMuutosToimii(fi.wakr.logiikka.AnalysoijaTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>INCREMENTS_MUTATOR</li>
+<li class='mutator'>VOID_METHOD_CALL_MUTATOR</li>
+<li class='mutator'>RETURN_VALS_MUTATOR</li>
+<li class='mutator'>MATH_MUTATOR</li>
+<li class='mutator'>NEGATE_CONDITIONALS_MUTATOR</li>
+<li class='mutator'>INVERT_NEGS_MUTATOR</li>
+<li class='mutator'>CONDITIONALS_BOUNDARY_MUTATOR</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>fi.wakr.logiikka.AnalysoijaTest.pitkaksiMuutosToimii(fi.wakr.logiikka.AnalysoijaTest) (1 ms)</li><li>fi.wakr.logiikka.DijkstraTest.etaisyydetAlkuunOvatOikeatPienella(fi.wakr.logiikka.DijkstraTest) (7 ms)</li><li>fi.wakr.logiikka.DijkstraTest.etaisyydetAlkuunOvatOikeatSerpettiiniKentalla(fi.wakr.logiikka.DijkstraTest) (2 ms)</li><li>fi.wakr.logiikka.AStarTest.maaliLoydetaanHaunJalkeenPieniKartasta(fi.wakr.logiikka.AStarTest) (4 ms)</li><li>fi.wakr.logiikka.AStarTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.AStarTest) (3 ms)</li><li>fi.wakr.logiikka.DijkstraTest.serpenttiiniPolkuOikein(fi.wakr.logiikka.DijkstraTest) (2 ms)</li><li>fi.wakr.logiikka.DijkstraTest.lyhinPolkuLoydetaan(fi.wakr.logiikka.DijkstraTest) (2 ms)</li><li>fi.wakr.logiikka.AStarTest.lyhinPolkuLoydetaan3(fi.wakr.logiikka.AStarTest) (5 ms)</li><li>fi.wakr.logiikka.AStarTest.serpenttiiniPolkuOikein(fi.wakr.logiikka.AStarTest) (3 ms)</li><li>fi.wakr.logiikka.MTAATest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.MTAATest) (3 ms)</li><li>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiVihreaksi(fi.wakr.logiikka.AnalysoijaTest) (1 ms)</li><li>fi.wakr.logiikka.MTAATest.lyhinPolkuLoydetaan2(fi.wakr.logiikka.MTAATest) (13 ms)</li><li>fi.wakr.logiikka.AStarTest.etaisyydetAlkuunOvatOikeatSerpettiiniKentalla(fi.wakr.logiikka.AStarTest) (3 ms)</li><li>fi.wakr.logiikka.MTAATest.jattiKartassaHakuNOpeaa(fi.wakr.logiikka.MTAATest) (385 ms)</li><li>fi.wakr.logiikka.AStarTest.lyhinPolkuLoydetaan(fi.wakr.logiikka.AStarTest) (3 ms)</li><li>fi.wakr.logiikka.AnalysoijaTest.konvertteriToimiiLyhyeksi(fi.wakr.logiikka.AnalysoijaTest) (2 ms)</li><li>fi.wakr.logiikka.AStarTest.miniKarttaPolkuOikein(fi.wakr.logiikka.AStarTest) (3 ms)</li><li>fi.wakr.logiikka.DijkstraTest.etaisyydetAlkuunOvatOikeatEsteella(fi.wakr.logiikka.DijkstraTest) (12 ms)</li><li>fi.wakr.logiikka.AStarTest.lyhinPolkuLoydetaan2(fi.wakr.logiikka.AStarTest) (3 ms)</li><li>fi.wakr.logiikka.AStarTest.etaisyydetAlkuunOvatOikeatPienella(fi.wakr.logiikka.AStarTest) (4 ms)</li><li>fi.wakr.logiikka.MTAATest.etaisyydetAlkuunOvatOikeatSerpettiiniKentalla(fi.wakr.logiikka.MTAATest) (2 ms)</li><li>fi.wakr.logiikka.MTAATest.etaisyydetAlkuunOvatOikeatEsteella(fi.wakr.logiikka.MTAATest) (7 ms)</li><li>fi.wakr.logiikka.MTAATest.miniKarttaPolkuOikein(fi.wakr.logiikka.MTAATest) (2 ms)</li><li>fi.wakr.logiikka.MTAATest.lyhinPolkuLoydetaan3(fi.wakr.logiikka.MTAATest) (2 ms)</li><li>fi.wakr.logiikka.MTAATest.etaisyydetAlkuunOvatOikeatPienella(fi.wakr.logiikka.MTAATest) (7 ms)</li><li>fi.wakr.logiikka.AStarTest.jattiKartassaHakuNOpeaa(fi.wakr.logiikka.AStarTest) (194 ms)</li><li>fi.wakr.logiikka.AStarTest.miniKarttaEsteellaPolkuOikein(fi.wakr.logiikka.AStarTest) (3 ms)</li><li>fi.wakr.logiikka.AStarTest.etaisyydetAlkuunOvatOikeatEsteella(fi.wakr.logiikka.AStarTest) (141 ms)</li><li>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiSiniseksi(fi.wakr.logiikka.AnalysoijaTest) (1 ms)</li><li>fi.wakr.logiikka.DijkstraTest.miniKarttaPolkuOikein(fi.wakr.logiikka.DijkstraTest) (1 ms)</li><li>fi.wakr.logiikka.MTAATest.lyhinPolkuLoydetaan(fi.wakr.logiikka.MTAATest) (4 ms)</li><li>fi.wakr.logiikka.MTAATest.miniKarttaEsteellaPolkuOikein(fi.wakr.logiikka.MTAATest) (2 ms)</li><li>fi.wakr.logiikka.MTAATest.serpenttiiniPolkuOikein(fi.wakr.logiikka.MTAATest) (2 ms)</li><li>fi.wakr.logiikka.DijkstraTest.maaliLoydetaanHaunJalkeenPieniKartasta(fi.wakr.logiikka.DijkstraTest) (3 ms)</li><li>fi.wakr.logiikka.DijkstraTest.lyhinPolkuLoydetaan2(fi.wakr.logiikka.DijkstraTest) (2 ms)</li><li>fi.wakr.logiikka.DijkstraTest.jattiKartassaHakuNOpeaa(fi.wakr.logiikka.DijkstraTest) (389 ms)</li><li>fi.wakr.logiikka.MTAATest.maaliLoydetaanHaunJalkeenPieniKartasta(fi.wakr.logiikka.MTAATest) (2 ms)</li><li>fi.wakr.logiikka.DijkstraTest.kuvastaLoydetaanLyhinPolku(fi.wakr.logiikka.DijkstraTest) (6 ms)</li><li>fi.wakr.logiikka.AnalysoijaTest.pitkaksiMuutosToimii2(fi.wakr.logiikka.AnalysoijaTest) (1 ms)</li><li>fi.wakr.logiikka.AnalysoijaTest.RGBKonvertteritoimiiPunaiseksi(fi.wakr.logiikka.AnalysoijaTest) (1 ms)</li><li>fi.wakr.util.KuvaTest.luodunKuvanRBGArvotOikein(fi.wakr.util.KuvaTest) (1 ms)</li><li>fi.wakr.logiikka.AnalysoijaTest.konvertteriToimiiLyhyeksi2(fi.wakr.logiikka.AnalysoijaTest) (1 ms)</li><li>fi.wakr.logiikka.DijkstraTest.miniKarttaEsteellaPolkuOikein(fi.wakr.logiikka.DijkstraTest) (2 ms)</li><li>fi.wakr.logiikka.DijkstraTest.lyhinPolkuLoydetaan3(fi.wakr.logiikka.DijkstraTest) (2 ms)</li><li>fi.wakr.logiikka.AnalysoijaTest.konvertteriToimiiLyhyeksi3(fi.wakr.logiikka.AnalysoijaTest) (1 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.1.0
+
+</body>
+</html>

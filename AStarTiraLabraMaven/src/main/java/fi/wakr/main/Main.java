@@ -1,6 +1,6 @@
 package fi.wakr.main;
 
-import kayttoliittyma.Ikkuna;
+import fi.wakr.kayttoliittyma.Ikkuna;
 
 /**
  * Käynnistää ja ajaa joko tekstipohjaisena, tai tämän avulla voidaan käynnistää

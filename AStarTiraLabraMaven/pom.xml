@@ -82,9 +82,9 @@
                 <configuration>
                     <instrumentation>
                         <includes>
-                            <include>*logiikka/*.class</include>
-                            <include>*logiikka/tietorakenteet/*.class</include>
-                            <include>*util/*.class</include>
+                            <include>fi/wakr/logiikka/*.class</include>
+                            <include>fi/wakr/logiikka/tietorakenteet/*.class</include>
+                            <include>fi/wakr/util/*.class</include>
                         </includes>
                     </instrumentation>
                 </configuration>
@@ -93,7 +93,17 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>0.30</version>
+                <version>1.1.0</version>
+                <configuration>
+                    <targetClasses>
+                        <param>fi.wakr.util.Kuva*</param>
+                        <param>fi.wakr.logiikka.AStar*</param>
+                        <param>fi.wakr.logiikka.MTAA*</param>
+                        <param>fi.wakr.logiikka.Dijkstra*</param>
+                        <param>fi.wakr.logiikka.Solmu*</param>
+                        <param>fi.wakr.logiikka.Analysoija*</param>
+                    </targetClasses>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
