@@ -1,6 +1,9 @@
 package logiikka.tietorakenteet;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * ArrayList-toteutus
@@ -9,9 +12,9 @@ import java.util.Arrays;
  * @author Kristian Wahlroos
  * @param <T> Taulukon tyyppi
  */
-public class TaulukkoLista<T> {
+public class TaulukkoLista<T> implements Iterable<T> {
 
-    private Object[] alkiot;
+    private T[] alkiot;
     private int koko;
     private int kapasiteetti;
     private static final int OLETUS_KAPASITEETTI = 100;
@@ -26,7 +29,7 @@ public class TaulukkoLista<T> {
     public TaulukkoLista(int kapasiteetti) {
         this.kapasiteetti = kapasiteetti;
         this.koko = 0;
-        this.alkiot = new Object[kapasiteetti];
+        this.alkiot = (T[]) new Comparable[kapasiteetti];
     }
 
     private void kasvataKokoa() {
@@ -111,7 +114,7 @@ public class TaulukkoLista<T> {
      * @param e Lisättävä objekti
      * @return True - jos objektin lisääminen onnistui.
      */
-    public boolean add(Object e) {
+    public boolean add(T e) {
 
         if (koko == kapasiteetti) {
             kasvataKokoa();
@@ -123,7 +126,7 @@ public class TaulukkoLista<T> {
     }
 
     public void clear() {
-        alkiot = new Object[koko];
+        this.alkiot = (T[]) new Comparable[kapasiteetti];
         koko = 0;
     }
 
@@ -134,7 +137,7 @@ public class TaulukkoLista<T> {
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      * @return Object kohdasta index
      */
-    public Object get(int index) {
+    public T get(int index) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
         }
@@ -149,11 +152,11 @@ public class TaulukkoLista<T> {
      * @return korvattu
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      */
-    public Object set(int index, Object element) {
+    public T set(int index, T element) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
         }
-        Object edellinen = alkiot[index];
+        T edellinen = alkiot[index];
         alkiot[index] = element;
         return edellinen;
     }
@@ -165,7 +168,7 @@ public class TaulukkoLista<T> {
      * @param element korvaaja
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      */
-    public void add(int index, Object element) {
+    public void add(int index, T element) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
         }
@@ -181,11 +184,11 @@ public class TaulukkoLista<T> {
      * @throws IllegalStateException Jos indeksi on isompi kuin taulu
      * @return Palauttaa poistetun
      */
-    public Object remove(int index) {
+    public T remove(int index) {
         if (index < 0 || index > koko) {
             throw new IllegalStateException("Indeksi yli rajojen.");
         }
-        Object edellinen = alkiot[index];
+        T edellinen = alkiot[index];
         alkiot[index] = null; //siftaa vasemmat kiinni
         return edellinen;
     }
@@ -196,7 +199,7 @@ public class TaulukkoLista<T> {
      * @param o Haluttu objekti
      * @return Objektin indeksi
      */
-    public int indexOf(Object o) {
+    public int indexOf(T o) {
         for (int i = 0; i < koko; i++) {
             if (alkiot[i].equals(o)) {
                 return i;
@@ -212,7 +215,7 @@ public class TaulukkoLista<T> {
      * @param o Etsittävä objekti
      * @return Esiintymän indeksi
      */
-    public int lastIndexOf(Object o) {
+    public int lastIndexOf(T o) {
         for (int i = koko - 1; i >= 0; i--) {
             if (alkiot[i].equals(o)) {
                 return i;
@@ -222,9 +225,66 @@ public class TaulukkoLista<T> {
         return -1;
     }
 
+    /**
+     * Katsoo sisältyykö annettu Collection alkiohin
+     *
+     * @param c Annettu joukko
+     * @return true - jos kaikki c:n alkiot ovat tämän olion alkioissa. Muuten
+     * false.
+     *
+     */
+    public boolean containsAll(Collection<?> c) {
+        Iterator<?> e = c.iterator();
+        while (e.hasNext()) {
+            if (!contains(e.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
-        return Arrays.toString(alkiot);
+
+        Iterator<T> it = iterator();
+        if (!it.hasNext()) {
+            return "[]";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for (;;) {
+            T e = it.next();
+            sb.append(e == this ? "(this Collection)" : e);
+            if (!it.hasNext()) {
+                return sb.append(']').toString();
+            }
+            sb.append(',').append(' ');
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        Iterator<T> it = new Iterator<T>() {
+
+            private int nykyinenIndeksi = 0;
+
+            @Override
+            public boolean hasNext() {
+                return nykyinenIndeksi < koko && alkiot[nykyinenIndeksi] != null;
+            }
+
+            @Override
+            public T next() {
+                return alkiot[nykyinenIndeksi++];
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+        return it;
     }
 
 }

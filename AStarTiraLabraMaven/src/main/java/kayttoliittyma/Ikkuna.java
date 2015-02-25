@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 import logiikka.AStar;
 import logiikka.Analysoija;
+import logiikka.Dijkstra;
 import logiikka.MTAA;
 import logiikka.Reitinhakija;
 import util.Kuva;
@@ -27,9 +28,10 @@ import util.Piste;
 public class Ikkuna extends javax.swing.JFrame {
 
     private Kuva karttaKuvana;
-    private Reitinhakija mTAA;
+    private Reitinhakija reitinhakija;
     private BufferedImage alkuPerainenKuva;
     private SwingWorker pathPainter;
+    private Piirtaja p;
 
     public Ikkuna() {
         initComponents();
@@ -41,19 +43,25 @@ public class Ikkuna extends javax.swing.JFrame {
 
         jLabelPolkuMask = new javax.swing.JLabel();
         jLabelKuva = new javax.swing.JLabel();
-        jAStarProgressi = new javax.swing.JProgressBar();
+        jProgressi = new javax.swing.JProgressBar();
+        jLabelTime = new javax.swing.JLabel();
+        jTextPiirtoNopeus = new javax.swing.JTextField();
+        jLabelStock = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextTime = new javax.swing.JTextPane();
         jYlaMenu = new javax.swing.JMenuBar();
         jTiedostoMenu = new javax.swing.JMenu();
         jMenuAvaa = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuPoistu = new javax.swing.JMenuItem();
         jAsetusMenu = new javax.swing.JMenu();
+        jMenuDijkstra = new javax.swing.JMenuItem();
+        jMenuMTAA = new javax.swing.JMenuItem();
         jMenuAStar = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuResetoiKuva = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 700));
         setResizable(false);
 
         jLabelPolkuMask.setOpaque(true);
@@ -67,6 +75,15 @@ public class Ikkuna extends javax.swing.JFrame {
                 jLabelPolkuMaskMouseMoved(evt);
             }
         });
+
+        jLabelTime.setText("Time it took to run: ");
+
+        jTextPiirtoNopeus.setText("0");
+
+        jLabelStock.setText("Drawing delay");
+
+        jTextTime.setEnabled(false);
+        jScrollPane1.setViewportView(jTextTime);
 
         jTiedostoMenu.setText("Tiedosto");
 
@@ -89,7 +106,23 @@ public class Ikkuna extends javax.swing.JFrame {
 
         jYlaMenu.add(jTiedostoMenu);
 
-        jAsetusMenu.setText("Asetukset");
+        jAsetusMenu.setText("Algoritmit");
+
+        jMenuDijkstra.setText("Dijkstra");
+        jMenuDijkstra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuDijkstraActionPerformed(evt);
+            }
+        });
+        jAsetusMenu.add(jMenuDijkstra);
+
+        jMenuMTAA.setText("MTAA*");
+        jMenuMTAA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuMTAAActionPerformed(evt);
+            }
+        });
+        jAsetusMenu.add(jMenuMTAA);
 
         jMenuAStar.setText("A*");
         jMenuAStar.addActionListener(new java.awt.event.ActionListener() {
@@ -121,8 +154,16 @@ public class Ikkuna extends javax.swing.JFrame {
                 .addComponent(jLabelKuva, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(358, 358, 358)
-                .addComponent(jAStarProgressi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
+                .addComponent(jLabelStock)
+                .addGap(18, 18, 18)
+                .addComponent(jTextPiirtoNopeus, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jProgressi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(jLabelTime)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -133,9 +174,19 @@ public class Ikkuna extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jAStarProgressi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jProgressi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelTime)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTextPiirtoNopeus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelStock))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(jLabelKuva, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(112, 112, 112))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,12 +209,14 @@ public class Ikkuna extends javax.swing.JFrame {
                 karttaKuvana = new Kuva(kuva, jLabelKuva.getHeight(), jLabelKuva.getWidth());
                 jLabelKuva.setIcon(new ImageIcon(karttaKuvana.getKuva()));
                 karttaKuvana.konvertoi2DTaulukkoonRPGArvoina(karttaKuvana.getBufferoituKuva());
-                Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
-                mTAA = new MTAA(karttaKuvana.getRGPArvot(), p);
-                jAStarProgressi.setValue(0);
+                p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
+
+                jProgressi.setValue(0);
+
                 if (pathPainter != null) {
                     pathPainter.cancel(false);
                 }
+
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -172,21 +225,38 @@ public class Ikkuna extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuAvaaActionPerformed
 
+
     private void jMenuPoistuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPoistuActionPerformed
         this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_jMenuPoistuActionPerformed
 
 
     private void jMenuAStarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAStarActionPerformed
+
+        if (karttaKuvana == null) {
+            return;
+        }
+
         if (pathPainter != null) {
             pathPainter.cancel(false);
-
         }
+        readAndSetDelay();
+        reitinhakija = new AStar(karttaKuvana.getRGPArvot(), p);
         luoTaustaProsessiPiirtamiselle();
         pathPainter.execute();
 
 
     }//GEN-LAST:event_jMenuAStarActionPerformed
+
+    private void readAndSetDelay() {
+        if (p != null) {
+            try {
+                p.setDelay(Integer.parseInt(jTextPiirtoNopeus.getText()));
+            } catch (Exception e) {
+            }
+        }
+
+    }
 
     private void luoTaustaProsessiPiirtamiselle() {
         pathPainter = new SwingWorker<Void, Void>() {
@@ -201,15 +271,19 @@ public class Ikkuna extends javax.swing.JFrame {
 
             @Override
             protected Void doInBackground() throws Exception {
-                ajaAStarAlgoritmi();
+                long aloitusAika = System.nanoTime();
+                ajaReitinHaku();
                 jLabelKuva.repaint();
+
                 if (this.isCancelled()) {
                     return null;
                 }
 
-                nuku(1);
-                mTAA.naytaPolku();
-                jAStarProgressi.setValue(100);
+                nuku(3);
+                reitinhakija.naytaPolku();
+                jProgressi.setValue(100);
+                long lopetusAika = System.nanoTime() - aloitusAika;
+                jTextTime.setText("" + (lopetusAika / 1000000000.0));
                 return null;
             }
 
@@ -222,10 +296,10 @@ public class Ikkuna extends javax.swing.JFrame {
         if (onkoAlkuVaiheessa()) {
 
             pathPainter.cancel(true);
-            mTAA.keskeyta();
+            reitinhakija.keskeyta();
 
             muutaMaaliJaLahtoKlikkauksella(evt);
-            mTAA.ilmoitaMaalinMuutoksesta();
+            reitinhakija.ilmoitaMaalinMuutoksesta();
 
             luoTaustaProsessiPiirtamiselle();
             pathPainter.execute();
@@ -235,33 +309,70 @@ public class Ikkuna extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
 
     private boolean onkoAlkuVaiheessa() {
-        return alkuPerainenKuva != null && mTAA != null && pathPainter != null && jAStarProgressi.getValue() != 100;
+        return alkuPerainenKuva != null && reitinhakija != null && pathPainter != null && jProgressi.getValue() != 100;
     }
 
     private void muutaMaaliJaLahtoKlikkauksella(MouseEvent evt) {
         Piste muutetutKoordinaatit = muutaKoordinaatitPitkasta(evt.getY(), evt.getX());
         karttaKuvana.getBufferoituKuva().setRGB(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), Color.RED.getRGB());
-        karttaKuvana.getBufferoituKuva().setRGB(mTAA.getMaaliPisteena().getX(), mTAA.getMaaliPisteena().getY(), Color.WHITE.getRGB());
-        mTAA.asetaMaali(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY());
-        int tY = Analysoija.getRivi(mTAA.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
-        int tX = Analysoija.getSarake(mTAA.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
-        mTAA.asetaLahto(tX, tY);
+        karttaKuvana.getBufferoituKuva().setRGB(reitinhakija.getMaaliPisteena().getX(), reitinhakija.getMaaliPisteena().getY(), Color.WHITE.getRGB());
+        reitinhakija.asetaMaali(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY());
+        int tY = Analysoija.getRivi(reitinhakija.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
+        int tX = Analysoija.getSarake(reitinhakija.getNykyinenSolmu(), alkuPerainenKuva.getWidth());
+        reitinhakija.asetaLahto(tX, tY);
     }
 
     private void jMenuResetoiKuvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuResetoiKuvaActionPerformed
 
-        jAStarProgressi.setValue(0);
+        if (karttaKuvana == null) {
+            return;
+        }
+
+        jProgressi.setValue(0);
         pathPainter.cancel(false);
-        mTAA.keskeyta();
+        reitinhakija.keskeyta();
         jLabelPolkuMask.repaint();
-        Piirtaja p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
-        mTAA = new MTAA(karttaKuvana.getRGPArvot(), p);
+        p = new Piirtaja(this.jLabelKuva, this.karttaKuvana, this.alkuPerainenKuva);
+        reitinhakija = new Dijkstra(karttaKuvana.getRGPArvot(), p);
 
     }//GEN-LAST:event_jMenuResetoiKuvaActionPerformed
 
     private void jLabelPolkuMaskMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPolkuMaskMouseMoved
 
     }//GEN-LAST:event_jLabelPolkuMaskMouseMoved
+
+    private void jMenuMTAAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuMTAAActionPerformed
+        if (karttaKuvana == null) {
+            return;
+        }
+
+        if (pathPainter != null) {
+            pathPainter.cancel(false);
+
+        }
+        readAndSetDelay();
+        if (!(reitinhakija instanceof MTAA)) {
+            reitinhakija = new MTAA(karttaKuvana.getRGPArvot(), p);
+        }
+        luoTaustaProsessiPiirtamiselle();
+        pathPainter.execute();
+    }//GEN-LAST:event_jMenuMTAAActionPerformed
+
+    private void jMenuDijkstraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDijkstraActionPerformed
+
+        if (karttaKuvana == null) {
+            return;
+        }
+
+        if (pathPainter != null) {
+            pathPainter.cancel(false);
+
+        }
+        readAndSetDelay();
+        reitinhakija = new Dijkstra(karttaKuvana.getRGPArvot(), p);
+        luoTaustaProsessiPiirtamiselle();
+        pathPainter.execute();
+    }//GEN-LAST:event_jMenuDijkstraActionPerformed
 
     /**
      * Muuttaa koordinaatin skaalatusta kuvasta oikean kuvan X ja Y
@@ -307,22 +418,29 @@ public class Ikkuna extends javax.swing.JFrame {
 
     }
 
-    private void ajaAStarAlgoritmi() {
-        mTAA.suoritaReitinHaku();
+    private void ajaReitinHaku() {
+        reitinhakija.suoritaReitinHaku();
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JProgressBar jAStarProgressi;
     private javax.swing.JMenu jAsetusMenu;
     private javax.swing.JLabel jLabelKuva;
     private javax.swing.JLabel jLabelPolkuMask;
+    private javax.swing.JLabel jLabelStock;
+    private javax.swing.JLabel jLabelTime;
     private javax.swing.JMenuItem jMenuAStar;
     private javax.swing.JMenuItem jMenuAvaa;
+    private javax.swing.JMenuItem jMenuDijkstra;
+    private javax.swing.JMenuItem jMenuMTAA;
     private javax.swing.JMenuItem jMenuPoistu;
     private javax.swing.JMenuItem jMenuResetoiKuva;
+    private javax.swing.JProgressBar jProgressi;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JTextField jTextPiirtoNopeus;
+    private javax.swing.JTextPane jTextTime;
     private javax.swing.JMenu jTiedostoMenu;
     private javax.swing.JMenuBar jYlaMenu;
     // End of variables declaration//GEN-END:variables

@@ -17,14 +17,14 @@ import util.Piste;
  * @see logiikka.Solmu
  * @see logiikka.Reitinhakija
  */
-public class AStar extends Reitinhakija {
+public class Dijkstra extends Reitinhakija {
 
     /**
      * Luo kartan char-merkeistä.
      *
      * @param merkkiKartta Kartta char-merkkeinä
      */
-    public AStar(char[][] merkkiKartta) {
+    public Dijkstra(char[][] merkkiKartta) {
         super();
         this.merkkiKartta = merkkiKartta;
         this.karttaArvoina = analysoija.analysoiKarttaArvoiksiMerkeista(merkkiKartta, this);
@@ -45,7 +45,7 @@ public class AStar extends Reitinhakija {
      * käyttöön piirtämistä varten
      * @param karttaRGB Kartta, joka on muokattu RGB-väreihin ts. kuva
      */
-    public AStar(int[][] karttaRGB, Piirtaja karttaPiirtaja) {
+    public Dijkstra(int[][] karttaRGB, Piirtaja karttaPiirtaja) {
         super();
         this.karttaPiirtaja = karttaPiirtaja;
         this.RGBKartta = karttaRGB;
@@ -76,10 +76,6 @@ public class AStar extends Reitinhakija {
 
         while (!openSet.isEmpty()) {
 
-            /* 
-             Otetaan solmu, jolla pienin f(s)-arvo, eli f(s) = h(s) + g(s), 
-             jossa h(s) on heurestiikka solmusta s maaliin ja g(s) etäisyysarvio alusta
-             */
             Solmu pienin = openSet.poll();
             int tunnus = pienin.tunnus;
             int pieninY = Analysoija.getRivi(tunnus, kartanLeveys);
@@ -123,11 +119,7 @@ public class AStar extends Reitinhakija {
             if (uusiEtaisyys < vanhaEtaisyys) {
                 analysoidut.add(vierusSolmu);
                 etaisyysArviotAlkuun[vierusSolmu] = uusiEtaisyys;
-                double prioriteetti = uusiEtaisyys + Heurestiikka.laskeHeurestinenArvo(vSP, mSP)
-                        + Heurestiikka.lisaaTiebraker(
-                                vSP,
-                                new Piste(maaliX, maaliY),
-                                new Piste(lahtoX, lahtoY));
+                double prioriteetti = uusiEtaisyys;
                 polku[vierusSolmu] = tunnus;
                 openSet.add(new Solmu(prioriteetti, vierusSolmu, uusiEtaisyys));
                 merkkaaKarttaan(Color.DARK_GRAY, vierusSolmu);
@@ -141,9 +133,6 @@ public class AStar extends Reitinhakija {
         openSet.add(new Solmu(0, aloitus, 0));
     }
 
-    /**
-     * Ilmoittaa A*-algoritmille, että maali on vaihtunut.
-     */
     @Override
     public void ilmoitaMaalinMuutoksesta() {
         openSet.clear();

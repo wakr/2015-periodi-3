@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="0" name="logiikka.VerkonRakennusTest" time="0.02" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="logiikka.VerkonRakennusTest" time="0.006" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/local/java/jdk1.8.0_11/jre/lib/amd64"/>
@@ -32,7 +32,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="os.version" value="3.13.0-45-generic"/>
+    <property name="os.version" value="3.13.0-46-generic"/>
     <property name="user.home" value="/home/kride"/>
     <property name="user.timezone" value="Europe/Helsinki"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
@@ -61,11 +61,11 @@
     <property name="project.build.outputDirectory" value="/home/kride/Desktop/Koulu/TiraLabra/2015-periodi-3/AStarTiraLabraMaven/target/generated-classes/cobertura"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="logiikka.VerkonRakennusTest" name="pieninKarttaAnalysoidaanOikein" time="0.009"/>
-  <testcase classname="logiikka.VerkonRakennusTest" name="pieniKarttaAnalysoidaanOikein" time="0"/>
-  <testcase classname="logiikka.VerkonRakennusTest" name="leveaKarttaAnalysoidaanOikein" time="0.001"/>
+  <testcase classname="logiikka.VerkonRakennusTest" name="testaaPienenKartanNaapuritLahdosta" time="0.001"/>
   <testcase classname="logiikka.VerkonRakennusTest" name="testaaMiniKartanNaapuritLahdosta" time="0"/>
   <testcase classname="logiikka.VerkonRakennusTest" name="testaaKeskiKartanNaapuritLahdosta" time="0"/>
-  <testcase classname="logiikka.VerkonRakennusTest" name="miniKarttaAnalysoidaanOikein" time="0"/>
-  <testcase classname="logiikka.VerkonRakennusTest" name="testaaPienenKartanNaapuritLahdosta" time="0"/>
+  <testcase classname="logiikka.VerkonRakennusTest" name="miniKarttaAnalysoidaanOikein" time="0.001"/>
+  <testcase classname="logiikka.VerkonRakennusTest" name="pieninKarttaAnalysoidaanOikein" time="0"/>
+  <testcase classname="logiikka.VerkonRakennusTest" name="pieniKarttaAnalysoidaanOikein" time="0.001"/>
+  <testcase classname="logiikka.VerkonRakennusTest" name="leveaKarttaAnalysoidaanOikein" time="0"/>
 </testsuite>

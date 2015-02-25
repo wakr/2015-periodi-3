@@ -1,5 +1,6 @@
 package logiikka;
 
+import io.Tulostaja;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import util.Kuva;
  *
  * @author kride
  */
-public class AStarTest {
+public class DijkstraTest {
 
     static char[][] pieninKartta, pieninKarttaEsteella, pieniKartta, vapaaPieniKartta,
             esteKartta, esteKartta2, leveaKartta, miniKartta, serpettiiniKentta, jatti;
@@ -98,7 +99,7 @@ public class AStarTest {
 
     }
 
-    private Reitinhakija aStar;
+    private Reitinhakija dijkstra;
     private Kuva karttaKuvana;
     private BufferedImage alkuPerainenKuva;
     BufferedImage kuva;
@@ -114,92 +115,92 @@ public class AStarTest {
 
     @Test(timeout = 1000)
     public void miniKarttaPolkuOikein() {
-        aStar = new AStar(miniKartta);
-        aStar.suoritaReitinHaku();
+        dijkstra = new Dijkstra(miniKartta);
+        dijkstra.suoritaReitinHaku();
         List<Integer> haluttu = Arrays.asList(0, 3, 4, 5, 2);
-        assertEquals(haluttu.toString(), aStar.polku(2, new TaulukkoLista<Integer>()).toString());
+        assertEquals(haluttu.toString(), dijkstra.polku(2, new TaulukkoLista<Integer>()).toString());
     }
 
     @Test(timeout = 1000)
     public void miniKarttaEsteellaPolkuOikein() {
-        aStar = new AStar(pieninKarttaEsteella);
-        aStar.suoritaReitinHaku();
+        dijkstra = new Dijkstra(pieninKarttaEsteella);
+        dijkstra.suoritaReitinHaku();
         List<Integer> haluttu = Arrays.asList(0, 2, 3);
-        assertEquals(haluttu.toString(), aStar.polku(3, new TaulukkoLista<Integer>()).toString());
+        assertEquals(haluttu.toString(), dijkstra.polku(3, new TaulukkoLista<Integer>()).toString());
     }
 
     @Test(timeout = 1000)
     public void serpenttiiniPolkuOikein() {
-        aStar = new AStar(serpettiiniKentta);
-        aStar.suoritaReitinHaku();
-        aStar.polku(10);
+        dijkstra = new Dijkstra(serpettiiniKentta);
+        dijkstra.suoritaReitinHaku();
+        dijkstra.polku(10);
         List<Integer> haluttu = Arrays.asList(11, 12, 13, 2, 3, 4, 15, 16, 17, 6, 7, 8, 19, 20, 21, 10);
-        assertEquals(haluttu.toString(), aStar.polku(10, new TaulukkoLista<Integer>()).toString());
+        assertEquals(haluttu.toString(), dijkstra.polku(10, new TaulukkoLista<Integer>()).toString());
     }
 
     @Test(timeout = 1000)
     public void jattiKartassaHakuNOpeaa() {
 
-        aStar = new AStar(jatti);
-        aStar.suoritaReitinHaku();
-        assertEquals((jatti[0].length + jatti.length) - 2, aStar.getPituusAlkuun(aStar.getMaali()));
+        dijkstra = new Dijkstra(jatti);
+        dijkstra.suoritaReitinHaku();
+        assertEquals((jatti[0].length + jatti.length) - 2, dijkstra.getPituusAlkuun(dijkstra.getMaali()));
     }
 
     @Test(timeout = 1000)
     public void maaliLoydetaanHaunJalkeenPieniKartasta() {
-        aStar = new AStar(pieniKartta);
-        aStar.suoritaReitinHaku();
-        aStar.polku(aStar.getMaali());
-        List<Integer> haluttu = Arrays.asList(aStar.getLahto(), 5, 10, 15, 16, 17, 18, 19, 14, 9, 4);
-        assertEquals(haluttu.toString(), aStar.polku(aStar.getMaali(), new TaulukkoLista<Integer>()).toString());
+        dijkstra = new Dijkstra(pieniKartta);
+        dijkstra.suoritaReitinHaku();
+        dijkstra.polku(dijkstra.getMaali());
+        List<Integer> haluttu = Arrays.asList(dijkstra.getLahto(), 5, 10, 15, 16, 17, 18, 19, 14, 9, 4);
+        assertEquals(haluttu.toString(), dijkstra.polku(dijkstra.getMaali(), new TaulukkoLista<Integer>()).toString());
     }
 
     @Test(timeout = 1000)
     public void lyhinPolkuLoydetaan() {
-        aStar = new AStar(vapaaPieniKartta);
-        aStar.suoritaReitinHaku();
+        dijkstra = new Dijkstra(vapaaPieniKartta);
+        dijkstra.suoritaReitinHaku();
         int lyhyimmanPituus = 7;
-        TaulukkoLista<Integer> lyhinPolku = aStar.polku(aStar.getMaali(), new TaulukkoLista<Integer>());
+        TaulukkoLista<Integer> lyhinPolku = dijkstra.polku(dijkstra.getMaali(), new TaulukkoLista<Integer>());
         assertEquals(lyhyimmanPituus, lyhinPolku.size());
     }
 
     @Test(timeout = 1000)
     public void lyhinPolkuLoydetaan2() {
-        aStar = new AStar(esteKartta);
-        aStar.suoritaReitinHaku();
+        dijkstra = new Dijkstra(esteKartta);
+        dijkstra.suoritaReitinHaku();
         int lyhyimmanPituus = 17;
-        TaulukkoLista<Integer> lyhinPolku = aStar.polku(aStar.getMaali(), new TaulukkoLista<Integer>());
+        TaulukkoLista<Integer> lyhinPolku = dijkstra.polku(dijkstra.getMaali(), new TaulukkoLista<Integer>());
         assertEquals(lyhyimmanPituus, lyhinPolku.size());
     }
 
     @Test(timeout = 1000)
     public void lyhinPolkuLoydetaan3() {
-        aStar = new AStar(esteKartta2);
-        aStar.suoritaReitinHaku();
+        dijkstra = new Dijkstra(esteKartta2);
+        dijkstra.suoritaReitinHaku();
         int lyhyimmanPituus = 10;
-        TaulukkoLista<Integer> lyhinPolku = aStar.polku(aStar.getMaali(), new TaulukkoLista<Integer>());
+        TaulukkoLista<Integer> lyhinPolku = dijkstra.polku(dijkstra.getMaali(), new TaulukkoLista<Integer>());
         assertEquals(lyhyimmanPituus, lyhinPolku.size());
     }
 
     @Test
     public void etaisyydetAlkuunOvatOikeatPienella() {
-        aStar = new AStar(pieninKartta);
-        aStar.suoritaReitinHaku();
-        assertEquals(2, aStar.getPituusAlkuun(aStar.getMaali()));
+        dijkstra = new Dijkstra(pieninKartta);
+        dijkstra.suoritaReitinHaku();
+        assertEquals(2, dijkstra.getPituusAlkuun(dijkstra.getMaali()));
     }
 
     @Test
     public void etaisyydetAlkuunOvatOikeatEsteella() {
-        aStar = new AStar(esteKartta);
-        aStar.suoritaReitinHaku();
-        assertEquals(16, aStar.getPituusAlkuun(aStar.getMaali()));
+        dijkstra = new Dijkstra(esteKartta);
+        dijkstra.suoritaReitinHaku();
+        assertEquals(16, dijkstra.getPituusAlkuun(dijkstra.getMaali()));
     }
 
     @Test
     public void etaisyydetAlkuunOvatOikeatSerpettiiniKentalla() {
-        aStar = new AStar(serpettiiniKentta);
-        aStar.suoritaReitinHaku();
-        assertEquals(15, aStar.getPituusAlkuun(aStar.getMaali()));
+        dijkstra = new Dijkstra(serpettiiniKentta);
+        dijkstra.suoritaReitinHaku();
+        assertEquals(15, dijkstra.getPituusAlkuun(dijkstra.getMaali()));
     }
 
     /**
@@ -210,9 +211,9 @@ public class AStarTest {
     @Test(timeout = 1000)
     public void kuvastaLoydetaanLyhinPolku() throws IOException {
 
-        aStar = new AStar(karttaKuvana.getRGPArvot(), null);
-        aStar.suoritaReitinHaku();
-        assertEquals(7, aStar.getPituusAlkuun(aStar.getMaali()));
+        dijkstra = new Dijkstra(karttaKuvana.getRGPArvot(), null);
+        dijkstra.suoritaReitinHaku();
+        assertEquals(7, dijkstra.getPituusAlkuun(dijkstra.getMaali()));
     }
 
 }

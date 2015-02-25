@@ -1,11 +1,10 @@
 package logiikka;
 
 import java.awt.Color;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import kayttoliittyma.Piirtaja;
+import logiikka.tietorakenteet.Jono;
+import logiikka.tietorakenteet.MinimiKeko;
+import logiikka.tietorakenteet.TaulukkoLista;
 import util.Piste;
 
 /**
@@ -21,11 +20,11 @@ public abstract class Reitinhakija {
     protected long[] etaisyysArviotAlkuun;
     protected int[] polku;
     protected boolean[] lopullisetPituudet;
-    protected PriorityQueue<Solmu> openSet;
-    protected ArrayList<Integer>[] verkko;
+    protected MinimiKeko<Solmu> openSet;
+    protected TaulukkoLista<Integer>[] verkko;
     protected int kartanLeveys, kartanKorkeus, lahtoY, lahtoX, maaliY, maaliX;
     protected Analysoija analysoija;
-    protected Queue<Integer> analysoidut, polunKoordinaatit;
+    protected Jono<Integer> analysoidut, polunKoordinaatit;
     protected boolean keskeyta;
     protected int solmuNyt;
 
@@ -53,10 +52,10 @@ public abstract class Reitinhakija {
 
     protected Reitinhakija() {
         alustaAloitusKoordinaatit();
-        this.analysoidut = new ArrayDeque<>();
+        this.analysoidut = new Jono<>();
         this.analysoija = new Analysoija();
-        this.openSet = new PriorityQueue<>();
-        this.polunKoordinaatit = new ArrayDeque<>();
+        this.openSet = new MinimiKeko<>();
+        this.polunKoordinaatit = new Jono<>();
         keskeyta = false;
         solmuNyt = Analysoija.muutaPitkaksi(lahtoY, lahtoX, kartanLeveys);
 
@@ -157,7 +156,7 @@ public abstract class Reitinhakija {
      *
      * @return Jono analysoituja koordinaatteja
      */
-    public Queue<Integer> getAnalysoidut() {
+    public Jono<Integer> getAnalysoidut() {
         return this.analysoidut;
     }
 
@@ -167,7 +166,7 @@ public abstract class Reitinhakija {
      * @param solmu Haluttu solmu
      * @return Lista naapureiden tunnuksista
      */
-    public ArrayList<Integer> getSolmunNaapurit(int solmu) {
+    public TaulukkoLista<Integer> getSolmunNaapurit(int solmu) {
         return verkko[solmu];
     }
 
@@ -186,7 +185,7 @@ public abstract class Reitinhakija {
      *
      * @return Polun koordinaatit jonossa
      */
-    public Queue<Integer> getPolku() {
+    public Jono<Integer> getPolku() {
         return polunKoordinaatit;
     }
 
@@ -230,10 +229,10 @@ public abstract class Reitinhakija {
      * INF-muuttuja estää suuruudellaan sen läpikäynnin.
      */
     public void luoVerkkoRBG() {
-        verkko = new ArrayList[kartanKorkeus * kartanLeveys];
+        verkko = new TaulukkoLista[kartanKorkeus * kartanLeveys];
 
         for (int i = 0; i < verkko.length; i++) {
-            verkko[i] = new ArrayList<>();
+            verkko[i] = new TaulukkoLista<>();
         }
 
         int[][] suunnat = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1},
@@ -267,10 +266,10 @@ public abstract class Reitinhakija {
      * INF-muuttuja estää suuruudellaan sen läpikäynnin.
      */
     public void luoVerkkoChar() {
-        verkko = new ArrayList[kartanKorkeus * kartanLeveys];
+        verkko = new TaulukkoLista[kartanKorkeus * kartanLeveys];
 
         for (int i = 0; i < verkko.length; i++) {
-            verkko[i] = new ArrayList<>();
+            verkko[i] = new TaulukkoLista<>();
         }
 
         int[][] suunnat = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
@@ -317,7 +316,7 @@ public abstract class Reitinhakija {
      * @param p ArrayList johon polku halutaan asettaa
      * @return Lyhyin polku solmuun s
      */
-    protected ArrayList<Integer> polku(int s, ArrayList<Integer> p) {
+    protected TaulukkoLista<Integer> polku(int s, TaulukkoLista<Integer> p) {
         if (polku[s] != Ymparistomuuttuja.INF.getArvo()) {
             polku(polku[s], p);
 

@@ -59,38 +59,21 @@ public class Kuva {
         final byte[] pikselit = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         final int leveys = image.getWidth();
         final int korkeus = image.getHeight();
-        final boolean onkoAlphaa = image.getAlphaRaster() != null;
 
         int[][] tulos = new int[korkeus][leveys];
-        if (onkoAlphaa) {
-            final int pikselinPituus = 4;
-            for (int pikseli = 0, rivi = 0, sarake = 0; pikseli < pikselit.length; pikseli += pikselinPituus) {
-                int argb = 0;
-                argb += (((int) pikselit[pikseli] & 0xff) << 24); // alpha
-                argb += ((int) pikselit[pikseli + 1] & 0xff); // blue
-                argb += (((int) pikselit[pikseli + 2] & 0xff) << 8); // green
-                argb += (((int) pikselit[pikseli + 3] & 0xff) << 16); // red
-                tulos[rivi][sarake] = argb;
-                sarake++;
-                if (sarake == leveys) {
-                    sarake = 0;
-                    rivi++;
-                }
-            }
-        } else {
-            final int pikselinPituus = 3;
-            for (int pikseli = 0, rivi = 0, sarake = 0; pikseli < pikselit.length; pikseli += pikselinPituus) {
-                int argb = 0;
-                argb += -16777216; // 255 alpha
-                argb += ((int) pikselit[pikseli] & 0xff); // blue
-                argb += (((int) pikselit[pikseli + 1] & 0xff) << 8); // green
-                argb += (((int) pikselit[pikseli + 2] & 0xff) << 16); // red
-                tulos[rivi][sarake] = argb;
-                sarake++;
-                if (sarake == leveys) {
-                    sarake = 0;
-                    rivi++;
-                }
+
+        final int pikselinPituus = 3;
+        for (int pikseli = 0, rivi = 0, sarake = 0; pikseli < pikselit.length; pikseli += pikselinPituus) {
+            int argb = 0;
+            argb += -16777216; // 255 alpha
+            argb += ((int) pikselit[pikseli] & 0xff); // blue
+            argb += (((int) pikselit[pikseli + 1] & 0xff) << 8); // green
+            argb += (((int) pikselit[pikseli + 2] & 0xff) << 16); // red
+            tulos[rivi][sarake] = argb;
+            sarake++;
+            if (sarake == leveys) {
+                sarake = 0;
+                rivi++;
             }
         }
 

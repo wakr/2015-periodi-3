@@ -40,9 +40,13 @@ public class MTAA extends Reitinhakija {
         this.etaisyysArviotAlkuun = new long[kartanKorkeus * kartanLeveys];
         this.polku = new int[kartanKorkeus * kartanLeveys];
         this.lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
+        this.heurestisetArvot = new double[kartanKorkeus * kartanLeveys];
+        this.hakuMaarat = new int[kartanLeveys * kartanLeveys];
+
+        laskuri = 0;
         luoVerkkoChar();
         alustaEtaisyydetAarettomiksi();
-
+        alustaHeurestiikka();
     }
 
     /**
@@ -184,10 +188,14 @@ public class MTAA extends Reitinhakija {
      * @param solmu Alustettava solmu
      */
     public void alustaSolmuMTAA(int solmu) {
-        if (hakuMaarat[solmu] != laskuri && hakuMaarat[solmu] != 0) {
-            etaisyysArviotAlkuun[solmu] = Ymparistomuuttuja.INF.getArvo();
+
+        if (solmu >= 0 && solmu < hakuMaarat.length - 1) {
+
+            if (hakuMaarat[solmu] != laskuri && hakuMaarat[solmu] != 0) {
+                etaisyysArviotAlkuun[solmu] = Ymparistomuuttuja.INF.getArvo();
+            }
+            hakuMaarat[solmu] = laskuri;
         }
-        hakuMaarat[solmu] = laskuri;
     }
 
     /**

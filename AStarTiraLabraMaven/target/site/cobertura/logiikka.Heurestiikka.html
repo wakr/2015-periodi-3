@@ -68,11 +68,11 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;26</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> laskeHeurestinenArvo(Piste aloitus, Piste maali) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;27</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">int</span> dx = Math.abs(aloitus.getX() - maali.getX());</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;28</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">int</span> dy = Math.abs(aloitus.getY() - maali.getY());</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;29</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> Ymparistomuuttuja.D.getArvo() * (dx + dy)</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;30</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;                + (Ymparistomuuttuja.D2.getArvo() - 2 * Ymparistomuuttuja.D.getArvo())</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;31</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;                * Math.min(dx, dy);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;27</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">int</span> dx = Math.abs(aloitus.getX() - maali.getX());</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;28</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">int</span> dy = Math.abs(aloitus.getY() - maali.getY());</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;29</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> Ymparistomuuttuja.D.getArvo() * (dx + dy)</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;30</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;                + (Ymparistomuuttuja.D2.getArvo() - 2 * Ymparistomuuttuja.D.getArvo())</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;31</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;                * Math.min(dx, dy);</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;32</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;33</td>  <td class="nbHits">&nbsp;</td>
@@ -99,12 +99,12 @@
   <td class="src"><pre class="src">&nbsp;<span class="comment">     */</span></pre></td></tr>
 <tr>  <td class="numLine">&nbsp;44</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> lisaaTiebraker(Piste aloitus, Piste maali, Piste lahto) {</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;45</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dx1 = aloitus.getX() - maali.getX();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;46</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dy1 = aloitus.getY() - maali.getY();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;47</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dx2 = lahto.getX() - maali.getX();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;48</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dy2 = lahto.getY() - maali.getY();</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;49</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> cross = Math.abs(dx1 * dy2 - dx2 * dy1);</pre></td></tr>
-<tr>  <td class="numLineCover">&nbsp;50</td>  <td class="nbHitsCovered">&nbsp;9396</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> cross * 0.0001;</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;45</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dx1 = aloitus.getX() - maali.getX();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;46</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dy1 = aloitus.getY() - maali.getY();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;47</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dx2 = lahto.getX() - maali.getX();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;48</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> dy2 = lahto.getY() - maali.getY();</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;49</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">double</span> cross = Math.abs(dx1 * dy2 - dx2 * dy1);</pre></td></tr>
+<tr>  <td class="numLineCover">&nbsp;50</td>  <td class="nbHitsCovered">&nbsp;102577</td>  <td class="src"><pre class="src">&nbsp;        <span class="keyword">return</span> cross * 0.0001;</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;51</td>  <td class="nbHits">&nbsp;</td>
   <td class="src"><pre class="src">&nbsp;    }</pre></td></tr>
 <tr>  <td class="numLine">&nbsp;52</td>  <td class="nbHits">&nbsp;</td>
@@ -113,6 +113,6 @@
   <td class="src"><pre class="src">&nbsp;}</pre></td></tr>
 </table>
 
-<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.0.3 on 19.2.2015 23:03.</div>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> 2.0.3 on 25.2.2015 18:13.</div>
 </body>
 </html>

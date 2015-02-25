@@ -1,104 +1,98 @@
 package logiikka.tietorakenteet;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.Queue;
+import java.util.NoSuchElementException;
 
 /**
  * *Kesken*
  *
- * @author kride
+ *
+ * @param <T>
  */
-public class Jono implements Queue<Object> {
+public class Jono<T> implements Iterable<T> {
 
-    @Override
-    public boolean add(Object e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private class Linkki {
+
+        private T alkio;
+        private Linkki seuraava;
+    }
+
+    private int alkioidenMaara;
+    private Linkki ensimmainen, viimeinen;
+
+    public Jono() {
+        ensimmainen = null;
+        viimeinen = null;
+    }
+
+    public T peek() {
+        if (isEmpty()) {
+            throw new RuntimeException("Tyhjä jono.");
+        }
+        return ensimmainen.alkio;
+    }
+
+    public void add(T t) {
+        Linkki x = new Linkki();
+        x.alkio = t;
+        if (isEmpty()) {
+            ensimmainen = x;
+            viimeinen = x;
+        } else {
+            viimeinen.seuraava = x;
+            viimeinen = x;
+        }
+        alkioidenMaara++;
+    }
+
+    public T poll() {
+        if (isEmpty()) {
+            throw new RuntimeException("Queue underflow");
+        }
+        T t = ensimmainen.alkio;
+        ensimmainen = ensimmainen.seuraava;
+        alkioidenMaara--;
+        if (isEmpty()) {
+            viimeinen = null;
+        }
+        return t;
     }
 
     @Override
-    public boolean offer(Object e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+
+            private Linkki nykyinen = ensimmainen;
+
+            @Override
+            public boolean hasNext() {
+                return nykyinen != null;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                T t = nykyinen.alkio;
+                nykyinen = nykyinen.seuraava;
+                return t;
+            }
+        };
     }
 
-    @Override
-    public Object remove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object poll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object element() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object peek() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return alkioidenMaara;
     }
 
-    @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ensimmainen == null;
     }
 
-    @Override
-    public boolean contains(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Iterator<Object> iterator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Object[] toArray() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends Object> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        alkioidenMaara = 0;
+        ensimmainen = null;
+        viimeinen = null;
     }
 
 }

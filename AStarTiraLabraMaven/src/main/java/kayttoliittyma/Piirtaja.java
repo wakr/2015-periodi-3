@@ -20,6 +20,7 @@ public class Piirtaja {
     private final Kuva karttaKuvana;
     private final BufferedImage alkuperainenKuva;
     private final Graphics2D g;
+    private int delay;
 
     /**
      * @param piirrettava Kuva, johon piirretään
@@ -31,6 +32,7 @@ public class Piirtaja {
         this.karttaKuvana = karttaKuvana;
         this.alkuperainenKuva = alkuperainenKuva;
         g = (Graphics2D) piirrettava.getGraphics();
+        this.delay = 0;
     }
 
     /**
@@ -38,7 +40,7 @@ public class Piirtaja {
      *
      * @param vari Haluttu väri
      * @param kayty Koordinaatti pitkässä muodossa
-     * 
+     *
      */
     public void piirraKarttaanHitaasti(Color vari, int kayty) {
 
@@ -50,15 +52,16 @@ public class Piirtaja {
 
         g.drawRect(muutetutKoordinaatit.getX(), muutetutKoordinaatit.getY(), 1, 1);
 
-        nuku(0);
+        nuku(delay);
     }
-    
+
     /**
-     * Piirtää polun karttaan heti eli ei pidä viivettä toisin kuin piirraKarttaanHitaasti-metodi
+     * Piirtää polun karttaan heti eli ei pidä viivettä toisin kuin
+     * piirraKarttaanHitaasti-metodi
+     *
      * @param vari Haluttu väri jolla piirretään
      * @param kayty Koordinaatti pitkassa muodossa, joka tullaan piirtämään
      */
-
     public void piirraKarttaanNopeasti(Color vari, int kayty) {
 
         g.setColor(vari);
@@ -72,6 +75,10 @@ public class Piirtaja {
         nuku(0);
     }
 
+    public void setDelay(int newDelay) {
+        this.delay = newDelay;
+    }
+
     private void nuku(int millisekuntia) {
         try {
             Thread.sleep(millisekuntia);
@@ -81,12 +88,13 @@ public class Piirtaja {
     }
 
     /**
-     * Muuttaa koordinaatin kartan x ja y muodosta vastaamaan graafisen kartan pistettä
+     * Muuttaa koordinaatin kartan x ja y muodosta vastaamaan graafisen kartan
+     * pistettä
+     *
      * @param y y-koordinaatti
      * @param x x-koordinaatti
      * @return Piste-olio, joka sisältää uudet pisteet
      */
-    
     public Piste muutaKoordinaatitLyhyesta(int y, int x) {
 
         double korkeusKerroin = (double) piirrettava.getHeight() / (double) alkuperainenKuva.getHeight();

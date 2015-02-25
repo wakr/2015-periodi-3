@@ -55,59 +55,58 @@ public class MinimiKeko<T extends Comparable<T>> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new ListIterator<T>() {
 
-            int cursor = 0, start = 0;
+            int pointteri = 0, aloitus = 0;
 
             @Override
             public boolean hasNext() {
-                return cursor < koko;
+                return pointteri < koko;
             }
 
             @Override
             public T next() {
                 if (hasNext()) {
-                    cursor++;
-                    return alkiot[cursor];
+                    pointteri++;
+                    return alkiot[pointteri];
                 }
                 throw new NoSuchElementException();
             }
 
             @Override
             public boolean hasPrevious() {
-                return cursor > 0;
+                return pointteri > 0;
             }
 
             @Override
             public T previous() {
                 if (hasPrevious()) {
-                    cursor--;
-                    return alkiot[cursor];
+                    pointteri--;
+                    return alkiot[pointteri];
                 }
                 throw new NoSuchElementException();
             }
 
             @Override
             public int nextIndex() {
-                return cursor + 1;
+                return pointteri + 1;
             }
 
             @Override
             public int previousIndex() {
-                return cursor - 1;
+                return pointteri - 1;
             }
 
             @Override
             public void remove() {
-                alkiot[cursor] = null;
+                alkiot[pointteri] = null;
             }
 
             @Override
             public void set(T e) {
-                alkiot[cursor] = e;
+                alkiot[pointteri] = e;
             }
 
             @Override
             public void add(T e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         };
     }

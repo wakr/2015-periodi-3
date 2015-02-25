@@ -31,9 +31,9 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath main.Main</exec.args>
+                <exec.args>-classpath %classpath fi.wakr.main.Main</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir></exec.workingdir>
+                <exec.workingdir>/home/kride/Desktop/Koulu/TiraLabra/2015-periodi-3/AStarTiraLabraMaven</exec.workingdir>
             </properties>
         </action>
     <action>
@@ -46,10 +46,10 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName}</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath fi.wakr.main.Main</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
-                <exec.workingdir></exec.workingdir>
+                <exec.workingdir>/home/kride/Desktop/Koulu/TiraLabra/2015-periodi-3/AStarTiraLabraMaven</exec.workingdir>
             </properties>
         </action>
     <action>
@@ -62,9 +62,9 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.args>-classpath %classpath fi.wakr.main.Main</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir></exec.workingdir>
+                <exec.workingdir>/home/kride/Desktop/Koulu/TiraLabra/2015-periodi-3/AStarTiraLabraMaven</exec.workingdir>
             </properties>
         </action>
   
