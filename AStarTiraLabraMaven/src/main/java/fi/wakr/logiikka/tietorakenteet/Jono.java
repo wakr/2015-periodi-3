@@ -78,6 +78,11 @@ public class Jono<T> implements Iterable<T> {
                 nykyinen = nykyinen.seuraava;
                 return t;
             }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
         };
     }
 
