@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
+
 import fi.wakr.logiikka.Analysoija;
 import fi.wakr.util.Kuva;
 import fi.wakr.util.Piste;
@@ -12,7 +13,7 @@ import fi.wakr.util.Piste;
  * Huolehtii piirto-operaatiosta kokonaan. Piirtää kuviin haluttuun kohtiin
  * pisteet.
  *
- * @author kride
+ * @author Kristian Wahlroos
  */
 public class Piirtaja {
 

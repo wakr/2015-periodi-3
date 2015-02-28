@@ -1,17 +1,18 @@
 package fi.wakr.logiikka;
 
+import fi.wakr.logiikka.reitinhaku.Reitinhakija;
+
 /**
  * Reitinhaku-algoritmien tarvitsemat erilaiset analysointi-funktiot.
  *
  * @author Kristian Wahlroos
- * @see fi.wakr.logiikka.AStar
+ * @see fi.wakr.logiikka.reitinhaku.Reitinhakija
  */
 public class Analysoija {
 
     private Reitinhakija hakija;
-    
+
     // Kaikki mahdolliset väriarvot ja niiden RGB-arvot
-    
     private final int[] white = new int[]{255, 255, 255};
     private final int[] red = new int[]{255, 0, 0};
     private final int[] green = new int[]{0, 255, 0};
@@ -22,8 +23,8 @@ public class Analysoija {
      * sisältää arvot kaksiulotteisessa taulukossa.
      *
      * @param kartta Annettava kartta
-     * @param hakija {@link fi.wakr.logiikka.Reitinhakija} luokan ilmentymä jonka avulla
-     * asetetaan maali ja lähtö
+     * @param hakija {@link fi.wakr.logiikka.reitinhaku.Reitinhakija} luokan
+     * ilmentymä jonka avulla asetetaan maali ja lähtö
      * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
      */
     public int[][] analysoiKarttaArvoiksiMerkeista(char[][] kartta, Reitinhakija hakija) {
@@ -44,8 +45,8 @@ public class Analysoija {
      * sisältää arvot kaksiulotteisessa taulukossa.
      *
      * @param karttaRGB Annettava kartta väreinä
-     * @param hakija {@link fi.wakr.logiikka.AStar} luokan ilmentymä jonka avulla
-     * asetetaan maali ja lähtö
+     * @param hakija {@link fi.wakr.logiikka.reitinhaku.Reitinhakija} luokan
+     * ilmentymä jonka avulla asetetaan maali ja lähtö
      * @return Palauttaa kaksiuloitteisen taulukon, jossa analysoidut arvot
      */
     public int[][] analysoiKarttaArvoiksiVareista(int[][] karttaRGB, Reitinhakija hakija) {
@@ -90,7 +91,7 @@ public class Analysoija {
     }
 
     /**
-     * Analysoi kartan/kuvan yksittäisen RPG värin palauttaen sitä vastaavan
+     * Analysoi kartan/kuvan yksittäisen RPG-värin palauttaen sitä vastaavan
      * painon solmun luontia varten
      *
      * @param RGBVari Saatu väriarvo

@@ -95,7 +95,7 @@ public class TaulukkoLista<T> implements Iterable<T> {
      *  @param a tyyppitaulukko
      *
      * @param <T> Tyyppi jossa taulukko halutaan
-     * @param a
+     * @param a Taulukko josta halutaan
      * @return Taulukko samaatyyppia kuin annettu parametri
      */
     public <T> T[] toArray(T[] a) {
@@ -263,6 +263,10 @@ public class TaulukkoLista<T> implements Iterable<T> {
         }
     }
 
+    /**
+     * Iteraattori, jonka avulla voidaan käydä läpi for-each -komennolla alkiot.
+     */
+    
     @Override
     public Iterator<T> iterator() {
         Iterator<T> it = new Iterator<T>() {

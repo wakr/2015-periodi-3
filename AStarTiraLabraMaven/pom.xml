@@ -83,6 +83,7 @@
                     <instrumentation>
                         <includes>
                             <include>fi/wakr/logiikka/*.class</include>
+                            <include>fi/wakr/logiikka/reitinhaku/*.class</include>
                             <include>fi/wakr/logiikka/tietorakenteet/*.class</include>
                             <include>fi/wakr/util/*.class</include>
                         </includes>
@@ -97,9 +98,9 @@
                 <configuration>
                     <targetClasses>
                         <param>fi.wakr.util.Kuva*</param>
-                        <param>fi.wakr.logiikka.AStar*</param>
-                        <param>fi.wakr.logiikka.MTAA*</param>
-                        <param>fi.wakr.logiikka.Dijkstra*</param>
+                        <param>fi.wakr.logiikka.reitinhaku.AStar*</param>
+                        <param>fi.wakr.logiikka.reitinhaku.MTAA*</param>
+                        <param>fi.wakr.logiikka.reitinhaku.Dijkstra*</param>
                         <param>fi.wakr.logiikka.Solmu*</param>
                         <param>fi.wakr.logiikka.Analysoija*</param>
                     </targetClasses>

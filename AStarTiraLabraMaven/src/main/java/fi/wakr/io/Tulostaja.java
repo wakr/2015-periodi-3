@@ -7,7 +7,7 @@ import java.util.Arrays;
  * merkkejä, arvotauluna tai etäisyyksien mukaan
  *
  * @author Kristian Wahlroos
- * @see logiikka.AStar
+ * @see fi.wakr.logiikka.reitinhaku.Reitinhakija
  */
 public class Tulostaja {
 

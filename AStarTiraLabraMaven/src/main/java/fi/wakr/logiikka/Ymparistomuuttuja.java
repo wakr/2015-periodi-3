@@ -7,7 +7,7 @@ package fi.wakr.logiikka;
  * esimerkiksi reitinhaussa tai verkon dimensiosta.
  *
  * @author Kristian Wahlroos
- * @see fi.wakr.logiikka.AStar
+ * @see fi.wakr.logiikka.reitinhaku.AStar
  * @see fi.wakr.logiikka.Heurestiikka
  */
 public enum Ymparistomuuttuja {

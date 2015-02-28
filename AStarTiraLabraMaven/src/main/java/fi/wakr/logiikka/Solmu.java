@@ -4,8 +4,8 @@ package fi.wakr.logiikka;
  * Solmujen avulla mallinnetaan verkko reitinhaussa. Prioriteetti määräytyy
  * heurestiikan mukaan.
  *
- * @author kride
- * @see fi.wakr.logiikka.AStar
+ * @author Kristian Wahlroos
+ * @see fi.wakr.logiikka.reitinhaku.AStar
  * @see fi.wakr.logiikka.Heurestiikka
  */
 public class Solmu implements Comparable<Solmu> {

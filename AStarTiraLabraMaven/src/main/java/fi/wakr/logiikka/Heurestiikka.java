@@ -10,8 +10,8 @@ import fi.wakr.util.Piste;
  * Tämä voi tarkoittaa nopeampaa hakua, mutta joka ei löydä lyhintä reittiä, vaan
  * jonkin mahdollisen reitin.
  *
- * @author kristianw
- * @see fi.wakr.logiikka.Reitinhakija
+ * @author Kristian Wahlroos
+ * @see fi.wakr.logiikka.reitinhaku.Reitinhakija
  * @see fi.wakr.logiikka.Ymparistomuuttuja
  */
 public class Heurestiikka {

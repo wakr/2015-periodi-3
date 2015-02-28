@@ -6,7 +6,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
- * PriorityQueue *Kesken*
+ * PriorityQueue-tietorakenne
  *
  *
  * @author Kristian Wahlroos
@@ -111,6 +111,7 @@ public class MinimiKeko<T extends Comparable<T>> implements Iterable<T> {
         };
     }
 
+    // heapify ylös
     protected void korjaaYlos() {
         int indeksi = this.koko;
 
@@ -122,6 +123,7 @@ public class MinimiKeko<T extends Comparable<T>> implements Iterable<T> {
         }
     }
 
+    // heapify alas
     protected void korjaaAlas() {
         int index = 1;
 

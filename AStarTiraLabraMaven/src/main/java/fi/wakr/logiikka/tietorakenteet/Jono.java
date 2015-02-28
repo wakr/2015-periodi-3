@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * *Kesken*
+ * Queue-tietorakenne.
  *
  *
- * @param <T>
+ * @param <T> Jonon alkeistyyppi
  */
 public class Jono<T> implements Iterable<T> {
 
@@ -25,6 +25,11 @@ public class Jono<T> implements Iterable<T> {
         viimeinen = null;
     }
 
+    /**
+     * Palauttaa jonon ensimmäisen alkion
+     *
+     * @return T Alkio tyyppiä T
+     */
     public T peek() {
         if (isEmpty()) {
             throw new RuntimeException("Tyhjä jono.");
@@ -32,6 +37,11 @@ public class Jono<T> implements Iterable<T> {
         return ensimmainen.alkio;
     }
 
+    /**
+     * Lisää alkion jonon kärkeen
+     *
+     * @param t Tyyppiä T oleva alkio
+     */
     public void add(T t) {
         Linkki x = new Linkki();
         x.alkio = t;
@@ -45,6 +55,11 @@ public class Jono<T> implements Iterable<T> {
         alkioidenMaara++;
     }
 
+    /**
+     * Palauttaa ja poistaa keon ensimmäisen alkion
+     *
+     * @return T Alkio tyyppiä T
+     */
     public T poll() {
         if (isEmpty()) {
             throw new RuntimeException("Queue underflow");
@@ -58,6 +73,10 @@ public class Jono<T> implements Iterable<T> {
         return t;
     }
 
+    /**
+     * Iteraattori Jonolle, jonka avulla voidaan käydä jonon alkiot for-each
+     * -komennolla
+     */
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
@@ -86,14 +105,27 @@ public class Jono<T> implements Iterable<T> {
         };
     }
 
+    /**
+     * Palauttaa alkioiden määrän
+     *
+     * @return alkioiden määrä
+     */
     public int size() {
         return alkioidenMaara;
     }
 
+    /**
+     * Kertoo onko jono tyhjä
+     *
+     * @return true - jos jono on tyhjä, false - muuten
+     */
     public boolean isEmpty() {
         return ensimmainen == null;
     }
 
+    /**
+     * Tyhjentää jonon kaikista alkioista
+     */
     public void clear() {
         alkioidenMaara = 0;
         ensimmainen = null;
