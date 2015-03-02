@@ -45,7 +45,9 @@ public class Piirtaja {
      */
     public void piirraKarttaanHitaasti(Color vari, int kayty) {
 
-        g.setColor(vari);
+        if (g.getColor() != vari) {
+            g.setColor(vari);
+        }
 
         int x = Analysoija.getSarake(kayty, karttaKuvana.getLeveys());
         int y = Analysoija.getRivi(kayty, karttaKuvana.getLeveys());
