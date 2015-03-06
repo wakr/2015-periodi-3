@@ -132,6 +132,10 @@ public class Dijkstra extends Reitinhakija {
         openSet.add(new Solmu(0, aloitus, 0));
     }
 
+    /**
+     * Ilmoittaa Dijkstran algoritmille, että maali on vaihtunut
+     */
+    
     @Override
     public void ilmoitaMaalinMuutoksesta() {
         openSet.clear();

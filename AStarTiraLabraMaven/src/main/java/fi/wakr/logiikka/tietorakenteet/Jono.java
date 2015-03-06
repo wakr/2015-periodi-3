@@ -98,6 +98,7 @@ public class Jono<T> implements Iterable<T> {
                 return t;
             }
 
+            // Ei toteutettu, koska ei tarvita algoritmissa.
             @Override
             public void remove() {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

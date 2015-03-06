@@ -1,17 +1,13 @@
 package fi.wakr.logiikka;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author kride
+ * Solmu-apuluokkaan sisältyvät testit.
+ * 
  */
 public class SolmuTest {
 
@@ -32,7 +28,7 @@ public class SolmuTest {
         assertTrue(s1.equals(s2));
         assertTrue(!s1.equals(null));
         assertTrue(!s1.equals(s3));
-        assertTrue(!s1.equals(new Integer(1)));
+        assertTrue(!s1.equals(1));
     }
     
     public void SolmunTulostusOikein(){

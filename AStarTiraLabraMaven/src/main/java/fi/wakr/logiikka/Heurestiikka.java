@@ -33,7 +33,7 @@ public class Heurestiikka {
     }
 
     /**
-     * Tiebraker A* varten. Tämä on hyödyllistä, jos/kun minikeossa on monta 
+     * Tiebraker A* varten. Tämä on hyödyllistä, jos/kun minimikeossa on monta 
      * heurestiikka arviota samoilla arvoilla.
      *
      * @param aloitus Aloituksen koordinaatti

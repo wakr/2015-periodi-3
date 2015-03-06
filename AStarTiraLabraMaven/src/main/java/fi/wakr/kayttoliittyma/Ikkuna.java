@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
+
 import fi.wakr.logiikka.reitinhaku.AStar;
 import fi.wakr.logiikka.Analysoija;
 import fi.wakr.logiikka.reitinhaku.Dijkstra;
