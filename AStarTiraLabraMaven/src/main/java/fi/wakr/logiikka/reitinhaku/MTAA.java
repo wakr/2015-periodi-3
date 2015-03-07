@@ -242,7 +242,6 @@ public class MTAA extends Reitinhakija {
                     new Piste(maaliX, maaliY),
                     new Piste(lahtoX, lahtoY));
 
-            //heurestisetArvot[i] = Math.max(hS,  heurestisetArvot[i] - vanha);// ei toimi pseudossa?
             heurestisetArvot[i] = hS;
         }
 
@@ -250,7 +249,7 @@ public class MTAA extends Reitinhakija {
 
     private void softReset() {
         openSet.clear();
-        lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus]; 
+        lopullisetPituudet = new boolean[kartanLeveys * kartanKorkeus];
         this.analysoidut.clear();
         this.polunKoordinaatit.clear();
         alustaEtaisyydetAarettomiksi();
