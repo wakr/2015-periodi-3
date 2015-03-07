@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="12" failures="0" name="fi.wakr.logiikka.reitinhaku.AStarTest" time="0.238" errors="0" skipped="0">
+<testsuite tests="12" failures="0" name="fi.wakr.logiikka.reitinhaku.AStarTest" time="0.327" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/local/java/jdk1.8.0_11/jre/lib/amd64"/>
@@ -59,10 +59,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="miniKarttaPolkuOikein" time="0.006"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="miniKarttaEsteellaPolkuOikein" time="0.002"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="miniKarttaPolkuOikein" time="0.005"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="miniKarttaEsteellaPolkuOikein" time="0"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="serpenttiiniPolkuOikein" time="0.002"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="jattiKartassaHakuNOpeaa" time="0.216"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="jattiKartassaHakuNOpeaa" time="0.3"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="maaliLoydetaanHaunJalkeenPieniKartasta" time="0.001"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="lyhinPolkuLoydetaan" time="0.001"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="lyhinPolkuLoydetaan2" time="0.001"/>
@@ -70,5 +70,5 @@
   <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="etaisyydetAlkuunOvatOikeatPienella" time="0.001"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="etaisyydetAlkuunOvatOikeatEsteella" time="0.001"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="etaisyydetAlkuunOvatOikeatSerpettiiniKentalla" time="0.001"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="kuvastaLoydetaanLyhinPolku" time="0.001"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.AStarTest" name="kuvastaLoydetaanLyhinPolku" time="0.002"/>
 </testsuite>

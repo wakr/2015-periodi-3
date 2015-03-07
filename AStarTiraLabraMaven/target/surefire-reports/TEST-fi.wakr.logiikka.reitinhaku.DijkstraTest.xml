@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="12" failures="0" name="fi.wakr.logiikka.reitinhaku.DijkstraTest" time="0.33" errors="0" skipped="0">
+<testsuite tests="12" failures="0" name="fi.wakr.logiikka.reitinhaku.DijkstraTest" time="0.321" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/local/java/jdk1.8.0_11/jre/lib/amd64"/>
@@ -62,11 +62,11 @@
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="miniKarttaPolkuOikein" time="0.007"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="miniKarttaEsteellaPolkuOikein" time="0.002"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="serpenttiiniPolkuOikein" time="0.002"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="jattiKartassaHakuNOpeaa" time="0.299"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="maaliLoydetaanHaunJalkeenPieniKartasta" time="0.003"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="jattiKartassaHakuNOpeaa" time="0.288"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="maaliLoydetaanHaunJalkeenPieniKartasta" time="0.002"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="lyhinPolkuLoydetaan" time="0.003"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="lyhinPolkuLoydetaan2" time="0.003"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="lyhinPolkuLoydetaan3" time="0.003"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="lyhinPolkuLoydetaan3" time="0.002"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="etaisyydetAlkuunOvatOikeatPienella" time="0.001"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="etaisyydetAlkuunOvatOikeatEsteella" time="0.001"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.DijkstraTest" name="etaisyydetAlkuunOvatOikeatSerpettiiniKentalla" time="0.001"/>

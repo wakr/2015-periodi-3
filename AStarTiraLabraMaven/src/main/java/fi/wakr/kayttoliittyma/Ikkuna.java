@@ -321,7 +321,7 @@ public class Ikkuna extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelPolkuMaskMouseClicked
 
     private boolean onkoAlkuVaiheessa() {
-        return alkuPerainenKuva != null && reitinhakija != null && pathPainter != null && jProgressi.getValue() != 100;
+        return alkuPerainenKuva != null && reitinhakija != null && pathPainter != null;
     }
 
     private void muutaMaaliJaLahtoKlikkauksella(MouseEvent evt) {
