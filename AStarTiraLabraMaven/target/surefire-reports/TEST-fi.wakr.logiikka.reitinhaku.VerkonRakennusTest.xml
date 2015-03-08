@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="0" name="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" time="0.006" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" time="0.01" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/local/java/jdk1.8.0_11/jre/lib/amd64"/>
@@ -42,7 +42,7 @@
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="/usr/local/java/jdk1.8.0_11/jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=/home/kride/.tmcbeans/dev/maven-nblib/netbeans-eventspy.jar clean install"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=/home/kride/.tmcbeans/dev/maven-nblib/netbeans-eventspy.jar test"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="fi"/>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
@@ -59,11 +59,11 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="testaaPienenKartanNaapuritLahdosta" time="0"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="testaaMiniKartanNaapuritLahdosta" time="0"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="testaaPienenKartanNaapuritLahdosta" time="0.001"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="testaaKeskiKartanNaapuritLahdosta" time="0"/>
   <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="miniKarttaAnalysoidaanOikein" time="0"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="pieninKarttaAnalysoidaanOikein" time="0"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="pieniKarttaAnalysoidaanOikein" time="0.001"/>
-  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="leveaKarttaAnalysoidaanOikein" time="0.001"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="pieninKarttaAnalysoidaanOikein" time="0.001"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="pieniKarttaAnalysoidaanOikein" time="0"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="leveaKarttaAnalysoidaanOikein" time="0.005"/>
+  <testcase classname="fi.wakr.logiikka.reitinhaku.VerkonRakennusTest" name="testaaMiniKartanNaapuritLahdosta" time="0"/>
 </testsuite>

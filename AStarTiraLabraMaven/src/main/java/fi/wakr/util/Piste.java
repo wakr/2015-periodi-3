@@ -3,7 +3,7 @@ package fi.wakr.util;
 /**
  * Luokka koordinaatiston pisteitä varten.
  *
- * @author kride
+ * @author Kristian Wahlroos
  */
 public class Piste {
 
